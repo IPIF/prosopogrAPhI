@@ -109,9 +109,37 @@ paths:
                 type: string
         404:
           description: the factoid does not exist
+  /factoid/search
   /statement
+  /statement/{id}
+  /statement/{id}/schema
+    description: the schemas used to describe this single statement
+  /statement/search
+    get:
+      description: search only in statements
+      parameters:
+        - name: q
+          in: query
+          description: a list of tokens seperated by whitespace used for full text search, if not put in quotation marks. Search syntax follows the Apache Lucene definition ##ToDo: overspecification if referencing Apache Lucene?
+        - name: {statement-type} ##ToDo: can I use variables for query parameters?
+      responses:
+        200:
+          description: found statements
+        400:
+          description: nothing found
   /person
+  /person/{id}
+  /person/search
   /source
+  /source/{id}
+  /source/search
   /search
-  /*/update
-  /describe/statement-schema
+  /describe
+  /describe/statement/schema
+    description: the schemas used to describe the statements
+  /describe/return/schema
+    description: the schemas supported by the server as return values
+  /describe/return/format
+    description: the serialisations supported by the server for return values
+  /describe/source/schema
+    description: the schemas used to describe the source
