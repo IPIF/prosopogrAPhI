@@ -1,0 +1,117 @@
+swagger: "2.0"
+
+info:
+  version: 0.1.0
+  title: prosopogrAPhI
+  description: basic prosopographical data API
+  contact: georg.vogeler@uni-graz.at
+  licence: CC-BY 4.0
+
+schemes:
+  - https
+  - http
+host: dev.monasterium.net
+base-path: /prosop.0.1
+  
+paths:
+  /factoid:
+    get:
+      summary: Gets factoids
+      description: Gets a list of factoids
+      parameters:
+        - name: pageSize
+          in: query
+          description: sets the  number of factoids returned per page
+          type: integer
+        - name: pageNumber
+          in: query
+          description: page number of returned factoids
+          type: integer
+      responses:
+        200:
+          description: a list of Factoid
+          schema:
+            type: object
+            items:
+              required:
+                - id
+              properties:
+                id:
+                  description: the local id of the factoid
+                  type: string
+                uri:
+                  description: the uri of the factoid
+                  type: string
+                sameAs:
+                  description: the uri of a factoid referenced with owl:sameAs
+                  type: string
+      #ToDo: not found
+    post:
+      summary: creates or updates a factoid
+      description: creates a factoid and merges the data of referenced statements, persons and source into the existing data
+      parameters:
+        - name: factoid
+          in: body
+          description: the factoid to create
+          schema:
+            required:
+              - id
+              - person
+              - source
+              - statement
+            properties:
+              id:
+                description: the local id
+                type: string
+              ##ToDo: further data structures for person and source
+              person:
+                description: reference to the person the factoid makes a statement about
+              source:
+                description: reference to the source the factoid makes a statement about
+              statement:
+                description: the statement the factoid makes
+              metadta:
+                description: metadata of the factoid, in particular its creation (user, timestamp), and reference other existing factoids (replacing, modifying)
+        - name: update
+          in: body
+          description: default yes, if set to no, the method will do nothing if the submitted factoid id already exists
+          schema:
+            ##ToDo yes or no
+      responses:
+        204:
+          description: Factoid successfully created
+        400:
+          description: Factoid could not be created ##ToDo: give reason for parameter update=no and existing id?
+  /factoid/{id}
+    get:
+      summary: gets the factoid with the {id}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: can be either the local id, or the uri or the uri of a owl:sameAs entry
+          type: string
+      responses:
+        200:
+          description: a factoid
+          schema:
+            required:
+              - id
+            properties:
+              id:
+                description: local id
+                type: string
+              uri:
+                description: the uri
+                type: string
+              sameAs:
+                description: the uri of a owl:sameAs entry
+                type: string
+        404:
+          description: the factoid does not exist
+  /statement
+  /person
+  /source
+  /search
+  /*/update
+  /describe/statement-schema
