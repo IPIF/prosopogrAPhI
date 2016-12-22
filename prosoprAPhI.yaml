@@ -24,6 +24,7 @@ paths:
       parameters:
         - $ref: "#/parameters/pageSize"
         - $ref: "#/parameters/pageNumber"
+        - $ref: "#/parameters/q"
       responses:
         200:
           description: a list of Factoid
@@ -49,6 +50,48 @@ paths:
           description: factoid created or updated
         400:
           description: factoid could not be created or updated
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+  /factoid/statement:
+    get:
+      summary: Gets factoids
+      description: Gets a list of factoids.
+      parameters:
+        - $ref: "#/parameters/pageSize"
+        - $ref: "#/parameters/pageNumber"
+        - $ref: "#/parameters/q"
+        # FixMe: how make q required? Does it make sense to make q required?
+      responses:
+        200:
+          description: a list of Factoid
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Factoid"
+        404:
+          description: no factoid found
+          #ToDo: not found näher definieren
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+  /factoid/source:
+    get:
+      summary: Gets factoids
+      description: Gets a list of factoids which contains the q parameter.
+      parameters:
+        - $ref: "#/parameters/pageSize"
+        - $ref: "#/parameters/pageNumber"
+        - $ref: "#/parameters/q"
+        # FixMe: how make q required? Does it make sense to make q required?
+      responses:
+        200:
+          description: a list of Factoid
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Factoid"
+        404:
+          description: no factoid found
+          #ToDo: not found näher definieren
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /factoid/{id}:
@@ -91,12 +134,16 @@ paths:
   # ToDo: Which subpaths do we need, e.g.
   #  getting only the person, statement, source of factoid to enhance walk through?
   #  sort order? maybe as path
-  /person:
+  /persons:
     get:
       summary: get a list of persons
+      parameters:
+        - $ref: "#/parameters/pageSize"
+        - $ref: "#/parameters/pageNumber"
+        - $ref: "#/parameters/q"
       responses:
-        default:
-          description: test
+        200:
+          description: a list of persons
           schema:
             type: array
             items:
@@ -110,15 +157,23 @@ paths:
         - $ref: "#/parameters/id"
       responses:
         200:
-          description: a list of factoids
+          description: a list of persons
           schema:
-            $ref: "#/definitions/Factoid"
+            $ref: "#/definitions/Person"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /source:
     get:
       summary: gets a list of sources
+      parameters:
+        - $ref: "#/parameters/pageSize"
+        - $ref: "#/parameters/pageNumber"
+        - $ref: "#/parameters/q"
       responses:
+        200:
+          description: a list of sources
+          schema:
+            $ref: "#/definitions/Source"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /source/{id}:
@@ -127,6 +182,18 @@ paths:
       parameters:
         - $ref: "#/parameters/id"
       responses:
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+  /source/{id}/factoids:
+    get:
+      summary: get all factoids extracted from the source with the {id}
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: a list of factoids
+          schema:
+            $ref: "#/definitions/Factoid"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /source/search:
@@ -148,9 +215,9 @@ paths:
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /describe/statement/schemas:
+  /describe/statement/schema:
     get:
-      description: the schemas used to describe the statements
+      description: the schema used to describe the statements
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
@@ -160,15 +227,16 @@ paths:
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
+      #If multiple are allowed one should be marked as default
   /describe/return/formats:
     get:
       description: the serialisations supported by the server for return values
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /describe/source/schemas:
+  /describe/source/schema:
     get:
-      description: the schemas used to describe the source
+      description: the schema used to describe the source
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
@@ -211,19 +279,13 @@ definitions:
     properties:
       id:
         $ref: "#/definitions/id"
-      text:
-        type: string
       graph:
-        description: statement formalized as RDF assertion with the person referenced in the factoid as subject
+        description: statement formalized as RDF assertion with the person referenced in the factoid as subject, following the schema defined in /describe/statement/schema
         type: object
-        items:
-          properties:
-            predicate:
-              type: string
-            object:
-              type: string
-            # datatype and language?
-            # Or clear cut JSON-LD?
+        #Here I would expect to integrate directly the schema of the very application
+      text:
+        description: prose of the statement, e.g. a citation from the source
+        type: string
   Source:
     properties:
       id:
@@ -257,12 +319,12 @@ parameters:
   pageSize:
     name: pageSize
     in: query
-    description: sets the  number of factoids returned per page
+    description: sets the  number of objects returned per page
     type: integer
   pageNumber:
     name: pageNumber
     in: query
-    description: page number of returned factoids
+    description: page number of returned objects
     type: integer
   id:
     name: id
@@ -270,3 +332,8 @@ parameters:
     required: true
     type: string
     description: can be either the local id, or the uri or the uri of a owl:sameAs entry
+  q:
+    name: q
+    in: query
+    description: query string
+    type: string
