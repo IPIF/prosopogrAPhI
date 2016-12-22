@@ -103,30 +103,27 @@ paths:
               $ref: "#/definitions/Person"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /person/{id}:
+  /person/{id}/factoids:
     get:
       summary: get all factoids about the person with the {id}
       parameters:
         - $ref: "#/parameters/id"
       responses:
         200:
-          description: a factoid
+          description: a list of factoids
           schema:
             $ref: "#/definitions/Factoid"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /person/search:
-    get:
-      responses:
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
   /source:
     get:
+      summary: gets a list of sources
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /source/{id}:
     get:
+      summary: gets the source with the given {id}
       parameters:
         - $ref: "#/parameters/id"
       responses:
@@ -134,11 +131,14 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"
   /source/search:
     get:
+      summary: full text search in all literal content of the source description
+      # ToDo: Or search in all factoids based on this source?
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /search:
     get:
+      summary: full text search in all literal content
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
@@ -148,25 +148,25 @@ paths:
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /describe/statement/schema:
+  /describe/statement/schemas:
     get:
       description: the schemas used to describe the statements
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /describe/return/schema:
+  /describe/return/schemas:
     get:
       description: the schemas supported by the server as return values
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /describe/return/format:
+  /describe/return/formats:
     get:
       description: the serialisations supported by the server for return values
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /describe/source/schema:
+  /describe/source/schemas:
     get:
       description: the schemas used to describe the source
       responses:
