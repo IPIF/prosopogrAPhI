@@ -28,3 +28,16 @@ I'm a wizard in visualisation, a nerd in network analysis, a sage of statistics 
 
 ### Tool user
 I am a non technical humanist creating prosopographical data ("a person database"). I would be happy to use the database server from somebody else (e.g. a common repository) and the easiest to use data capture tool (with fancy autosuggestion, automatic check of existing data etc. etc.).
+
+## Basic considerations for paths
+The data can be accessed via the for major components (objects) of the factoid model:
+
+* the *person*, which only has to be identified abstractly, i.e. by an id or IRI. There can be alternative IRIs which describe the same person, so they are owl:sameAs
+* a *statement* about this person, formalized in RDF assertions or just plain text.
+* a *source* attesting this statement
+* the *factoid* tying all the three together, created by somebody at sometime
+
+The paths therefore have to be able to
+* /create/, /update/ and /delete/ these four objects - well protected by authentication and user roles.
+* /query/ these four objects (incl. pointing directly to one single object - preferably via the IRI for it)
+* give information about the /context/ for the four objects (e.g. the schema of for the formal representation of the statements, relationship between them incl. versioning, number of objects available, etc.)
