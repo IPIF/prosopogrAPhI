@@ -4,14 +4,17 @@ info:
   version: 0.1.0
   title: prosopogrAPhI
   description: basic prosopographical data API
-  contact: georg.vogeler@uni-graz.at
-  licence: CC-BY 4.0
+  # contact: georg.vogeler@uni-graz.at
+  # licence 
 
 schemes:
   - https
   - http
 host: dev.monasterium.net
-base-path: /prosop.0.1
+basePath: /prosop.0.1
+produces:
+  - application/json
+  - text/xml
   
 paths:
   /factoid:
@@ -31,58 +34,29 @@ paths:
         200:
           description: a list of Factoid
           schema:
-            type: object
+            type: array
             items:
-              required:
-                - id
-              properties:
-                id:
-                  description: the local id of the factoid
-                  type: string
-                uri:
-                  description: the uri of the factoid
-                  type: string
-                sameAs:
-                  description: the uri of a factoid referenced with owl:sameAs
-                  type: string
-      #ToDo: not found
+              $ref: "#/definitions/Factoid"
+        404:
+          description: no factoid found
+          #ToDo: not found näher definieren
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
     post:
-      summary: creates or updates a factoid
-      description: creates a factoid and merges the data of referenced statements, persons and source into the existing data
+      summary: creates or updates factoids
       parameters:
         - name: factoid
           in: body
-          description: the factoid to create
+          description: the factoid
           schema:
-            required:
-              - id
-              - person
-              - source
-              - statement
-            properties:
-              id:
-                description: the local id
-                type: string
-              ##ToDo: further data structures for person and source
-              person:
-                description: reference to the person the factoid makes a statement about
-              source:
-                description: reference to the source the factoid makes a statement about
-              statement:
-                description: the statement the factoid makes
-              metadta:
-                description: metadata of the factoid, in particular its creation (user, timestamp), and reference other existing factoids (replacing, modifying)
-        - name: update
-          in: body
-          description: default yes, if set to no, the method will do nothing if the submitted factoid id already exists
-          schema:
-            ##ToDo yes or no
+            $ref: "#/definitions/Factoid"
+          # FixMe: Wo stecke ich hier kompliziertere Datenstrukturen hin?
       responses:
         204:
-          description: Factoid successfully created
+          description: factoid created or updated
         400:
-          description: Factoid could not be created ##ToDo: give reason for parameter update=no and existing id?
-  /factoid/{id}
+          description: factoid could not be created or updated
+  /factoid/{id}:
     get:
       summary: gets the factoid with the {id}
       parameters:
@@ -95,51 +69,129 @@ paths:
         200:
           description: a factoid
           schema:
-            required:
-              - id
-            properties:
-              id:
-                description: local id
-                type: string
-              uri:
-                description: the uri
-                type: string
-              sameAs:
-                description: the uri of a owl:sameAs entry
-                type: string
+            $ref: "#/definitions/Factoid"
         404:
           description: the factoid does not exist
-  /factoid/search
-  /statement
-  /statement/{id}
-  /statement/{id}/schema
-    description: the schemas used to describe this single statement
-  /statement/search
-    get:
-      description: search only in statements
+    post:
+      summary: updates the factoid with the {id}
       parameters:
-        - name: q
-          in: query
-          description: a list of tokens seperated by whitespace used for full text search, if not put in quotation marks. Search syntax follows the Apache Lucene definition ##ToDo: overspecification if referencing Apache Lucene?
-        - name: {statement-type} ##ToDo: can I use variables for query parameters?
+        - name: id
+          in: path
+          required: true
+        - name: content
+          in: body
+          schema:
+            $ref: "#/definitions/Factoid"
       responses:
-        200:
-          description: found statements
+        204:
+          description: factoid updated
         400:
-          description: nothing found
-  /person
-  /person/{id}
-  /person/search
-  /source
-  /source/{id}
-  /source/search
-  /search
-  /describe
-  /describe/statement/schema
-    description: the schemas used to describe the statements
-  /describe/return/schema
-    description: the schemas supported by the server as return values
-  /describe/return/format
-    description: the serialisations supported by the server for return values
-  /describe/source/schema
-    description: the schemas used to describe the source
+          description: factoid could not be updated
+  /person:
+    get:
+      summary: get a list of persons
+      responses:
+        default:
+          description: test
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Person"
+  /person/{id}:
+    get:
+      responses:
+  /person/search:
+    get:
+      responses:
+  /source:
+    get:
+      responses:
+  /source/{id}:
+    get:
+      responses:
+  /source/search:
+    get:
+      responses:
+  /search:
+    get:
+      responses:
+  /describe:
+    get:
+      description: gives basic information about schemas used, numbers of entries and implementation of API
+      responses:
+  /describe/statement/schema:
+    get:
+      description: the schemas used to describe the statements
+      responses:
+  /describe/return/schema:
+    get:
+      description: the schemas supported by the server as return values
+      responses:
+  /describe/return/format:
+    get:
+      description: the serialisations supported by the server for return values
+      responses:
+  /describe/source/schema:
+    get:
+      description: the schemas used to describe the source
+      responses:
+
+
+
+definitions:
+  Factoid:
+      type: object
+      items:
+        required:
+          - id
+        properties:
+          id:
+            $ref: "#/definitions/id"
+          person:
+            $ref: "#/definitions/Person"
+          statement:
+            $ref: "#/definitions/Statement"
+          source:
+            $ref: "#/definitions/Source"
+  Person:
+    properties:
+      id:
+        $ref: "#/definitions/id"
+      uri:
+        $ref: "#/definitions/uri"
+      sameAs:
+        $ref: "#/definitions/sameAs"
+  Statement:
+    properties:
+      id:
+        $ref: "#/definitions/id"
+      content:
+        type: string
+  Source:
+    properties:
+      id:
+        $ref: "#/definitions/id"
+      uri:
+        $ref: "#/definitions/uri"
+      sameAs:
+        $ref: "#/definitions/sameAs"
+  id:
+    description: the local id of the factoid
+    type: string
+  uri:
+    description: the uri of the factoid
+    type: string
+  sameAs:
+    description: the uri of a factoid referenced with owl:sameAs
+    type: string
+  Error:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+responses:
+  Standard500ErrorResponse:
+    description: An unexpected error occurred.
+    schema:
+      $ref: "#/definitions/Error"
