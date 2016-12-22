@@ -7,3 +7,5 @@ Initiated by Georg Vogeler (Graz University, georg.vogler@uni-graz.at), but deve
 ...
 
 Started in 2016
+
+The major file in this is the swagger description of the proposed API (prosopogrAPhI.yaml). The rationale.md gives you some background to it.
