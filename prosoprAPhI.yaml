@@ -1,11 +1,13 @@
 swagger: "2.0"
+# Feel free to copy this into http://editor.swagger.io/#/ to get a more readible version of the APi description
+# There are currently many known and much more unkown flaws in this, and certainly no tests/reference implementations.
 
 info:
-  version: 0.1.0
+  version: 0.0.1
   title: prosopogrAPhI
   description: basic prosopographical data API
   # contact: georg.vogeler@uni-graz.at
-  # licence 
+  # licence: CC-BY 4.0
 
 schemes:
   - https
