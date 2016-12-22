@@ -5,7 +5,7 @@ info:
   title: prosopogrAPhI
   description: basic prosopographical data API
   # contact: georg.vogeler@uni-graz.at
-  # licence 
+  # licence: CC-BY 4.0
 
 schemes:
   - https
@@ -22,14 +22,8 @@ paths:
       summary: Gets factoids
       description: Gets a list of factoids
       parameters:
-        - name: pageSize
-          in: query
-          description: sets the  number of factoids returned per page
-          type: integer
-        - name: pageNumber
-          in: query
-          description: page number of returned factoids
-          type: integer
+        - $ref: "#/parameters/pageSize"
+        - $ref: "#/parameters/pageNumber"
       responses:
         200:
           description: a list of Factoid
@@ -50,12 +44,13 @@ paths:
           description: the factoid
           schema:
             $ref: "#/definitions/Factoid"
-          # FixMe: Wo stecke ich hier kompliziertere Datenstrukturen hin?
       responses:
         204:
           description: factoid created or updated
         400:
           description: factoid could not be created or updated
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /factoid/{id}:
     get:
       summary: gets the factoid with the {id}
@@ -63,7 +58,7 @@ paths:
         - name: id
           in: path
           required: true
-          description: can be either the local id, or the uri or the uri of a owl:sameAs entry
+          description: can be either the local id, or the uri
           type: string
       responses:
         200:
@@ -72,21 +67,30 @@ paths:
             $ref: "#/definitions/Factoid"
         404:
           description: the factoid does not exist
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
     post:
-      summary: updates the factoid with the {id}
+      # ToDo: Authentication!
+      summary: updates or creates if not existent the factoid with the {id}
       parameters:
         - name: id
           in: path
           required: true
+          type: string
         - name: content
           in: body
           schema:
             $ref: "#/definitions/Factoid"
       responses:
         204:
-          description: factoid updated
+          description: factoid updated or created
         400:
-          description: factoid could not be updated
+          description: factoid could not be updated or created
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+  # ToDo: Which subpaths do we need, e.g.
+  #  getting only the person, statement, source of factoid to enhance walk through?
+  #  sort order? maybe as path
   /person:
     get:
       summary: get a list of persons
@@ -97,46 +101,77 @@ paths:
             type: array
             items:
               $ref: "#/definitions/Person"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /person/{id}:
     get:
+      summary: get all factoids about the person with the {id}
+      parameters:
+        - $ref: "#/parameters/id"
       responses:
+        200:
+          description: a factoid
+          schema:
+            $ref: "#/definitions/Factoid"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /person/search:
     get:
       responses:
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /source:
     get:
       responses:
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /source/{id}:
     get:
+      parameters:
+        - $ref: "#/parameters/id"
       responses:
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /source/search:
     get:
       responses:
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /search:
     get:
       responses:
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /describe:
     get:
       description: gives basic information about schemas used, numbers of entries and implementation of API
       responses:
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /describe/statement/schema:
     get:
       description: the schemas used to describe the statements
       responses:
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /describe/return/schema:
     get:
       description: the schemas supported by the server as return values
       responses:
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /describe/return/format:
     get:
       description: the serialisations supported by the server for return values
       responses:
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
   /describe/source/schema:
     get:
       description: the schemas used to describe the source
       responses:
-
-
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
 
 definitions:
   Factoid:
@@ -165,8 +200,10 @@ definitions:
     properties:
       id:
         $ref: "#/definitions/id"
-      content:
+      text:
         type: string
+      graph:
+        type: object
   Source:
     properties:
       id:
@@ -195,3 +232,20 @@ responses:
     description: An unexpected error occurred.
     schema:
       $ref: "#/definitions/Error"
+parameters:
+  pageSize:
+    name: pageSize
+    in: query
+    description: sets the  number of factoids returned per page
+    type: integer
+  pageNumber:
+    name: pageNumber
+    in: query
+    description: page number of returned factoids
+    type: integer
+  id:
+    name: id
+    in: path
+    required: true
+    type: string
+    description: can be either the local id, or the uri or the uri of a owl:sameAs entry
