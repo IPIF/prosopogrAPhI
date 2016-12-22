@@ -5,7 +5,7 @@ info:
   title: prosopogrAPhI
   description: basic prosopographical data API
   # contact: georg.vogeler@uni-graz.at
-  # licence: CC-BY 4.0
+  # licence 
 
 schemes:
   - https
@@ -20,7 +20,7 @@ paths:
   /factoid:
     get:
       summary: Gets factoids
-      description: Gets a list of factoids
+      description: Gets a list of factoids.
       parameters:
         - $ref: "#/parameters/pageSize"
         - $ref: "#/parameters/pageNumber"
@@ -175,20 +175,31 @@ paths:
 
 definitions:
   Factoid:
-      type: object
-      items:
-        required:
-          - id
-        properties:
-          id:
-            $ref: "#/definitions/id"
-          person:
-            $ref: "#/definitions/Person"
-          statement:
-            $ref: "#/definitions/Statement"
-          source:
-            $ref: "#/definitions/Source"
+    description: A Factoids is a composite of one or more statements about a peroson extracted by somebody from a source at a specific time
+    type: object
+    items:
+      required:
+        - id
+      properties:
+        id:
+          $ref: "#/definitions/id"
+        person:
+          $ref: "#/definitions/Person"
+        statement:
+          $ref: "#/definitions/Statement"
+        source:
+          $ref: "#/definitions/Source"
+        metadata:
+          description: metadata describing the creation event of the factoid
+          type: object
+          items:
+            properties:
+              createdBy:
+                type: string
+              createdWhen:
+                type: string # date ? 
   Person:
+    description: a Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefor only formal identifiers as properties.
     properties:
       id:
         $ref: "#/definitions/id"
@@ -203,7 +214,16 @@ definitions:
       text:
         type: string
       graph:
+        description: statement formalized as RDF assertion with the person referenced in the factoid as subject
         type: object
+        items:
+          properties:
+            predicate:
+              type: string
+            object:
+              type: string
+            # datatype and language?
+            # Or clear cut JSON-LD?
   Source:
     properties:
       id:
@@ -213,13 +233,14 @@ definitions:
       sameAs:
         $ref: "#/definitions/sameAs"
   id:
-    description: the local id of the factoid
+    description: the local id of the object (factoid, person, source, statement)
     type: string
   uri:
-    description: the uri of the factoid
+    description: the uri of the object (factoid, person, source, statement)
     type: string
+    #ToDo: uri as type e.g. by pattern?
   sameAs:
-    description: the uri of a factoid referenced with owl:sameAs
+    description: the uri of an object (factoid, person, source, statement) referenced with owl:sameAs
     type: string
   Error:
     properties:
