@@ -8,4 +8,4 @@ Initiated by Georg Vogeler (Graz University, georg.vogler@uni-graz.at), but deve
 
 Started in 2016
 
-The major file in this is the swagger description of the proposed API ([prosopogrAPhI.yaml](./blob/master/prosoprAPhI.yaml). The [rationale.md](./blob/master/rationale.md) gives you some background to it.
+The major file in this is the swagger description of the proposed API ([prosopogrAPhI.yaml](https://github.com/GVogeler/prosopogrAPhI/prosoprAPhI.yaml)). The [rationale.md](./blob/master/rationale.md) gives you some background to it.
