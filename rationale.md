@@ -18,13 +18,13 @@ I find a statement about a person made by a colleague/a source text. I have my d
 I want to establish a statement about a person, well founded by a primary source. Unfortunately my source is interpreted by others not in my way. I want to make my modification of the interpretation of the source available to the Giant Global Graph (aka the semantic web) and by this to the scholarly community being able to use the prosopographical API
 
 ### Publish database
-I have created a prosopographical database and would be happy if somebody else would use it as well. So I want to publish it in a way that it is easy to use (and to cite).
+I have created a prosopographical database and would be happy if somebody else would use it as well. So I want to publish it in a way that it is easy to use (and to cite). Btw my "database" are just lots of spreadsheets.
 
 ### Other databses
 I have created a database which - by chance - contains lots of information about people (e.g. bibliographies). I am curious if this data can be used for prosopographical studies as well.
 
 ### Analysis
-I'm a wizard in visualisation, a nerd in network analysis, a sage of statistics fallen in deep love with the people from the past. I want to grab easily all available data about a group of them and create fancy visualisations, tight networks and brain blowing calculations.
+I'm a wizard in visualisation, a nerd in network analysis, a sage of statistics, a genius of GIS fallen in deep love with the people from the past. I want to grab easily all available data about a group of them and create fancy visualisations, tight networks, explorative maps, and brain blowing calculations.
 
 ### Tool user
 I am a non technical humanist creating prosopographical data ("a person database"). I would be happy to use the database server from somebody else (e.g. a common repository) and the easiest to use data capture tool (with fancy autosuggestion, automatic check of existing data etc. etc.).
