@@ -1,19 +1,17 @@
 swagger: "2.0"
-# Feel free to copy this into http://editor.swagger.io/#/ to get a more readible version of the APi description
-# There are currently many known and much more unkown flaws in this, and certainly no tests/reference implementations.
 
 info:
-  version: 0.0.1
+  version: 0.1.0
   title: prosopogrAPhI
   description: basic prosopographical data API
   # contact: georg.vogeler@uni-graz.at
-  # licence: CC-BY 4.0
+  # licence 
 
 schemes:
   - https
   - http
-host: dev.monasterium.net
-basePath: /prosop.0.1
+host: www.cei.lmu.de
+basePath: /prosopographi/api.0.1
 produces:
   - application/json
   - text/xml
@@ -26,7 +24,6 @@ paths:
       parameters:
         - $ref: "#/parameters/pageSize"
         - $ref: "#/parameters/pageNumber"
-        - $ref: "#/parameters/q"
       responses:
         200:
           description: a list of Factoid
@@ -40,7 +37,8 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
     post:
-      summary: creates or updates factoids
+      # ToDo: Authentication!
+      summary: creates a factoid
       parameters:
         - name: factoid
           in: body
@@ -49,53 +47,14 @@ paths:
             $ref: "#/definitions/Factoid"
       responses:
         204:
-          description: factoid created or updated
+          description: factoid created
+          #Should return the id of the factoid created
         400:
           description: factoid could not be created or updated
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /factoid/statement:
-    get:
-      summary: Gets factoids
-      description: Gets a list of factoids.
-      parameters:
-        - $ref: "#/parameters/pageSize"
-        - $ref: "#/parameters/pageNumber"
-        - $ref: "#/parameters/q"
-        # FixMe: how make q required? Does it make sense to make q required?
-      responses:
-        200:
-          description: a list of Factoid
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Factoid"
-        404:
-          description: no factoid found
-          #ToDo: not found näher definieren
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
-  /factoid/source:
-    get:
-      summary: Gets factoids
-      description: Gets a list of factoids which contains the q parameter.
-      parameters:
-        - $ref: "#/parameters/pageSize"
-        - $ref: "#/parameters/pageNumber"
-        - $ref: "#/parameters/q"
-        # FixMe: how make q required? Does it make sense to make q required?
-      responses:
-        200:
-          description: a list of Factoid
-          schema:
-            type: array
-            items:
-              $ref: "#/definitions/Factoid"
-        404:
-          description: no factoid found
-          #ToDo: not found näher definieren
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
+        501:
+          $ref: "#/responses/NotImplemented"
   /factoid/{id}:
     get:
       summary: gets the factoid with the {id}
@@ -133,25 +92,56 @@ paths:
           description: factoid could not be updated or created
         500:
           $ref: "#/responses/Standard500ErrorResponse"
+        501:
+          $ref: "#/responses/NotImplemented"
+    put:
+      # ToDo: Authentication!
+      summary: updates or creates if not existent the factoid with the {id}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: content
+          in: body
+          schema:
+            $ref: "#/definitions/Factoid"
+      responses:
+        204:
+          description: factoid updated
+        400:
+          description: factoid could not be updated or created
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+        501:
+          $ref: "#/responses/NotImplemented"
   # ToDo: Which subpaths do we need, e.g.
   #  getting only the person, statement, source of factoid to enhance walk through?
   #  sort order? maybe as path
-  /persons:
+  /person:
     get:
       summary: get a list of persons
-      parameters:
-        - $ref: "#/parameters/pageSize"
-        - $ref: "#/parameters/pageNumber"
-        - $ref: "#/parameters/q"
       responses:
-        200:
-          description: a list of persons
+        default:
+          description: test
           schema:
             type: array
             items:
               $ref: "#/definitions/Person"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
+    post:
+      summary: creates a person
+      responses:
+        204:
+          description: creates a person
+          #FixMe: Should return the id of the created person
+          schema:
+            $ref: "#/definitions/Factoid"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+        501:
+          $ref: "#/responses/NotImplemented"
   /person/{id}/factoids:
     get:
       summary: get all factoids about the person with the {id}
@@ -159,23 +149,15 @@ paths:
         - $ref: "#/parameters/id"
       responses:
         200:
-          description: a list of persons
+          description: a list of factoids
           schema:
-            $ref: "#/definitions/Person"
+            $ref: "#/definitions/Factoid"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /source:
     get:
       summary: gets a list of sources
-      parameters:
-        - $ref: "#/parameters/pageSize"
-        - $ref: "#/parameters/pageNumber"
-        - $ref: "#/parameters/q"
       responses:
-        200:
-          description: a list of sources
-          schema:
-            $ref: "#/definitions/Source"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /source/{id}:
@@ -184,18 +166,6 @@ paths:
       parameters:
         - $ref: "#/parameters/id"
       responses:
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
-  /source/{id}/factoids:
-    get:
-      summary: get all factoids extracted from the source with the {id}
-      parameters:
-        - $ref: "#/parameters/id"
-      responses:
-        200:
-          description: a list of factoids
-          schema:
-            $ref: "#/definitions/Factoid"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /source/search:
@@ -217,9 +187,9 @@ paths:
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /describe/statement/schema:
+  /describe/statement/schemas:
     get:
-      description: the schema used to describe the statements
+      description: the schemas used to describe the statements
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
@@ -229,16 +199,15 @@ paths:
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-      #If multiple are allowed one should be marked as default
   /describe/return/formats:
     get:
       description: the serialisations supported by the server for return values
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /describe/source/schema:
+  /describe/source/schemas:
     get:
-      description: the schema used to describe the source
+      description: the schemas used to describe the source
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
@@ -281,13 +250,10 @@ definitions:
     properties:
       id:
         $ref: "#/definitions/id"
-      graph:
-        description: statement formalized as RDF assertion with the person referenced in the factoid as subject, following the schema defined in /describe/statement/schema
-        type: object
-        #Here I would expect to integrate directly the schema of the very application
       text:
-        description: prose of the statement, e.g. a citation from the source
         type: string
+      graph:
+        type: object
   Source:
     properties:
       id:
@@ -317,16 +283,20 @@ responses:
     description: An unexpected error occurred.
     schema:
       $ref: "#/definitions/Error"
+  NotImplemented:
+    description: functionality not yet implemented
+    schema:
+      $ref: "#/definitions/Error"
 parameters:
   pageSize:
     name: pageSize
     in: query
-    description: sets the  number of objects returned per page
+    description: sets the  number of factoids returned per page
     type: integer
   pageNumber:
     name: pageNumber
     in: query
-    description: page number of returned objects
+    description: page number of returned factoids
     type: integer
   id:
     name: id
@@ -334,8 +304,3 @@ parameters:
     required: true
     type: string
     description: can be either the local id, or the uri or the uri of a owl:sameAs entry
-  q:
-    name: q
-    in: query
-    description: query string
-    type: string
