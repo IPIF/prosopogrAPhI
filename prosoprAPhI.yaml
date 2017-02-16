@@ -266,7 +266,10 @@ definitions:
           person: Placidus_Seiz
           statement: 
             - graph:
-              - hasName : "Placidus Seitz"
+              - "@context" : "http://pez-digital.at/prosopography-schema.json-ld"
+                "@id": "http://pez-digital.at/Lindner-Album_Ettalense253f"
+                "assignedTo": {"@id":"http://pez-digital.at/placidus_Seiz"}
+                "hasName": {"@value":"Placidus Seitz"}
           source: "Lindner-Album_Ettalense253f."
           metadata:
             createdBy: Thomas Wallnig
