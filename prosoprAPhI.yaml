@@ -54,7 +54,7 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
         501:
-          $ref: "#/responses/NotImplemented"
+          $ref: "#/responses/NotImplementedError"
   /factoid/{id}:
     get:
       summary: gets the factoid with the {id}
@@ -93,7 +93,7 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
         501:
-          $ref: "#/responses/NotImplemented"
+          $ref: "#/responses/NotImplementedError"
     put:
       # ToDo: Authentication!
       summary: updates or creates if not existent the factoid with the {id}
@@ -114,7 +114,7 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
         501:
-          $ref: "#/responses/NotImplemented"
+          $ref: "#/responses/NotImplementedError"
   # ToDo: Which subpaths do we need, e.g.
   #  getting only the person, statement, source of factoid to enhance walk through?
   #  sort order? maybe as path
@@ -131,7 +131,7 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
     post:
-      summary: creates a person
+      summary: creates a person with
       responses:
         204:
           description: creates a person
@@ -141,7 +141,7 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
         501:
-          $ref: "#/responses/NotImplemented"
+          $ref: "#/responses/NotImplementedError"
   /person/{id}/factoids:
     get:
       summary: get all factoids about the person with the {id}
@@ -219,6 +219,9 @@ definitions:
     items:
       required:
         - id
+        - person
+        - source
+        - statement
       properties:
         id:
           $ref: "#/definitions/id"
@@ -237,8 +240,23 @@ definitions:
                 type: string
               createdWhen:
                 type: string # date ? 
+      example:
+        - id: TW_Pez1_809_1 
+          person: Andreas_Reuter
+          statement: Pez1_809_1
+          source: PezNachlassVol1
+          metadata:
+            createdBy: Thomas Wallnig
+            createdWhen: 2010
+        - id: TW_Pez1_123456
+          person: Placidus_Seiz
+          statement: "Pez#474-7"
+          source: "Pez#474"
+          metadata:
+            createdBy: Thomas Wallnig
+            createdWhen: 2007-04-16
   Person:
-    description: a Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefor only formal identifiers as properties.
+    description: a Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.
     properties:
       id:
         $ref: "#/definitions/id"
@@ -246,6 +264,13 @@ definitions:
         $ref: "#/definitions/uri"
       sameAs:
         $ref: "#/definitions/sameAs"
+    example:
+      - id: Andreas_Reuter
+      - uri: "http://pezdigital/persons#Mauro_Aspini"
+      - id: Placidus_Seiz
+        sameAs: 
+          http://d-nb.info/gnd/10102407X
+          https://viaf.org/viaf/5285530/
   Statement:
     properties:
       id:
@@ -254,7 +279,14 @@ definitions:
         type: string
       graph:
         type: object
+    example:
+      - id: Pez1_809_1
+        text: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
+      - id: "Pez#474-7"
+        text: "... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ..."
   Source:
+    required: 
+      - metadata
     properties:
       id:
         $ref: "#/definitions/id"
@@ -262,6 +294,16 @@ definitions:
         $ref: "#/definitions/uri"
       sameAs:
         $ref: "#/definitions/sameAs"
+      metadata:
+        description: a verbal or formal bibliographical/archival description of the source
+        type: string
+        # Allow string or structured metadata
+    example:
+      - id: PezNachlassVol1
+        sameAs: https://e-book.fwf.ac.at/o:370
+        metadata: "Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010"
+      - id: "Pez#474"
+        metadata: "Melk, Stiftsarchive, Kt. 07 Patres 09, Faszikel 1, Nr. 09"
   id:
     description: the local id of the object (factoid, person, source, statement)
     type: string
@@ -283,7 +325,7 @@ responses:
     description: An unexpected error occurred.
     schema:
       $ref: "#/definitions/Error"
-  NotImplemented:
+  NotImplementedError:
     description: functionality not yet implemented
     schema:
       $ref: "#/definitions/Error"
