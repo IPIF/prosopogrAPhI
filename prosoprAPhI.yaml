@@ -169,6 +169,7 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /source/search:
+    #Do we need a "search" path, or can we replace it by ?q-Parameter?
     get:
       summary: full text search in all literal content of the source description
       # ToDo: Or search in all factoids based on this source?
@@ -176,6 +177,7 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /search:
+    #Do we need a "search" path, or can we replace it by ?q-Parameter?
     get:
       summary: full text search in all literal content
       responses:
@@ -214,7 +216,7 @@ paths:
 
 definitions:
   Factoid:
-    description: A Factoids is a composite of one or more statements about a peroson extracted by somebody from a source at a specific time
+    description: A Factoids is a composite of one or more statements about a person extracted by somebody from a source at a specific time
     type: object
     items:
       required:
@@ -243,14 +245,18 @@ definitions:
       example:
         - id: TW_Pez1_809_1 
           person: Andreas_Reuter
-          statement: Pez1_809_1
+          statement: 
+            - id: Pez1_809_1
+              text: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
           source: PezNachlassVol1
           metadata:
             createdBy: Thomas Wallnig
             createdWhen: 2010
         - id: TW_Pez1_123456
           person: Placidus_Seiz
-          statement: "Pez#474-7"
+          statement: 
+            - id: "Pez#474-7"
+              text: "... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ..."
           source: "Pez#474"
           metadata:
             createdBy: Thomas Wallnig
@@ -306,7 +312,7 @@ definitions:
         sameAs: https://e-book.fwf.ac.at/o:370
         metadata: "Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010"
       - id: "Pez#474"
-        metadata: "Melk, Stiftsarchive, Kt. 07 Patres 09, Faszikel 1, Nr. 09"
+        metadata: "Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v"
   id:
     description: the local id of the object (factoid, person, source, statement)
     type: string
