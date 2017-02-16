@@ -75,7 +75,7 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"
     post:
       # ToDo: Authentication!
-      summary: updates or creates if not existent the factoid with the {id}
+      summary: creates the factoid with the {id}
       parameters:
         - name: id
           in: path
@@ -96,7 +96,7 @@ paths:
           $ref: "#/responses/NotImplementedError"
     put:
       # ToDo: Authentication!
-      summary: updates or creates if not existent the factoid with the {id}
+      summary: updates the factoid with the {id}
       parameters:
         - name: id
           in: path
