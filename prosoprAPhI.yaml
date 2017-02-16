@@ -278,6 +278,9 @@ definitions:
       text:
         type: string
       graph:
+        description: "The object describing representing the statement as a graph follwos these rules: 
+          1. Every path possible in the graph has to be linked to the person described by the factoid via steps explicitely expressed in the graph.
+          2. All types and properties used in the graph can be mapped to a superclass taken from the CIDOC-CRM. These relationships are formaly described as a schema which can be accessed via the /describe/statement/schema path of the API."
         type: object
     example:
       - id: Pez1_809_1
