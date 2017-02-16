@@ -4,8 +4,10 @@ It should allow you to search for factoid modeled data on persons extracted from
 With "factoid" model we refer to Bradley/Short 2005.
 See for an ontology of the factoid model: https://github.com/johnBradley501/FPO
 
-Initiated by Georg Vogeler (Graz University, georg.vogler@uni-graz.at), but develop by the collective intelligence of the following bunch of people:
-...
+Initiated by Georg Vogeler (Graz University, georg.vogler@uni-graz.at), but developed by the collective intelligence of the following bunch of people:
+* Gunter Vasold (Univ. Graz)
+* Thomas Wallnig (Univ. Vienna)
+* (tbc)
 
 Started in 2016
 
