@@ -257,6 +257,9 @@ definitions:
           statement: 
             - id: "Pez#474-7"
               text: "... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ..."
+            - id: "Lindner-Album_Ettalense253f."
+              graph:
+                - hasName : "Placidus Seitz"
           source: "Pez#474"
           metadata:
             createdBy: Thomas Wallnig
