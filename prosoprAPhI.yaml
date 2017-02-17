@@ -189,10 +189,14 @@ paths:
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /describe/statement/schemas:
+  /describe/statement/schema:
     get:
-      description: the schemas used to describe the statements
+      description: the schema used to describe the statements
       responses:
+        200:
+          description: "a URL describing the @context for the JSON-LD used in graph respones"
+          schema:
+            type: string
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /describe/return/schemas:
