@@ -32,8 +32,7 @@ paths:
           type: string
           in: query
           description: defines the sort order of the returned facets. TODO does this make sense? TODO What is the default sort order? TODO Allowed values should be discussed TODO Do we need an additional order parameter? (asc, desc)?
-        - 
-          name: p_id
+        - name: p_id
           type: string
           in: query
           description: filter facets by persion id
@@ -41,28 +40,23 @@ paths:
           type: string
           in: query
           description: filter facets by applying a pattern on persons (fulltext search)
-        - 
-          name: st_id
+        - name: st_id
           type: string
           in: query
           description: filter persons by statement id
-        - 
-           name: st
-           type: string
-           in: query
-           description: filter persons by applying a pattern on statements (fulltext search)  
-        - 
-          name: s_id
+        - name: st
+          type: string
+          in: query
+          description: filter persons by applying a pattern on statements (fulltext search)  
+        - name: s_id
           type: string
           in: query
           description: filter facets by statement id
-        - 
-          name: s
+        - name: s
           type: string
           in: query
           description: filter facets by applying a pattern on statements (fulltext search)
-        - 
-          name: f
+        - name: f
           type: string
           in: query
           description: filter facets by applying a pattern on facet (fulltext search)
@@ -85,13 +79,11 @@ paths:
                    available facets*
                    TODO *Possibly this could replace the describe uris?*
       parameters:
-        - 
-          name: p_id
+        - name: p_id
           type: string
           in: query
           description: filter facets by person id
-        - 
-          name: p
+        - name: p
           type: string
           in: query
           description: filter facets by applying a pattern to persons 
@@ -134,11 +126,7 @@ paths:
     get:
       summary: gets the factoid with the {id}
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: can be either the local id, or the uri
-          type: string
+        - $ref: "#/parameters/id"
       responses:
         200:
           description: a factoid
@@ -175,10 +163,7 @@ paths:
       # ToDo: Authentication!
       summary: updates the factoid with the {id}
       parameters:
-        - name: id
-          in: path
-          required: true
-          type: string
+        - $ref: "#/parameters/id"      
         - name: content
           in: body
           schema:
@@ -197,13 +182,8 @@ paths:
     patch:
       description: TODO *I do not think patching facets makes sense. Has to be discussed!*
       parameters:
-        - 
-          name: id
-          in: path
-          required: true
-          type: string
-        - 
-          name: content
+        - $ref: "#/parameters/id"      
+        - name: content
           in: body
           schema:
             title: part of a facet
@@ -229,42 +209,35 @@ paths:
       parameters:
          - $ref: "#/parameters/size"
          - $ref: "#/parameters/page"
-         -
-          name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned persons. 
-                       - TODO does this make sense?
-                       - TODO What is the default sort order?                       
-                       - TODO Allowed values should be discussed
-                       - TODO Do we need an additional order parameter? (asc, desc)
-         - 
-           name: f_id
+         - name: sort_by
+           type: string
+           in: query
+           description: defines the sort order of the returned persons. 
+                        - TODO does this make sense?
+                        - TODO What is the default sort order?                       
+                        - TODO Allowed values should be discussed
+                        - TODO Do we need an additional order parameter? (asc, desc)
+         - name: f_id
            type: string
            in: query
            description: filter persons by facet id
-         - 
-           name: f
+         - name: f
            type: string
            in: query
            description: filter persons by applying a pattern on facets (fulltext search)
-         - 
-           name: st_id
+         - name: st_id
            type: string
            in: query
            description: filter persons by statement id
-         - 
-           name: st
+         - name: st
            type: string
            in: query
            description: filter persons by applying a pattern on statements (fulltext search)
-         - 
-           name: s_id
+         - name: s_id
            type: string
            in: query
            description: filter persons by source id
-         - 
-           name: s
+         - name: s
            type: string
            in: query
            description: filter persons by applying a pattern on source (fulltext search)
@@ -288,42 +261,35 @@ paths:
                    available persons*
                    TODO *Possibly this could replace the describe uris?*
       parameters:
-         -
-          name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned persons. 
-                       - TODO does this make sense?
-                       - TODO What is the default sort order?                       
-                       - TODO Allowed values should be discussed
-                       - TODO Do we need an additional order parameter? (asc, desc)
-         - 
-           name: f_id
+         - name: sort_by
+           type: string
+           in: query
+           description: defines the sort order of the returned persons. 
+                        - TODO does this make sense?
+                        - TODO What is the default sort order?                       
+                        - TODO Allowed values should be discussed
+                        - TODO Do we need an additional order parameter? (asc, desc)
+         - name: f_id
            type: string
            in: query
            description: filter persons by facet id
-         - 
-           name: f
+         - name: f
            type: string
            in: query
            description: filter persons by applying a pattern on facets (fulltext search)
-         - 
-           name: st_id
+         - name: st_id
            type: string
            in: query
            description: filter persons by statement id
-         - 
-           name: st
+         - name: st
            type: string
            in: query
            description: filter persons by applying a pattern on statements (fulltext search)
-         - 
-           name: s_id
+         - name: s_id
            type: string
            in: query
            description: filter persons by source id
-         - 
-           name: s
+         - name: s
            type: string
            in: query
            description: filter persons by applying a pattern on source (fulltext search)
@@ -360,11 +326,7 @@ paths:
     get:
       summary: gets the person with the {id}
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: can be either the local id, or the uri
-          type: string
+        - $ref: "#/parameters/id"      
       responses:
         200:
           description: a person object
@@ -379,10 +341,7 @@ paths:
       # ToDo: Authentication!
       summary: updates the person with the {id}
       parameters:
-        - name: id
-          in: path
-          required: true
-          type: string
+        - $ref: "#/parameters/id"      
         - name: content
           in: body
           schema:
@@ -401,11 +360,7 @@ paths:
     patch:
       description: TODO *I do not think patching persons makes sense. Has to be discussed!*
       parameters:
-        - 
-          name: id
-          in: path
-          required: true
-          type: string
+        - $ref: "#/parameters/id"
         - 
           name: content
           in: body
@@ -581,11 +536,7 @@ paths:
     get:
       summary: gets the source with the {id}
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: can be either the local id, or the uri
-          type: string
+        - $ref: "#/parameters/id"      
       responses:
         200:
           description: a source object
@@ -622,13 +573,11 @@ paths:
     patch:
       description: TODO *I do not think patching persons makes sense. Has to be discussed!*
       parameters:
-        - 
-          name: id
+        - name: id
           in: path
           required: true
           type: string
-        - 
-          name: content
+        - name: content
           in: body
           schema:
             title: part of a source
@@ -649,8 +598,7 @@ paths:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
       
-        -
-          name: sort_by
+        - name: sort_by
           type: string
           in: query
           description: defines the sort order of the returned statement. 
@@ -658,33 +606,27 @@ paths:
                        - TODO What is the default sort order?                       
                        - TODO Allowed values should be discussed
                        - TODO Do we need an additional order parameter? (asc, desc)
-        - 
-           name: f_id
+        -  name: f_id
            type: string
            in: query
            description: filter statements by facet id
-        - 
-           name: f
+        -  name: f
            type: string
            in: query
            description: filter statements by applying a pattern on facets (fulltext search)
-        - 
-           name: s_id
+        -  name: s_id
            type: string
            in: query
            description: filter statements by source id
-        - 
-           name: st
+        -  name: st
            type: string
            in: query
            description: filter statements by applying a pattern on source (fulltext search)
-        - 
-           name: p_id
+        -  name: p_id
            type: string
            in: query
            description: filter statements by person id
-        - 
-           name: p
+        -  name: p
            type: string
            in: query
            description: filter statements by applying a pattern on person (fulltext search)
@@ -714,8 +656,7 @@ paths:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
       
-        -
-          name: sort_by
+        - name: sort_by
           type: string
           in: query
           description: defines the sort order of the returned statements. 
@@ -723,33 +664,27 @@ paths:
                        - TODO What is the default sort order?                       
                        - TODO Allowed values should be discussed
                        - TODO Do we need an additional order parameter? (asc, desc)
-        - 
-           name: f_id
+        -  name: f_id
            type: string
            in: query
            description: filter statements by facet id
-        - 
-           name: f
+        -  name: f
            type: string
            in: query
            description: filter statements by applying a pattern on facets (fulltext search)
-        - 
-           name: s_id
+        -  name: s_id
            type: string
            in: query
            description: filter statements by source id
-        - 
-           name: s
+        -  name: s
            type: string
            in: query
            description: filter statements by applying a pattern on source (fulltext search)
-        - 
-           name: p_id
+        -  name: p_id
            type: string
            in: query
            description: filter statements by person id
-        - 
-           name: p
+        -  name: p
            type: string
            in: query
            description: filter statements by applying a pattern on person (fulltext search)
@@ -786,11 +721,7 @@ paths:
     get:
       summary: gets the statement with the {id}
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: can be either the local id, or the uri
-          type: string
+        - $ref: "#/parameters/id"      
       responses:
         200:
           description: a statement object
@@ -805,10 +736,7 @@ paths:
       # ToDo: Authentication!
       summary: updates the statement with the {id}
       parameters:
-        - name: id
-          in: path
-          required: true
-          type: string
+        - $ref: "#/parameters/id"      
         - name: content
           in: body
           schema:
@@ -827,13 +755,8 @@ paths:
     patch:
       description: TODO *I do not think patching statements makes sense. Has to be discussed!*
       parameters:
-        - 
-          name: id
-          in: path
-          required: true
-          type: string
-        - 
-          name: content
+        - $ref: "#/parameters/id"      
+        - name: content
           in: body
           schema:
             title: part of a statement
