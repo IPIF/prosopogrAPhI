@@ -194,7 +194,7 @@ paths:
       description: the schema used to describe the statements
       responses:
         200:
-          description: "a URL describing the @context for the JSON-LD used in graph respones"
+          description: "a URL pointing to the @context for the JSON-LD used in graph respones"
           schema:
             type: string
         500:
@@ -207,14 +207,20 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"
   /describe/return/formats:
     get:
-      description: the serialisations supported by the server for return values
+      description: the serialisations supported by the server for return values, default is JSON
       responses:
+        #200:
+        ## ToDo: give an enumarted list included default
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /describe/source/schemas:
+  /describe/source/schema:
     get:
-      description: the schemas used to describe the source
+      description: the schema used to describe the source
       responses:
+        200:
+          description: "a URL pointing to the @context for the JSON-LD used in descriptions of sources"
+          schema:
+            type: string
         500:
           $ref: "#/responses/Standard500ErrorResponse"
 
