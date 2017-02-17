@@ -17,25 +17,95 @@ produces:
   - text/xml
   
 paths:
-  /factoid:
+
+  /factoids:
     get:
       summary: Gets factoids
-      description: Gets a list of factoids.
+      description: Gets an array of `Factoid` objects. 
+                   The number of array members returned with each response is restricted by the **size** parameter. 
+                   Facets can be filtered by setting additional parameters like **p_id** or **p**. TODO Further 
+                   parameters for filtering have to be specified.
       parameters:
-        - $ref: "#/parameters/pageSize"
-        - $ref: "#/parameters/pageNumber"
+        - $ref: "#/parameters/size"
+        - $ref: "#/parameters/page"
+        - name: sort_by
+          type: string
+          in: query
+          description: defines the sort order of the returned facets. TODO does this make sense? TODO What is the default sort order? TODO Allowed values should be discussed TODO Do we need an additional order parameter? (asc, desc)?
+        - 
+          name: p_id
+          type: string
+          in: query
+          description: filter facets by persion id
+        - name: p
+          type: string
+          in: query
+          description: filter facets by applying a pattern on persons (fulltext search)
+        - 
+          name: st_id
+          type: string
+          in: query
+          description: filter persons by statement id
+        - 
+           name: st
+           type: string
+           in: query
+           description: filter persons by applying a pattern on statements (fulltext search)  
+        - 
+          name: s_id
+          type: string
+          in: query
+          description: filter facets by statement id
+        - 
+          name: s
+          type: string
+          in: query
+          description: filter facets by applying a pattern on statements (fulltext search)
+        - 
+          name: f
+          type: string
+          in: query
+          description: filter facets by applying a pattern on facet (fulltext search)
+          
       responses:
         200:
-          description: a list of Factoid
+          description: A list of Factoids
           schema:
             type: array
             items:
               $ref: "#/definitions/Factoid"
-        404:
-          description: no factoid found
-          #ToDo: not found näher definieren
+        400:
+          $ref: "#/responses/BadRequestError"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
+    head:
+      summary: Gets metadata about factoids
+      description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of facets etc.
+                   TODO *I'm not sure if we really need this and what metadata will be useful beside the totel number of
+                   available facets*
+                   TODO *Possibly this could replace the describe uris?*
+      parameters:
+        - 
+          name: p_id
+          type: string
+          in: query
+          description: filter facets by person id
+        - 
+          name: p
+          type: string
+          in: query
+          description: filter facets by applying a pattern to persons 
+      responses:
+        200:
+          description: Metadata about the facets to be returned. *TODO schema has to to be discussed*
+#          schema:
+#            type: array
+#            items:
+#              $ref: "#/definitions/Factoid"
+        400:
+          $ref: "#/responses/BadRequestError"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"          
     post:
       # ToDo: Authentication!
       summary: creates a factoid
@@ -46,16 +116,21 @@ paths:
           schema:
             $ref: "#/definitions/Factoid"
       responses:
-        204:
+        201:
           description: factoid created
           #Should return the id of the factoid created
         400:
           description: factoid could not be created or updated
+        403:
+          description: Forbidden. Missing token or user is not allowed to create persons. 
         500:
           $ref: "#/responses/Standard500ErrorResponse"
         501:
           $ref: "#/responses/NotImplementedError"
-  /factoid/{id}:
+          
+          
+          
+  /factoids/{id}:
     get:
       summary: gets the factoid with the {id}
       parameters:
@@ -73,27 +148,29 @@ paths:
           description: the factoid does not exist
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-    post:
-      # ToDo: Authentication!
-      summary: creates the factoid with the {id}
-      parameters:
-        - name: id
-          in: path
-          required: true
-          type: string
-        - name: content
-          in: body
-          schema:
-            $ref: "#/definitions/Factoid"
-      responses:
-        204:
-          description: factoid updated or created
-        400:
-          description: factoid could not be updated or created
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
-        501:
-          $ref: "#/responses/NotImplementedError"
+# Gunv: POST is not needed here. To force creating a specific id for a resource can be done using put on a non existing
+# resource. 
+#    post:
+#      # ToDo: Authentication!
+#      summary: creates the factoid with the {id}
+#      parameters:
+#        - name: id
+#          in: path
+#          required: true
+#          type: string
+#        - name: content
+#          in: body
+#          schema:
+#            $ref: "#/definitions/Factoid"
+#      responses:
+#        201:
+#          description: factoid updated or created
+#        400:
+#          description: factoid could not be updated or created
+#        500:
+#          $ref: "#/responses/Standard500ErrorResponse"
+#        501:
+#          $ref: "#/responses/NotImplementedError"
     put:
       # ToDo: Authentication!
       summary: updates the factoid with the {id}
@@ -107,85 +184,685 @@ paths:
           schema:
             $ref: "#/definitions/Factoid"
       responses:
-        204:
+        201:
           description: factoid updated
         400:
-          description: factoid could not be updated or created
+          description: factoid could not be updated or created. TODO should return reason as message
+        403:
+          description: Forbidden. Missing token or user is not allowed to create persons. 
         500:
           $ref: "#/responses/Standard500ErrorResponse"
         501:
           $ref: "#/responses/NotImplementedError"
+    patch:
+      description: TODO *I do not think patching facets makes sense. Has to be discussed!*
+      parameters:
+        - 
+          name: id
+          in: path
+          required: true
+          type: string
+        - 
+          name: content
+          in: body
+          schema:
+            title: part of a facet
+        
+      responses:
+        501:
+          $ref: "#/responses/NotImplementedError"        
+          
+          
+          
   # ToDo: Which subpaths do we need, e.g.
   #  getting only the person, statement, source of factoid to enhance walk through?
   #  sort order? maybe as path
-  /person:
+  
+  
+  /persons:
     get:
-      summary: get a list of persons
+      summary: Get persons
+      description: Gets a list of `Person` objects.
+                   The number of array members returned with each response is restricted by the **size** parameter. 
+                   Persons can be filtered by setting additional parameters like **f_id** or **f**. TODO Further 
+                   parameters for filtering have to be specified.      
+      parameters:
+         - $ref: "#/parameters/size"
+         - $ref: "#/parameters/page"
+         -
+          name: sort_by
+          type: string
+          in: query
+          description: defines the sort order of the returned persons. 
+                       - TODO does this make sense?
+                       - TODO What is the default sort order?                       
+                       - TODO Allowed values should be discussed
+                       - TODO Do we need an additional order parameter? (asc, desc)
+         - 
+           name: f_id
+           type: string
+           in: query
+           description: filter persons by facet id
+         - 
+           name: f
+           type: string
+           in: query
+           description: filter persons by applying a pattern on facets (fulltext search)
+         - 
+           name: st_id
+           type: string
+           in: query
+           description: filter persons by statement id
+         - 
+           name: st
+           type: string
+           in: query
+           description: filter persons by applying a pattern on statements (fulltext search)
+         - 
+           name: s_id
+           type: string
+           in: query
+           description: filter persons by source id
+         - 
+           name: s
+           type: string
+           in: query
+           description: filter persons by applying a pattern on source (fulltext search)
       responses:
-        default:
-          description: test
+        200:
+          description: Successfull response
           schema:
+            title: Array of Person objects
             type: array
             items:
               $ref: "#/definitions/Person"
+        400: 
+          $ref: "#/responses/BadRequestError"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-    post:
-      summary: creates a person with
+           
+    head:
+      summary: Get metadata about persons
+      description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of persons found etc.
+                   TODO *I'm not sure if we really need this and what metadata will be useful beside the total number of
+                   available persons*
+                   TODO *Possibly this could replace the describe uris?*
+      parameters:
+         -
+          name: sort_by
+          type: string
+          in: query
+          description: defines the sort order of the returned persons. 
+                       - TODO does this make sense?
+                       - TODO What is the default sort order?                       
+                       - TODO Allowed values should be discussed
+                       - TODO Do we need an additional order parameter? (asc, desc)
+         - 
+           name: f_id
+           type: string
+           in: query
+           description: filter persons by facet id
+         - 
+           name: f
+           type: string
+           in: query
+           description: filter persons by applying a pattern on facets (fulltext search)
+         - 
+           name: st_id
+           type: string
+           in: query
+           description: filter persons by statement id
+         - 
+           name: st
+           type: string
+           in: query
+           description: filter persons by applying a pattern on statements (fulltext search)
+         - 
+           name: s_id
+           type: string
+           in: query
+           description: filter persons by source id
+         - 
+           name: s
+           type: string
+           in: query
+           description: filter persons by applying a pattern on source (fulltext search)
       responses:
-        204:
-          description: creates a person
-          #FixMe: Should return the id of the created person
+        200:
+          description: Metadata about the facets to be returned. *TODO schema has to to be discussed*                      
+        400:
+          $ref: "#/responses/BadRequestError"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"                
+    post:
+      summary: Add a new person
+      responses:
+        201:
+          description: Person created
+          #FixMe: Should return the id of the created person or the whole person object?
+          headers:
+            Location: 
+              description: the uri of the created person
+              type: string
           schema:
-            $ref: "#/definitions/Factoid"
+            $ref: "#/definitions/Person"
+        400:
+          $ref: "#/responses/BadRequestError"
+        403:
+          description: Forbidden. Missing token or user is not allowed to create persons. 
         500:
           $ref: "#/responses/Standard500ErrorResponse"
         501:
           $ref: "#/responses/NotImplementedError"
-  /person/{id}/factoids:
+          
+
+  /persons/{id}:
     get:
-      summary: get all factoids about the person with the {id}
+      summary: gets the person with the {id}
       parameters:
-        - $ref: "#/parameters/id"
+        - name: id
+          in: path
+          required: true
+          description: can be either the local id, or the uri
+          type: string
       responses:
         200:
-          description: a list of factoids
+          description: a person object
           schema:
-            $ref: "#/definitions/Factoid"
+            $ref: "#/definitions/Person"
+        404:
+          description: the person does not exist
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /source:
+
+    put:
+      # ToDo: Authentication!
+      summary: updates the person with the {id}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: content
+          in: body
+          schema:
+            $ref: "#/definitions/Person"
+      responses:
+        201:
+          description: person updated
+        400:
+          description: person could not be updated or created. TODO should return reason as message
+        403:
+          description: Forbidden. Missing token or user is not allowed to create persons. 
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+        501:
+          $ref: "#/responses/NotImplementedError"
+    patch:
+      description: TODO *I do not think patching persons makes sense. Has to be discussed!*
+      parameters:
+        - 
+          name: id
+          in: path
+          required: true
+          type: string
+        - 
+          name: content
+          in: body
+          schema:
+            title: part of a person
+        
+      responses:
+        501:
+          $ref: "#/responses/NotImplementedError"        
+
+
+          
+  # Gunv: This should be part of factoids!
+  #/persons/{id}/factoids:
+  #  get:
+  #    summary: get all factoids about the person with the {id}
+  #    parameters:
+  #      - $ref: "#/parameters/id"
+  #    responses:
+  #      200:
+  #        description: a list of factoids
+  #        schema:
+  #          $ref: "#/definitions/Factoid"
+  #      500:
+  #        $ref: "#/responses/Standard500ErrorResponse"
+  
+  
+  
+  /sources:
     get:
       summary: gets a list of sources
+      description: Gets a list of `Source` objects.
+                   The number of array members returned with each response is restricted by the **size** parameter. 
+                   Sources can be filtered by setting additional parameters like **f_id** or **f**. TODO Further 
+                   parameters for filtering have to be specified.      
+      parameters:
+        - $ref: "#/parameters/size"
+        - $ref: "#/parameters/page"
+      
+        -
+          name: sort_by
+          type: string
+          in: query
+          description: defines the sort order of the returned persons. 
+                       - TODO does this make sense?
+                       - TODO What is the default sort order?                       
+                       - TODO Allowed values should be discussed
+                       - TODO Do we need an additional order parameter? (asc, desc)
+        - 
+           name: f_id
+           type: string
+           in: query
+           description: filter persons by facet id
+        - 
+           name: f
+           type: string
+           in: query
+           description: filter persons by applying a pattern on facets (fulltext search)
+        - 
+           name: st_id
+           type: string
+           in: query
+           description: filter persons by statement id
+        - 
+           name: st
+           type: string
+           in: query
+           description: filter persons by applying a pattern on statements (fulltext search)
+        - 
+           name: p_id
+           type: string
+           in: query
+           description: filter persons by person id
+        - 
+           name: p
+           type: string
+           in: query
+           description: filter persons by applying a pattern on person (fulltext search)
+      
       responses:
+        200:
+          description: Successfull response
+          schema:
+            title: Array of Source objects
+            type: array
+            items:
+              $ref: "#/definitions/Source"
+        400: 
+          $ref: "#/responses/BadRequestError"
+      
         500:
           $ref: "#/responses/Standard500ErrorResponse"
+          
+    head:
+      summary: gets a list of sources
+      description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of sources found etc.
+                   TODO *I'm not sure if we really need this and what metadata will be useful beside the totel number of
+                   available sources*
+                   TODO *Possibly this could replace the describe uris?*
+      parameters:
+        - $ref: "#/parameters/size"
+        - $ref: "#/parameters/page"
+      
+        -
+          name: sort_by
+          type: string
+          in: query
+          description: defines the sort order of the returned persons. 
+                       - TODO does this make sense?
+                       - TODO What is the default sort order?                       
+                       - TODO Allowed values should be discussed
+                       - TODO Do we need an additional order parameter? (asc, desc)
+        - 
+           name: f_id
+           type: string
+           in: query
+           description: filter persons by facet id
+        - 
+           name: f
+           type: string
+           in: query
+           description: filter persons by applying a pattern on facets (fulltext search)
+        - 
+           name: st_id
+           type: string
+           in: query
+           description: filter persons by statement id
+        - 
+           name: st
+           type: string
+           in: query
+           description: filter persons by applying a pattern on statements (fulltext search)
+        - 
+           name: p_id
+           type: string
+           in: query
+           description: filter persons by person id
+        - 
+           name: p
+           type: string
+           in: query
+           description: filter persons by applying a pattern on person (fulltext search)
+      responses:
+        200:
+          description: Metadata about the facets to be returned. *TODO schema has to to be discussed*                      
+        400:
+          $ref: "#/responses/BadRequestError"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"                
+    post:
+      summary: Add a new source
+      responses:
+        201:
+          description: Source created
+          #FixMe: Should return the id of the created source or the whole source object?
+          headers:
+            Location: 
+              description: the uri of the created source
+              type: string
+          schema:
+            $ref: "#/definitions/Source"
+        400:
+          $ref: "#/responses/BadRequestError"
+        403:
+          description: Forbidden. Missing token or user is not allowed to create persons. 
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+        501:
+          $ref: "#/responses/NotImplementedError"
+
+          
   /source/{id}:
     get:
-      summary: gets the source with the given {id}
+      summary: gets the source with the {id}
       parameters:
-        - $ref: "#/parameters/id"
+        - name: id
+          in: path
+          required: true
+          description: can be either the local id, or the uri
+          type: string
       responses:
+        200:
+          description: a source object
+          schema:
+            $ref: "#/definitions/Source"
+        404:
+          description: the source does not exist
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /source/search:
-    #Do we need a "search" path, or can we replace it by ?q-Parameter?
+
+    put:
+      # ToDo: Authentication!
+      summary: updates the source with the {id}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: content
+          in: body
+          schema:
+            $ref: "#/definitions/Source"
+      responses:
+        201:
+          description: source updated
+        400:
+          description: source could not be updated or created. TODO should return reason as message
+        403:
+          description: Forbidden. Missing token or user is not allowed to create sources. 
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+        501:
+          $ref: "#/responses/NotImplementedError"
+    patch:
+      description: TODO *I do not think patching persons makes sense. Has to be discussed!*
+      parameters:
+        - 
+          name: id
+          in: path
+          required: true
+          type: string
+        - 
+          name: content
+          in: body
+          schema:
+            title: part of a source
+        
+      responses:
+        501:
+          $ref: "#/responses/NotImplementedError"        
+
+
+  /statements:
     get:
-      summary: full text search in all literal content of the source description
-      # ToDo: Or search in all factoids based on this source?
+      summary: gets a list of statements
+      description: Gets a list of `Statement` objects.
+                   The number of array members returned with each response is restricted by the **size** parameter. 
+                   Statements can be filtered by setting additional parameters like **f_id** or **f**. TODO Further 
+                   parameters for filtering have to be specified.      
+      parameters:
+        - $ref: "#/parameters/size"
+        - $ref: "#/parameters/page"
+      
+        -
+          name: sort_by
+          type: string
+          in: query
+          description: defines the sort order of the returned statement. 
+                       - TODO does this make sense?
+                       - TODO What is the default sort order?                       
+                       - TODO Allowed values should be discussed
+                       - TODO Do we need an additional order parameter? (asc, desc)
+        - 
+           name: f_id
+           type: string
+           in: query
+           description: filter statements by facet id
+        - 
+           name: f
+           type: string
+           in: query
+           description: filter statements by applying a pattern on facets (fulltext search)
+        - 
+           name: s_id
+           type: string
+           in: query
+           description: filter statements by source id
+        - 
+           name: st
+           type: string
+           in: query
+           description: filter statements by applying a pattern on source (fulltext search)
+        - 
+           name: p_id
+           type: string
+           in: query
+           description: filter statements by person id
+        - 
+           name: p
+           type: string
+           in: query
+           description: filter statements by applying a pattern on person (fulltext search)
+      
       responses:
+        200:
+          description: Successfull response
+          schema:
+            title: Array of Statement objects
+            type: array
+            items:
+              $ref: "#/definitions/Statement"
+        400: 
+          $ref: "#/responses/BadRequestError"
+      
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /search:
-    #Do we need a "search" path, or can we replace it by ?q-Parameter?
+          
+    head:
+      summary: gets a list of statements
+      description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of statements 
+                   found etc.
+                   TODO *I'm not sure if we really need this and what metadata will be useful beside the totel number of
+                   available sources*
+                   TODO *Possibly this could replace the describe uris?*
+      parameters:
+        - $ref: "#/parameters/size"
+        - $ref: "#/parameters/page"
+      
+        -
+          name: sort_by
+          type: string
+          in: query
+          description: defines the sort order of the returned statements. 
+                       - TODO does this make sense?
+                       - TODO What is the default sort order?                       
+                       - TODO Allowed values should be discussed
+                       - TODO Do we need an additional order parameter? (asc, desc)
+        - 
+           name: f_id
+           type: string
+           in: query
+           description: filter statements by facet id
+        - 
+           name: f
+           type: string
+           in: query
+           description: filter statements by applying a pattern on facets (fulltext search)
+        - 
+           name: s_id
+           type: string
+           in: query
+           description: filter statements by source id
+        - 
+           name: s
+           type: string
+           in: query
+           description: filter statements by applying a pattern on source (fulltext search)
+        - 
+           name: p_id
+           type: string
+           in: query
+           description: filter statements by person id
+        - 
+           name: p
+           type: string
+           in: query
+           description: filter statements by applying a pattern on person (fulltext search)
+      responses:
+        200:
+          description: Metadata about the statements to be returned. *TODO schema has to to be discussed*                      
+        400:
+          $ref: "#/responses/BadRequestError"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"                
+    post:
+      summary: Add a new statement
+      responses:
+        201:
+          description: Statement created
+          #FixMe: Should return the id of the created source or the whole source object?
+          headers:
+            Location: 
+              description: the uri of the created statement
+              type: string
+          schema:
+            $ref: "#/definitions/Statement"
+        400:
+          $ref: "#/responses/BadRequestError"
+        403:
+          description: Forbidden. Missing token or user is not allowed to create statement. 
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+        501:
+          $ref: "#/responses/NotImplementedError"
+
+          
+  /statement/{id}:
     get:
-      summary: full text search in all literal content
+      summary: gets the statement with the {id}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: can be either the local id, or the uri
+          type: string
       responses:
+        200:
+          description: a statement object
+          schema:
+            $ref: "#/definitions/Statement"
+        404:
+          description: the statement does not exist
         500:
           $ref: "#/responses/Standard500ErrorResponse"
+
+    put:
+      # ToDo: Authentication!
+      summary: updates the statement with the {id}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: content
+          in: body
+          schema:
+            $ref: "#/definitions/Statement"
+      responses:
+        201:
+          description: statement updated
+        400:
+          description: statement could not be updated or created. TODO should return reason as message
+        403:
+          description: Forbidden. Missing token or user is not allowed to create statements. 
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+        501:
+          $ref: "#/responses/NotImplementedError"
+    patch:
+      description: TODO *I do not think patching statements makes sense. Has to be discussed!*
+      parameters:
+        - 
+          name: id
+          in: path
+          required: true
+          type: string
+        - 
+          name: content
+          in: body
+          schema:
+            title: part of a statement
+        
+      responses:
+        501:
+          $ref: "#/responses/NotImplementedError"        
+
+
+# Gunv search is handled via query parameter          
+#  /sources/search:
+#    #Do we need a "search" path, or can we replace it by ?q-Parameter?
+#    get:
+#      summary: full text search in all literal content of the source description
+#      # ToDo: Or search in all factoids based on this source?
+#      responses:
+#        500:
+#          $ref: "#/responses/Standard500ErrorResponse"
+#  /search:
+#    #Do we need a "search" path, or can we replace it by ?q-Parameter?
+#    get:
+#      summary: full text search in all literal content
+#      responses:
+#        500:
+#          $ref: "#/responses/Standard500ErrorResponse"
   /describe:
     get:
       description: gives basic information about schemas used, numbers of entries and implementation of API
+             TODO *This could possibly be handled via HEAD request?* 
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
@@ -288,7 +965,7 @@ definitions:
             createdBy: Thomas Wallnig
             createdWhen: 2007-04-16
   Person:
-    description: a Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.
+    description: A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.
     properties:
       id:
         $ref: "#/definitions/id"
@@ -365,24 +1042,35 @@ definitions:
       message:
         type: string
 responses:
+  BadRequestError:
+    description: Bad request. Caused by unknown parameters or illegal parameter values
+    schema:
+      $ref: "#/definitions/Error"
   Standard500ErrorResponse:
-    description: An unexpected error occurred.
+    description: An unexpected error occurred. I'm not sure if we need this in the API as a 500 could occur anytime and for many reasons 
+                 and should normaly not expose the reason to the public. The typical message would be something like the standard 
+                 "Internal Server Error".
     schema:
       $ref: "#/definitions/Error"
   NotImplementedError:
-    description: functionality not yet implemented
+    description: 
+      Functionality not implemented. Some implementations will only support read operations. 
+      For any data modifying request they must return a 501 response.
     schema:
       $ref: "#/definitions/Error"
 parameters:
-  pageSize:
-    name: pageSize
+  size:
+    name: size
     in: query
-    description: sets the  number of factoids returned per page
+    description: sets the  number of objects returned per page. Should the API define a default value?
     type: integer
-  pageNumber:
-    name: pageNumber
+  page:
+    name: page
     in: query
-    description: page number of returned factoids
+    description: 
+      Sets the page number of returned objects. 
+      So if size is set to 10 and page is set to 2, the objects 11-20 will be returned.
+      Default value is 1.
     type: integer
   id:
     name: id
