@@ -267,9 +267,12 @@ definitions:
           statement: 
             - graph:
               - "@context" : "http://pez-digital.at/prosopography-schema.json-ld"
-                "@id": "http://pez-digital.at/Lindner-Album_Ettalense253f"
-                "assignedTo": {"@id":"http://pez-digital.at/placidus_Seiz"}
-                "hasName": {"@value":"Placidus Seitz"}
+                "@graph": 
+                  - "@id" : "http://pez-digital.at/Lindner-Album_Ettalense253f"
+                    "assignedTo" : 
+                      - "@id" : "http://pez-digital.at/placidus_Seiz"
+                    "hasName" :  
+                      - "@value" : "Placidus Seitz"
           source: "Lindner-Album_Ettalense253f."
           metadata:
             createdBy: Thomas Wallnig
@@ -299,14 +302,20 @@ definitions:
         type: string
       graph:
         description: "The object describing representing the statement as a graph follwos these rules: 
-          1. Every path possible in the graph has to be linked to the person described by the factoid via steps explicitely expressed in the graph.
+          1. Every path possible in the graph has to be linked to the person described by the factoid via steps explicitly expressed in the graph.
           2. All types and properties used in the graph can be mapped to a superclass taken from the CIDOC-CRM. These relationships are formaly described as a schema which can be accessed via the /describe/statement/schema path of the API."
         type: object
     example:
       - id: Pez1_809_1
         text: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
-      - id: "Pez#474-7"
-        text: "... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ..."
+      - graph:
+          - "@context" : "http://pez-digital.at/prosopography-schema.json-ld"
+            "@graph": 
+            - "@id" : "http://pez-digital.at/Lindner-Album_Ettalense253f"
+              "assignedTo" : 
+              - "@id" : "http://pez-digital.at/placidus_Seiz"
+              "hasName" :  
+              - "@value" : "Placidus Seitz"
   Source:
     required: 
       - metadata
