@@ -29,6 +29,9 @@ I'm a wizard in visualisation, a nerd in network analysis, a sage of statistics,
 ### Tool user
 I am a non technical humanist creating prosopographical data ("a person database"). I would be happy to use the database server from somebody else (e.g. a common repository) and the easiest to use data capture tool (with fancy autosuggestion, automatic check of existing data etc. etc.).
 
+### Tool builder
+I am a developer building tools for digital humanists. I want my tools to integrate prosopographical data from multiple sources. For example, I would like my tools to offer a "disambiguation dropdown" where possible person matches for a givenn name are provided, with enough (and compact, human-readable) information to make a decision. From a technical perspective, I would like to be able to obtain - as alternative to accessing the API "live" - dumps of the entire dataset, containing at least a subset of the data (enough information to drive the disambiguation interface).
+
 ## Basic considerations for paths
 The data can be accessed via the four major components (objects) of the factoid model:
 
