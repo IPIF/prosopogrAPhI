@@ -584,30 +584,30 @@ paths:
 #          $ref: "#/responses/Standard500ErrorResponse"
   /describe:
     get:
-      description: gives basic information about schemas used, numbers of entries and implementation of API
+      description: Gives basic information about schemas used, numbers of entries and implementation of API
              TODO *This could possibly be handled via HEAD request?* 
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /describe/statement/schema:
     get:
-      description: the schema used to describe the statements
+      description: The schema used to describe the statements
       responses:
         200:
-          description: "a URL pointing to the @context for the JSON-LD used in graph respones"
+          description: "A URL pointing to the @context for the JSON-LD used in graph respones"
           schema:
             type: string
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /describe/return/schemas:
     get:
-      description: the schemas supported by the server as return values
+      description: The schemas supported by the server as return values
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /describe/return/formats:
     get:
-      description: the serialisations supported by the server for return values, default is JSON
+      description: The serialisations supported by the server for return values, default is JSON
       responses:
         #200:
         ## ToDo: give an enumarted list included default
@@ -615,7 +615,7 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"
   /describe/source/schema:
     get:
-      description: the schema used to describe the source
+      description: The schema used to describe the source
       responses:
         200:
           description: "a URL pointing to the @context for the JSON-LD used in descriptions of sources"
@@ -626,8 +626,8 @@ paths:
 
 definitions:
   Factoid:
-    # FPO calls this "assertion" ?
-    description: A Factoids is a composite of one or more statements about a person extracted by somebody from a source at a specific time
+    # FPO calls this "Ássertion" ?
+    description: A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time
 #    type: object
     type: string    
     items:
@@ -773,9 +773,7 @@ responses:
     schema:
       $ref: "#/definitions/Error"
   Standard500ErrorResponse:
-    description: An unexpected error occurred. I'm not sure if we need this in the API as a 500 could occur anytime and for many reasons 
-                 and should normaly not expose the reason to the public. The typical message would be something like the standard 
-                 "Internal Server Error".
+    description: An unexpected error occurred. #I'm not sure if we need this in the API as a 500 could occur anytime and for many reasons and should normaly not expose the reason to the public. The typical message would be something like the standard "Internal Server Error".
     schema:
       $ref: "#/definitions/Error"
   NotImplementedError:
