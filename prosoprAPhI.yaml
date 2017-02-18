@@ -30,39 +30,14 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned factoids. TODO does this make sense? TODO What is the default sort order? TODO Allowed values should be discussed TODO Do we need an additional order parameter? (asc, desc)?
-        - name: p_id
-          type: string
-          in: query
-          description: filter factoids by person id
-        - name: p
-          type: string
-          in: query
-          description: filter factoids by applying a pattern on persons (fulltext search)
-        - name: st_id
-          type: string
-          in: query
-          description: filter persons by statement id
-        - name: st
-          type: string
-          in: query
-          description: filter persons by applying a pattern on statements (fulltext search)  
-        - name: s_id
-          type: string
-          in: query
-          description: filter factoids by statement id
-        - name: s
-          type: string
-          in: query
-          description: filter factoids by applying a pattern on statements (fulltext search)
-        - name: f
-          type: string
-          in: query
-          description: filter factoids by applying a pattern on factoid (fulltext search)
-          
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/p"
+        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/s"
+        - $ref: "#/parameters/f"
       responses:
         200:
           description: A list of Factoids
@@ -81,14 +56,8 @@ paths:
                    available factoids*
                    TODO *Possibly this could replace the describe uris?*
       parameters:
-        - name: p_id
-          type: string
-          in: query
-          description: filter factoids by person id
-        - name: p
-          type: string
-          in: query
-          description: filter factoids by applying a pattern to persons 
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/p"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*
@@ -209,40 +178,16 @@ paths:
                    Persons can be filtered by setting additional parameters like **f_id** or **f**. TODO Further 
                    parameters for filtering have to be specified.      
       parameters:
-         - $ref: "#/parameters/size"
-         - $ref: "#/parameters/page"
-         - name: sort_by
-           type: string
-           in: query
-           description: defines the sort order of the returned persons. 
-                        - TODO does this make sense?
-                        - TODO What is the default sort order?                       
-                        - TODO Allowed values should be discussed
-                        - TODO Do we need an additional order parameter? (asc, desc)
-         - name: f_id
-           type: string
-           in: query
-           description: filter persons by factoid id
-         - name: f
-           type: string
-           in: query
-           description: filter persons by applying a pattern on factoids (fulltext search)
-         - name: st_id
-           type: string
-           in: query
-           description: filter persons by statement id
-         - name: st
-           type: string
-           in: query
-           description: filter persons by applying a pattern on statements (fulltext search)
-         - name: s_id
-           type: string
-           in: query
-           description: filter persons by source id
-         - name: s
-           type: string
-           in: query
-           description: filter persons by applying a pattern on source (fulltext search)
+        - $ref: "#/parameters/size"
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/s"
       responses:
         200:
           description: Successfull response
@@ -263,38 +208,13 @@ paths:
                    available persons*
                    TODO *Possibly this could replace the describe uris?*
       parameters:
-         - name: sort_by
-           type: string
-           in: query
-           description: defines the sort order of the returned persons. 
-                        - TODO does this make sense?
-                        - TODO What is the default sort order?                       
-                        - TODO Allowed values should be discussed
-                        - TODO Do we need an additional order parameter? (asc, desc)
-         - name: f_id
-           type: string
-           in: query
-           description: filter persons by factoid id
-         - name: f
-           type: string
-           in: query
-           description: filter persons by applying a pattern on factoids (fulltext search)
-         - name: st_id
-           type: string
-           in: query
-           description: filter persons by statement id
-         - name: st
-           type: string
-           in: query
-           description: filter persons by applying a pattern on statements (fulltext search)
-         - name: s_id
-           type: string
-           in: query
-           description: filter persons by source id
-         - name: s
-           type: string
-           in: query
-           description: filter persons by applying a pattern on source (fulltext search)
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/s"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
@@ -400,47 +320,12 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-      
-        -
-          name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned persons. 
-                       - TODO does this make sense?
-                       - TODO What is the default sort order?                       
-                       - TODO Allowed values should be discussed
-                       - TODO Do we need an additional order parameter? (asc, desc)
-        - 
-           name: f_id
-           type: string
-           in: query
-           description: filter persons by factoid id
-        - 
-           name: f
-           type: string
-           in: query
-           description: filter persons by applying a pattern on factoids (fulltext search)
-        - 
-           name: st_id
-           type: string
-           in: query
-           description: filter persons by statement id
-        - 
-           name: st
-           type: string
-           in: query
-           description: filter persons by applying a pattern on statements (fulltext search)
-        - 
-           name: p_id
-           type: string
-           in: query
-           description: filter persons by person id
-        - 
-           name: p
-           type: string
-           in: query
-           description: filter persons by applying a pattern on person (fulltext search)
-      
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/p"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/st"
       responses:
         200:
           description: Successfull response
@@ -464,46 +349,13 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-      
-        -
-          name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned persons. 
-                       - TODO does this make sense?
-                       - TODO What is the default sort order?                       
-                       - TODO Allowed values should be discussed
-                       - TODO Do we need an additional order parameter? (asc, desc)
-        - 
-           name: f_id
-           type: string
-           in: query
-           description: filter persons by factoid id
-        - 
-           name: f
-           type: string
-           in: query
-           description: filter persons by applying a pattern on factoids (fulltext search)
-        - 
-           name: st_id
-           type: string
-           in: query
-           description: filter persons by statement id
-        - 
-           name: st
-           type: string
-           in: query
-           description: filter persons by applying a pattern on statements (fulltext search)
-        - 
-           name: p_id
-           type: string
-           in: query
-           description: filter persons by person id
-        - 
-           name: p
-           type: string
-           in: query
-           description: filter persons by applying a pattern on person (fulltext search)
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/p"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
@@ -598,40 +450,13 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-      
-        - name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned statement. 
-                       - TODO does this make sense?
-                       - TODO What is the default sort order?                       
-                       - TODO Allowed values should be discussed
-                       - TODO Do we need an additional order parameter? (asc, desc)
-        -  name: f_id
-           type: string
-           in: query
-           description: filter statements by factoid id
-        -  name: f
-           type: string
-           in: query
-           description: filter statements by applying a pattern on factoids (fulltext search)
-        -  name: s_id
-           type: string
-           in: query
-           description: filter statements by source id
-        -  name: st
-           type: string
-           in: query
-           description: filter statements by applying a pattern on source (fulltext search)
-        -  name: p_id
-           type: string
-           in: query
-           description: filter statements by person id
-        -  name: p
-           type: string
-           in: query
-           description: filter statements by applying a pattern on person (fulltext search)
-      
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/p"
       responses:
         200:
           description: Successfull response
@@ -656,39 +481,13 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-      
-        - name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned statements. 
-                       - TODO does this make sense?
-                       - TODO What is the default sort order?                       
-                       - TODO Allowed values should be discussed
-                       - TODO Do we need an additional order parameter? (asc, desc)
-        -  name: f_id
-           type: string
-           in: query
-           description: filter statements by factoid id
-        -  name: f
-           type: string
-           in: query
-           description: filter statements by applying a pattern on factoids (fulltext search)
-        -  name: s_id
-           type: string
-           in: query
-           description: filter statements by source id
-        -  name: s
-           type: string
-           in: query
-           description: filter statements by applying a pattern on source (fulltext search)
-        -  name: p_id
-           type: string
-           in: query
-           description: filter statements by person id
-        -  name: p
-           type: string
-           in: query
-           description: filter statements by applying a pattern on person (fulltext search)
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/s"
+        - $ref: "#/parameters/p"
       responses:
         200:
           description: Metadata about the statements to be returned. *TODO schema has to to be discussed*                      
@@ -1005,3 +804,48 @@ parameters:
     required: true
     type: string
     description: can be either the local id, or the uri or the uri of a owl:sameAs entry
+  sort_by:
+    name: sort_by
+    type: string
+    in: query
+    description: defines the sort order of the returned factoids. TODO does this make sense? TODO What is the default sort order? TODO Allowed values should be discussed TODO Do we need an additional order parameter? (asc, desc)?
+  p_id:
+    name: p_id
+    type: string
+    in: query
+    description: filter by person id
+  p:
+    name: p
+    type: string
+    in: query
+    description: filter by applying a pattern on persons (fulltext search)
+  st_id:
+    name: st_id
+    type: string
+    in: query
+    description: filter by statement id
+  st:
+    name: st
+    type: string
+    in: query
+    description: filter by applying a pattern on statements (fulltext search)
+  s_id:
+    name: s_id
+    type: string
+    in: query
+    description: filter by source id
+  s:
+    name: s
+    type: string
+    in: query
+    description: filter by applying a pattern on sources (fulltext search)
+  f:
+    name: f
+    type: string
+    in: query
+    description: filter by applying a pattern on factoid (fulltext search)
+  f_id:
+    name: f_id
+    type: string
+    in: query
+    description: filter by factoid id
