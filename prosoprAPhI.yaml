@@ -13,7 +13,7 @@ schemes:
 #host: www.cei.lmu.de
 #basePath: /prosopographi/api.0.1
 host: localhost
-basePath: /
+basePath: "/api"
 produces:
   - application/json
   - text/xml
@@ -25,44 +25,19 @@ paths:
       summary: Gets factoids
       description: Gets an array of `Factoid` objects. 
                    The number of array members returned with each response is restricted by the **size** parameter. 
-                   Facets can be filtered by setting additional parameters like **p_id** or **p**. TODO Further 
+                   Factoids can be filtered by setting additional parameters like **p_id** or **p**. TODO Further 
                    parameters for filtering have to be specified.
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned facets. TODO does this make sense? TODO What is the default sort order? TODO Allowed values should be discussed TODO Do we need an additional order parameter? (asc, desc)?
-        - name: p_id
-          type: string
-          in: query
-          description: filter facets by persion id
-        - name: p
-          type: string
-          in: query
-          description: filter facets by applying a pattern on persons (fulltext search)
-        - name: st_id
-          type: string
-          in: query
-          description: filter persons by statement id
-        - name: st
-          type: string
-          in: query
-          description: filter persons by applying a pattern on statements (fulltext search)  
-        - name: s_id
-          type: string
-          in: query
-          description: filter facets by statement id
-        - name: s
-          type: string
-          in: query
-          description: filter facets by applying a pattern on statements (fulltext search)
-        - name: f
-          type: string
-          in: query
-          description: filter facets by applying a pattern on facet (fulltext search)
-          
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/p"
+        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/s"
+        - $ref: "#/parameters/f"
       responses:
         200:
           description: A list of Factoids
@@ -76,22 +51,16 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"
     head:
       summary: Gets metadata about factoids
-      description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of facets etc.
+      description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of factoids etc.
                    TODO *I'm not sure if we really need this and what metadata will be useful beside the totel number of
-                   available facets*
+                   available factoids*
                    TODO *Possibly this could replace the describe uris?*
       parameters:
-        - name: p_id
-          type: string
-          in: query
-          description: filter facets by person id
-        - name: p
-          type: string
-          in: query
-          description: filter facets by applying a pattern to persons 
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/p"
       responses:
         200:
-          description: Metadata about the facets to be returned. *TODO schema has to to be discussed*
+          description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*
 #          schema:
 #            type: array
 #            items:
@@ -182,13 +151,13 @@ paths:
         501:
           $ref: "#/responses/NotImplementedError"
 #    patch:
-#      description: TODO *I do not think patching facets makes sense. Has to be discussed!*
+#      description: TODO *I do not think patching factoids makes sense. Has to be discussed!*
 #      parameters:
 #        - $ref: "#/parameters/id"      
 #        - name: content
 #          in: body
 #          schema:
-#            title: part of a facet
+#            title: part of a factoid
 #        
 #      responses:
 #        501:
@@ -209,40 +178,16 @@ paths:
                    Persons can be filtered by setting additional parameters like **f_id** or **f**. TODO Further 
                    parameters for filtering have to be specified.      
       parameters:
-         - $ref: "#/parameters/size"
-         - $ref: "#/parameters/page"
-         - name: sort_by
-           type: string
-           in: query
-           description: defines the sort order of the returned persons. 
-                        - TODO does this make sense?
-                        - TODO What is the default sort order?                       
-                        - TODO Allowed values should be discussed
-                        - TODO Do we need an additional order parameter? (asc, desc)
-         - name: f_id
-           type: string
-           in: query
-           description: filter persons by facet id
-         - name: f
-           type: string
-           in: query
-           description: filter persons by applying a pattern on facets (fulltext search)
-         - name: st_id
-           type: string
-           in: query
-           description: filter persons by statement id
-         - name: st
-           type: string
-           in: query
-           description: filter persons by applying a pattern on statements (fulltext search)
-         - name: s_id
-           type: string
-           in: query
-           description: filter persons by source id
-         - name: s
-           type: string
-           in: query
-           description: filter persons by applying a pattern on source (fulltext search)
+        - $ref: "#/parameters/size"
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/s"
       responses:
         200:
           description: Successfull response
@@ -263,41 +208,16 @@ paths:
                    available persons*
                    TODO *Possibly this could replace the describe uris?*
       parameters:
-         - name: sort_by
-           type: string
-           in: query
-           description: defines the sort order of the returned persons. 
-                        - TODO does this make sense?
-                        - TODO What is the default sort order?                       
-                        - TODO Allowed values should be discussed
-                        - TODO Do we need an additional order parameter? (asc, desc)
-         - name: f_id
-           type: string
-           in: query
-           description: filter persons by facet id
-         - name: f
-           type: string
-           in: query
-           description: filter persons by applying a pattern on facets (fulltext search)
-         - name: st_id
-           type: string
-           in: query
-           description: filter persons by statement id
-         - name: st
-           type: string
-           in: query
-           description: filter persons by applying a pattern on statements (fulltext search)
-         - name: s_id
-           type: string
-           in: query
-           description: filter persons by source id
-         - name: s
-           type: string
-           in: query
-           description: filter persons by applying a pattern on source (fulltext search)
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/s"
       responses:
         200:
-          description: Metadata about the facets to be returned. *TODO schema has to to be discussed*                      
+          description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
         400:
           $ref: "#/responses/BadRequestError"
         500:
@@ -400,47 +320,12 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-      
-        -
-          name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned persons. 
-                       - TODO does this make sense?
-                       - TODO What is the default sort order?                       
-                       - TODO Allowed values should be discussed
-                       - TODO Do we need an additional order parameter? (asc, desc)
-        - 
-           name: f_id
-           type: string
-           in: query
-           description: filter persons by facet id
-        - 
-           name: f
-           type: string
-           in: query
-           description: filter persons by applying a pattern on facets (fulltext search)
-        - 
-           name: st_id
-           type: string
-           in: query
-           description: filter persons by statement id
-        - 
-           name: st
-           type: string
-           in: query
-           description: filter persons by applying a pattern on statements (fulltext search)
-        - 
-           name: p_id
-           type: string
-           in: query
-           description: filter persons by person id
-        - 
-           name: p
-           type: string
-           in: query
-           description: filter persons by applying a pattern on person (fulltext search)
-      
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/p"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/st"
       responses:
         200:
           description: Successfull response
@@ -464,49 +349,16 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-      
-        -
-          name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned persons. 
-                       - TODO does this make sense?
-                       - TODO What is the default sort order?                       
-                       - TODO Allowed values should be discussed
-                       - TODO Do we need an additional order parameter? (asc, desc)
-        - 
-           name: f_id
-           type: string
-           in: query
-           description: filter persons by facet id
-        - 
-           name: f
-           type: string
-           in: query
-           description: filter persons by applying a pattern on facets (fulltext search)
-        - 
-           name: st_id
-           type: string
-           in: query
-           description: filter persons by statement id
-        - 
-           name: st
-           type: string
-           in: query
-           description: filter persons by applying a pattern on statements (fulltext search)
-        - 
-           name: p_id
-           type: string
-           in: query
-           description: filter persons by person id
-        - 
-           name: p
-           type: string
-           in: query
-           description: filter persons by applying a pattern on person (fulltext search)
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/p"
       responses:
         200:
-          description: Metadata about the facets to be returned. *TODO schema has to to be discussed*                      
+          description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
         400:
           $ref: "#/responses/BadRequestError"
         500:
@@ -537,7 +389,8 @@ paths:
     get:
       summary: gets the source with the {id}
       parameters:
-        - $ref: "#/parameters/id"      
+        - $ref: "#/parameters/id"
+        
       responses:
         200:
           description: a source object
@@ -556,7 +409,7 @@ paths:
           in: path
           required: true
           type: string
-        - name: content
+        - name: metadata
           in: body
           schema:
             $ref: "#/definitions/Source"
@@ -598,40 +451,13 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-      
-        - name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned statement. 
-                       - TODO does this make sense?
-                       - TODO What is the default sort order?                       
-                       - TODO Allowed values should be discussed
-                       - TODO Do we need an additional order parameter? (asc, desc)
-        -  name: f_id
-           type: string
-           in: query
-           description: filter statements by facet id
-        -  name: f
-           type: string
-           in: query
-           description: filter statements by applying a pattern on facets (fulltext search)
-        -  name: s_id
-           type: string
-           in: query
-           description: filter statements by source id
-        -  name: st
-           type: string
-           in: query
-           description: filter statements by applying a pattern on source (fulltext search)
-        -  name: p_id
-           type: string
-           in: query
-           description: filter statements by person id
-        -  name: p
-           type: string
-           in: query
-           description: filter statements by applying a pattern on person (fulltext search)
-      
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/p"
       responses:
         200:
           description: Successfull response
@@ -656,39 +482,13 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-      
-        - name: sort_by
-          type: string
-          in: query
-          description: defines the sort order of the returned statements. 
-                       - TODO does this make sense?
-                       - TODO What is the default sort order?                       
-                       - TODO Allowed values should be discussed
-                       - TODO Do we need an additional order parameter? (asc, desc)
-        -  name: f_id
-           type: string
-           in: query
-           description: filter statements by facet id
-        -  name: f
-           type: string
-           in: query
-           description: filter statements by applying a pattern on facets (fulltext search)
-        -  name: s_id
-           type: string
-           in: query
-           description: filter statements by source id
-        -  name: s
-           type: string
-           in: query
-           description: filter statements by applying a pattern on source (fulltext search)
-        -  name: p_id
-           type: string
-           in: query
-           description: filter statements by person id
-        -  name: p
-           type: string
-           in: query
-           description: filter statements by applying a pattern on person (fulltext search)
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/s"
+        - $ref: "#/parameters/p"
       responses:
         200:
           description: Metadata about the statements to be returned. *TODO schema has to to be discussed*                      
@@ -785,30 +585,30 @@ paths:
 #          $ref: "#/responses/Standard500ErrorResponse"
   /describe:
     get:
-      description: gives basic information about schemas used, numbers of entries and implementation of API
+      description: Gives basic information about schemas used, numbers of entries and implementation of API
              TODO *This could possibly be handled via HEAD request?* 
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /describe/statement/schema:
     get:
-      description: the schema used to describe the statements
+      description: The schema used to describe the statements
       responses:
         200:
-          description: "a URL pointing to the @context for the JSON-LD used in graph respones"
+          description: "A URL pointing to the @context for the JSON-LD used in graph respones"
           schema:
             type: string
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /describe/return/schemas:
     get:
-      description: the schemas supported by the server as return values
+      description: The schemas supported by the server as return values
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
   /describe/return/formats:
     get:
-      description: the serialisations supported by the server for return values, default is JSON
+      description: The serialisations supported by the server for return values, default is JSON
       responses:
         #200:
         ## ToDo: give an enumarted list included default
@@ -816,7 +616,7 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"
   /describe/source/schema:
     get:
-      description: the schema used to describe the source
+      description: The schema used to describe the source
       responses:
         200:
           description: "a URL pointing to the @context for the JSON-LD used in descriptions of sources"
@@ -827,17 +627,11 @@ paths:
 
 definitions:
   Factoid:
-    # FPO calls this "assertion" ?
-    description: A Factoids is a composite of one or more statements about a person extracted by somebody from a source at a specific time
+    # FPO calls this "Ássertion" ?
+    description: A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time
 #    type: object
-    type: string    
-    items:
-      required:
-        - id
-        - person
-        - source
-        - statement
-      properties:
+    # type: object    
+    properties:
         id:
           $ref: "#/definitions/id"
         person:
@@ -848,15 +642,14 @@ definitions:
           $ref: "#/definitions/Source"
         metadata:
           description: metadata describing the creation event of the factoid
-          # type: object
-          type: string
+#          type: object
           items:
             properties:
               createdBy:
                 type: string
               createdWhen:
                 type: string # date ? 
-      example:
+    example:
         - id: TW_Pez1_809_1 
           person: Andreas_Reuter
           statement: 
@@ -931,8 +724,7 @@ definitions:
               "hasName" :  
               - "@value" : "Placidus Seitz"
   Source:
-    required: 
-      - metadata
+
     properties:
       id:
         $ref: "#/definitions/id"
@@ -974,9 +766,7 @@ responses:
     schema:
       $ref: "#/definitions/Error"
   Standard500ErrorResponse:
-    description: An unexpected error occurred. I'm not sure if we need this in the API as a 500 could occur anytime and for many reasons 
-                 and should normaly not expose the reason to the public. The typical message would be something like the standard 
-                 "Internal Server Error".
+    description: An unexpected error occurred. #I'm not sure if we need this in the API as a 500 could occur anytime and for many reasons and should normaly not expose the reason to the public. The typical message would be something like the standard "Internal Server Error".
     schema:
       $ref: "#/definitions/Error"
   NotImplementedError:
@@ -1005,3 +795,48 @@ parameters:
     required: true
     type: string
     description: can be either the local id, or the uri or the uri of a owl:sameAs entry
+  sort_by:
+    name: sort_by
+    type: string
+    in: query
+    description: defines the sort order of the returned factoids. TODO does this make sense? TODO What is the default sort order? TODO Allowed values should be discussed TODO Do we need an additional order parameter? (asc, desc)?
+  p_id:
+    name: p_id
+    type: string
+    in: query
+    description: filter by person id
+  p:
+    name: p
+    type: string
+    in: query
+    description: filter by applying a pattern on persons (fulltext search)
+  st_id:
+    name: st_id
+    type: string
+    in: query
+    description: filter by statement id
+  st:
+    name: st
+    type: string
+    in: query
+    description: filter by applying a pattern on statements (fulltext search)
+  s_id:
+    name: s_id
+    type: string
+    in: query
+    description: filter by source id
+  s:
+    name: s
+    type: string
+    in: query
+    description: filter by applying a pattern on sources (fulltext search)
+  f:
+    name: f
+    type: string
+    in: query
+    description: filter by applying a pattern on factoid (fulltext search)
+  f_id:
+    name: f_id
+    type: string
+    in: query
+    description: filter by factoid id
