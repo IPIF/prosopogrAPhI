@@ -8,6 +8,22 @@ Initiated by Georg Vogeler (Graz University, georg.vogler@uni-graz.at), but deve
 * Gunter Vasold (Univ. Graz)
 * Thomas Wallnig (Univ. Vienna)
 * Rainer Simon (AIT Vienna)
+* Miguel Vieira (King's Digital Lab London)
+* John Bradley (London)
+* Francesco Beretta (LARHRA, Lyon)
+* Stefan Eichert (ÖAW Vienna)
+* Daniel Jeller (ICARus Vienna)
+* Bärbel Kröger (Germania Sacra, Göttingen)
+* Christian Popp (Germania Sacra, Göttingen)
+* Dagmar Mrozik
+* James Kelly (University of Durham)
+* Nada Zečević
+* Ekaterini Mitsiou (Univ. Vienna)
+* P. Alkuin Schachenmayr OCist (Stift Heiligenkreuz)
+* Stephan Makowksi (CCeH Köln)
+* Hedvika Kuchařová, Jana Borovičková (Prague)
+* Irene Rabl
+* Katja Almberger
 * (tbc)
 
 Started in 2016
