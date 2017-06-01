@@ -5,6 +5,7 @@ With "factoid" model we refer to Bradley/Short 2005.
 See for an ontology of the factoid model: https://github.com/johnBradley501/FPO
 
 Initiated by Georg Vogeler (Graz University, georg.vogler@uni-graz.at), but developed by the collective intelligence of the following bunch of people:
+
 * Gunter Vasold (Univ. Graz)
 * Thomas Wallnig (Univ. Vienna)
 * Rainer Simon (AIT Vienna)
