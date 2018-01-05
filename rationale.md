@@ -5,8 +5,8 @@ first draft - Georg Vogeler, 22.12.2016
 ### biographical lexicon
 I'm working on a biographical lexicon. I would be so happy to have all source reference to a person aggregated with one click, which I could easily put as references into my descriptive text of the biography.
 
-### Carreers
-I'm studying carreers of a group of persons. I would be so happy to get a data matrix in which for each person the steps of their carreer would listed according to a well crafted and well documented taxonomy with the dates of these steps. (Yes, I know these dates can be time ranges, single dates for transitions from one 'grade' to the other, termini a quo and ante quem etc. etc.
+### Careers
+I'm studying careers of a group of persons. I would be so happy to get a data matrix in which for each person the steps of their carreer would listed according to a well crafted and well documented taxonomy with the dates of these steps. (Yes, I know these dates can be time ranges, single dates for transitions from one 'grade' to the other, termini a quo and ante quem etc. etc.
 
 ### Source editing
 I'm working with primary sources in which a person is mentioned or for which a person has an important role (author, sender of a letter etc.). I want to offer the information provided in the source for others to be reused in their prosopographical research (and would be happy to create automatically an index of persons named in my soure integrating the information from other sources.) I am willing to refer to a well crafted and well documented taxonomy for the events and/or activities mentioned in my source text and the role of the person in this event/activity.
