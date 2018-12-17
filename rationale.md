@@ -2,11 +2,11 @@
 first draft - Georg Vogeler, 22.12.2016
 
 ## Use cases
-### biographical lexicon
+### Biographical Lexicon
 I'm working on a biographical lexicon. I would be so happy to have all source reference to a person aggregated with one click, which I could easily put as references into my descriptive text of the biography.
 
-### Careers
-I'm studying careers of a group of persons. I would be so happy to get a data matrix in which for each person the steps of their carreer would listed according to a well crafted and well documented taxonomy with the dates of these steps. (Yes, I know these dates can be time ranges, single dates for transitions from one 'grade' to the other, termini a quo and ante quem etc. etc.
+### Carreers
+I'm studying carreers of a group of persons. I would be so happy to get a data matrix which lists for each person the steps of their carreer according to a well crafted and well documented taxonomy with the dates of these steps. (Yes, I know these dates can be time ranges, single dates for transitions from one 'grade' to the other, termini a quo and ante quem etc. etc.)
 
 ### Source editing
 I'm working with primary sources in which a person is mentioned or for which a person has an important role (author, sender of a letter etc.). I want to offer the information provided in the source for others to be reused in their prosopographical research (and would be happy to create automatically an index of persons named in my soure integrating the information from other sources.) I am willing to refer to a well crafted and well documented taxonomy for the events and/or activities mentioned in my source text and the role of the person in this event/activity.
@@ -30,7 +30,7 @@ I'm a wizard in visualisation, a nerd in network analysis, a sage of statistics,
 I am a non technical humanist creating prosopographical data ("a person database"). I would be happy to use the database server from somebody else (e.g. a common repository) and the easiest to use data capture tool (with fancy autosuggestion, automatic check of existing data etc. etc.).
 
 ### Tool builder
-I am a developer building tools for digital humanists. I want my tools to integrate prosopographical data from multiple sources. For example, I would like my tools to offer a "disambiguation dropdown" where possible person matches for a givenn name are provided, with enough (and compact, human-readable) information to make a decision. From a technical perspective, I would like to be able to obtain - as alternative to accessing the API "live" - dumps of the entire dataset, containing at least a subset of the data (enough information to drive the disambiguation interface).
+I am a developer building tools for digital humanists. I want my tools to integrate prosopographical data from multiple sources. For example, I would like my tools to offer a "disambiguation dropdown" where possible person matches for a given name are provided, with enough (and compact, human-readable) information to make a decision. From a technical perspective, I would like to be able to obtain - as alternative to accessing the API "live" - dumps of the entire dataset, containing at least a subset of the data (enough information to drive the disambiguation interface).
 
 ## Basic considerations for paths
 The data can be accessed via the four major components (objects) of the factoid model:

@@ -5,7 +5,9 @@ info:
   title: prosopogrAPhI
   description: basic prosopographical data API
   # contact: georg.vogeler@uni-graz.at
-  # licence 
+  license:
+    name: CC-BY-SA 4.0
+    url: https://creativecommons.org/licenses/by-sa/4.0/
 
 schemes:
   - https
@@ -14,7 +16,7 @@ schemes:
 #basePath: /prosopographi/api.0.1
 host: localhost
 basePath: /
-produces:
+produces: # any possibility to describe which of them is default? 
   - application/json
   - text/xml
   
@@ -52,7 +54,7 @@ paths:
     head:
       summary: Gets metadata about factoids
       description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of factoids etc.
-                   TODO *I'm not sure if we really need this and what metadata will be useful beside the totel number of
+                   TODO *I'm not sure if we really need this and what metadata will be useful beside the total number of
                    available factoids*
                    TODO *Possibly this could replace the describe uris?*
       parameters:
@@ -605,14 +607,15 @@ paths:
       responses:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
-  /describe/return/formats:
-    get:
-      description: The serialisations supported by the server for return values, default is JSON
-      responses:
-        #200:
-        ## ToDo: give an enumarted list included default
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
+#  /describe/return/formats:
+#    get:
+#      description: The serialisations supported by the server for return values, default is JSON
+#      responses:
+#        #200:
+#        ## ToDo: give an enumarted list included default
+#        # covered already by "produces:"
+#        500:
+#          $ref: "#/responses/Standard500ErrorResponse"
   /describe/source/schema:
     get:
       description: The schema used to describe the source
@@ -626,7 +629,7 @@ paths:
 
 definitions:
   Factoid:
-    # FPO calls this "Ássertion" ?
+    # FPO calls this "Assertion" ?
     description: A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time
 #    type: object
     type: string    
@@ -706,16 +709,15 @@ definitions:
           http://d-nb.info/gnd/10102407X
           https://viaf.org/viaf/5285530/
   Statement:
-    # FPO calls this factoid?
     properties:
       id:
         $ref: "#/definitions/id"
       text:
         type: string
       graph:
-        description: "The object describing representing the statement as a graph follwos these rules: 
+        description: "The object representing the statement as a graph follows these rules: 
           1. Every path possible in the graph has to be linked to the person described by the factoid via steps explicitly expressed in the graph.
-          2. All types and properties used in the graph can be mapped to a superclass taken from the CIDOC-CRM. These relationships are formaly described as a schema which can be accessed via the /describe/statement/schema path of the API."
+          2. All types and properties used in the graph can be mapped to a superclass or superproperty taken from the CIDOC-CRM. These relationships are formaly described as a schema which can be accessed via the /describe/statement/schema path of the API."
         # type: object
         type: string
     example:
