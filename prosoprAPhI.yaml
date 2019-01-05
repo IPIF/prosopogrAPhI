@@ -40,6 +40,7 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
+        - $ref: "#/parameters/format"
       responses:
         200:
           description: A list of Factoids
@@ -328,6 +329,7 @@ paths:
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
+        - $ref: "#/parameters/format"
       responses:
         200:
           description: Successfull response
@@ -358,6 +360,7 @@ paths:
         - $ref: "#/parameters/st_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
+        - $ref: "#/parameters/format"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
@@ -459,6 +462,7 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
+        - $ref: "#/parameters/format"
       responses:
         200:
           description: Successfull response
@@ -490,6 +494,7 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/p"
+        - $ref: "#/parameters/format"
       responses:
         200:
           description: Metadata about the statements to be returned. *TODO schema has to to be discussed*                      
@@ -703,7 +708,7 @@ definitions:
         $ref: "#/definitions/sameAs"
     example:
       - id: Andreas_Reuter
-      - uri: "http://pezdigital/persons#Mauro_Aspini"
+      - uri: "http://pez-digital.at/persons#Mauro_Aspini"
       - id: Placidus_Seiz
         sameAs: 
           http://d-nb.info/gnd/10102407X
@@ -849,3 +854,15 @@ parameters:
     type: string
     in: query
     description: filter by factoid id
+  format:
+    name: format
+    type: string
+    in: query
+    description: format of data returned (serialisation and/or vocabulary)
+    schema:
+        type: string
+        default: json
+        enum:
+            - xml
+            - json
+            - json/cidoc-crm
