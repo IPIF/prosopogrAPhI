@@ -663,6 +663,8 @@ definitions:
                 type: string
               createdWhen:
                 type: string # date ? 
+              wasDerivedFrom:
+                type: string #URI?
       example:
         - id: TW_Pez1_809_1 
           person: Andreas_Reuter
