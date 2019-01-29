@@ -17,8 +17,8 @@ schemes:
 host: localhost
 basePath: /
 produces: # any possibility to describe which of them is default? 
-  - application/json
-  - text/xml
+  - application/json #this is default
+  #- text/xml
   
 paths:
 
@@ -40,6 +40,7 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
+        - $ref: "#/parameters/type"
         - $ref: "#/parameters/format"
       responses:
         200:
@@ -329,7 +330,7 @@ paths:
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/format"
+        - $ref: "#/parameters/type"
       responses:
         200:
           description: Successfull response
@@ -360,7 +361,7 @@ paths:
         - $ref: "#/parameters/st_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/format"
+        - $ref: "#/parameters/type"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
@@ -462,7 +463,7 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/format"
+        - $ref: "#/parameters/type"
       responses:
         200:
           description: Successfull response
@@ -494,7 +495,7 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/format"
+        - $ref: "#/parameters/type"
       responses:
         200:
           description: Metadata about the statements to be returned. *TODO schema has to to be discussed*                      
@@ -614,7 +615,7 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"
 #  /describe/return/formats:
 #    get:
-#      description: The serialisations supported by the server for return values, default is JSON
+#      description: The vocabularies supported by the server for return values, default is JSON
 #      responses:
 #        #200:
 #        ## ToDo: give an enumarted list included default
@@ -634,8 +635,8 @@ paths:
 
 definitions:
   Factoid:
-    # FPO calls this "Assertion" ?
-    description: A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time
+    # FPO calls this "Assertion"
+    description: A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time.
 #    type: object
     type: string    
     items:
@@ -699,6 +700,22 @@ definitions:
           metadata:
             createdBy: Thomas Wallnig
             createdWhen: 2007-04-16
+        - id: Fd2qwr #####
+          person: ####
+          source: ####
+          statementment:
+            - restricted:
+                - name: 
+                    - pref: ####
+                - event:
+                    - uri: ####
+                    - type: ###
+                    - when: ####
+            - restricted:
+                - identifier: ####
+                - relation:
+                    - target: ####
+                    - type: ####
   Person:
     description: A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.
     properties:
@@ -752,6 +769,7 @@ definitions:
         description: a verbal or formal bibliographical/archival description of the source
         type: string
         # Allow string or structured metadata
+        # define methods to relate single source locus with a description of a source work (e.g. tei:locus, partOf, occursIn or similar
     example:
       - id: PezNachlassVol1
         sameAs: https://e-book.fwf.ac.at/o:370
@@ -856,15 +874,27 @@ parameters:
     type: string
     in: query
     description: filter by factoid id
-  format:
-    name: format
+  type:
+    name: type
     type: string
     in: query
-    description: format of data returned (serialisation and/or vocabulary)
+    description: MIME-type of data returned (serialisation)
     schema:
         type: string
         default: json
         enum:
             - xml
             - json
-            - json/cidoc-crm
+  format:
+    name: format
+    in: query
+    description: descriptive deepness of the data returned, can be either a plain text ("text"), a structured JSON-LD ("graph") or a JSON-LD restricted to a generic subset as described in http://prosopography.org/schemas/context.json-ld ("restricted"). This defines as possible returns: Name:{pref[1], alt}, Identifier:{uri:*[+]}, Event:{uri[1], type, when[1]}, Relation:{uri:target[1], type}. The "graph" is a generic JSON-LD object which can use a local vocabulary but should describe this vocabulary in relationship to the CIDOC-CRM. This description in a JSON-LD context can be partial. In "text" the user should not expect any structure, although it is not excluded to use it for delivering data in a syntax foreign to the current MIME-Type (e.g. BibTex)
+    enum:
+        - restricted 
+        - graph  
+        - text 
+        # Future formats could be:
+        #- TEI
+        #- json/cidoc-crm # representation of graph-data as CIDOC-CRM.rdfs URIs in JSON
+        #- text/beacon # representation of alternative IDs to a person queried following the beacon-specifications https://gbv.github.io/beaconspec
+        
