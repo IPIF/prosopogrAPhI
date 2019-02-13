@@ -40,8 +40,8 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/type"
-        - $ref: "#/parameters/format"
+        - $ref: "#/parameters/mime_type"
+        - $ref: "#/parameters/datastructure"
       responses:
         200:
           description: A list of Factoids
@@ -330,7 +330,7 @@ paths:
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/type"
+        - $ref: "#/parameters/mime_type"
       responses:
         200:
           description: Successfull response
@@ -361,7 +361,7 @@ paths:
         - $ref: "#/parameters/st_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/type"
+        - $ref: "#/parameters/mime_type"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
@@ -463,7 +463,7 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/type"
+        - $ref: "#/parameters/mime_type"
       responses:
         200:
           description: Successfull response
@@ -495,7 +495,7 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/type"
+        - $ref: "#/parameters/mime_type"
       responses:
         200:
           description: Metadata about the statements to be returned. *TODO schema has to to be discussed*                      
@@ -874,25 +874,26 @@ parameters:
     type: string
     in: query
     description: filter by factoid id
-  type:
+  mime_type:
     name: type
     type: string
     in: query
     description: MIME-type of data returned (serialisation)
-    schema:
-        type: string
-        default: json
-        enum:
-            - xml
-            - json
-  format:
+    #schema:
+    #    type: string
+    #    default: json
+    #    enum:
+    #        - xml
+    #        - json
+  datastructure:
     name: format
     in: query
+    type: string
     description: "descriptive deepness of the data returned, can be either a plain text ('text'), a structured JSON-LD ('graph') or a JSON-LD restricted to a generic subset as described in http://prosopography.org/schemas/context.json-ld ('restricted'). This defines as possible returns: Name:{pref[1], alt}, Identifier:{uri:*[+]}, Event:{uri[1], type, when[1]}, Relation:{uri:target[1], type}. The 'graph' is a generic JSON-LD object which can use a local vocabulary but should describe this vocabulary in relationship to the CIDOC-CRM. This description in a JSON-LD context can be partial. In 'text' the user should not expect any structure, although it is not excluded to use it for delivering data in a syntax foreign to the current MIME-Type (e.g. BibTex)"
-    enum:
-        - restricted 
-        - graph  
-        - text 
+    #enum:
+    #    - restricted 
+    #    - graph  
+    #    - text 
         # Future formats could be:
         #- TEI
         #- json/cidoc-crm # representation of graph-data as CIDOC-CRM.rdfs URIs in JSON
