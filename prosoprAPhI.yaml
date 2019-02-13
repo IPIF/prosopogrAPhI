@@ -391,7 +391,7 @@ paths:
           $ref: "#/responses/NotImplementedError"
 
           
-  /source/{id}:
+  /sources/{id}:
     get:
       summary: gets the source with the {id}
       parameters:
@@ -525,7 +525,7 @@ paths:
           $ref: "#/responses/NotImplementedError"
 
           
-  /statement/{id}:
+  /statements/{id}:
     get:
       summary: gets the statement with the {id}
       parameters:
