@@ -888,7 +888,7 @@ parameters:
   format:
     name: format
     in: query
-    description: descriptive deepness of the data returned, can be either a plain text ("text"), a structured JSON-LD ("graph") or a JSON-LD restricted to a generic subset as described in http://prosopography.org/schemas/context.json-ld ("restricted"). This defines as possible returns: Name:{pref[1], alt}, Identifier:{uri:*[+]}, Event:{uri[1], type, when[1]}, Relation:{uri:target[1], type}. The "graph" is a generic JSON-LD object which can use a local vocabulary but should describe this vocabulary in relationship to the CIDOC-CRM. This description in a JSON-LD context can be partial. In "text" the user should not expect any structure, although it is not excluded to use it for delivering data in a syntax foreign to the current MIME-Type (e.g. BibTex)
+    description: "descriptive deepness of the data returned, can be either a plain text ('text'), a structured JSON-LD ('graph') or a JSON-LD restricted to a generic subset as described in http://prosopography.org/schemas/context.json-ld ('restricted'). This defines as possible returns: Name:{pref[1], alt}, Identifier:{uri:*[+]}, Event:{uri[1], type, when[1]}, Relation:{uri:target[1], type}. The 'graph' is a generic JSON-LD object which can use a local vocabulary but should describe this vocabulary in relationship to the CIDOC-CRM. This description in a JSON-LD context can be partial. In 'text' the user should not expect any structure, although it is not excluded to use it for delivering data in a syntax foreign to the current MIME-Type (e.g. BibTex)"
     enum:
         - restricted 
         - graph  
