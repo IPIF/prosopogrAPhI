@@ -738,12 +738,17 @@ definitions:
         $ref: "#/definitions/id"
       text:
         type: string
+        description: "In 'text' the consumer should not expect any structure, although it is not excluded to use it for delivering data in a syntax foreign to the current MIME-Type (e.g. BibTex)."
       graph:
         description: "The object representing the statement as a graph follows these rules: 
           1. Every path possible in the graph has to be linked to the person described by the factoid via steps explicitly expressed in the graph.
           2. All types and properties used in the graph can be mapped to a superclass or superproperty taken from the CIDOC-CRM. These relationships are formaly described as a schema which can be accessed via the /describe/statement/schema path of the API."
         # type: object
         type: string
+      restricted:
+        #type: string
+        description: "Returns a JSON-LD object restricted to a generic subset as described in http://prosopography.org/schemas/context.json-ld ('restricted'). This defines as possible returns: Name:{pref[1], alt}, Identifier:{uri:*[+]}, Event:{uri[1], type, when[1]}, Relation:{uri:target[1], type}."
+        #Name:{pref[1], alt}, Identifier:{uri:*[+]}, Event:{uri[1], type, when[1]}, Relation:{uri:target[1], type}.
     example:
       - id: Pez1_809_1
         text: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
