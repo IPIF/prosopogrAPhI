@@ -1,7 +1,7 @@
 swagger: "2.0"
 
 info:
-  version: 0.1.0
+  version: 0.2.0
   title: prosopogrAPhI
   description: basic prosopographical data API
   # contact: georg.vogeler@uni-graz.at
@@ -15,7 +15,7 @@ schemes:
 #host: www.cei.lmu.de
 #basePath: /prosopographi/api.0.1
 host: localhost
-basePath: /
+basePath: /api/
 produces: # any possibility to describe which of them is default? 
   - application/json #this is default
   #- text/xml
@@ -25,14 +25,14 @@ paths:
   /factoids:
     get:
       summary: Gets factoids
-      description: Gets an array of `Factoid` objects. 
+      description: "Gets an array of `Factoid` objects. 
                    The number of array members returned with each response is restricted by the **size** parameter. 
                    Factoids can be filtered by setting additional parameters like **p_id** or **p**. TODO Further 
                    parameters for filtering have to be specified.
+                   Factoids are sorted by default by date of create time."
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
         - $ref: "#/parameters/p_id"
         - $ref: "#/parameters/p"
         - $ref: "#/parameters/st_id"
@@ -40,8 +40,7 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/mime_type"
-#        - $ref: "#/parameters/datastructure"
+        - $ref: "#/parameters/eventType"
       responses:
         200:
           description: A list of Factoids
@@ -75,7 +74,7 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"          
     post:
       # ToDo: Authentication!
-      summary: creates a factoid
+      summary: "creates a factoid. No Factoid can be created without references to a person, a source, and at least one statement
       parameters:
         - name: factoid
           in: body
@@ -169,11 +168,6 @@ paths:
 #          
           
           
-  # ToDo: Which subpaths do we need, e.g.
-  #  getting only the person, statement, source of factoid to enhance walk through?
-  #  sort order? maybe as path
-  
-  
   /persons:
     get:
       summary: Get persons
@@ -330,7 +324,6 @@ paths:
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/mime_type"
       responses:
         200:
           description: Successfull response
@@ -361,7 +354,6 @@ paths:
         - $ref: "#/parameters/st_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/mime_type"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
@@ -463,7 +455,12 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/mime_type"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/place"
+        - $ref: "#/parameters/eventType"
+        - $ref: "#/parameters/name"
       responses:
         200:
           description: Successfull response
@@ -495,7 +492,6 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/mime_type"
       responses:
         200:
           description: Metadata about the statements to be returned. *TODO schema has to to be discussed*                      
@@ -573,50 +569,6 @@ paths:
 #        501:
 #          $ref: "#/responses/NotImplementedError"        
 
-  /events/{id}:
-    get:
-      summary: gets the temporal statement with the {id}
-      parameters:
-        - $ref: "#/parameters/id"
-      responses:
-        200:
-          description: a statement object
-          schema:
-            $ref: "#/definitions/Event"
-        404:
-          description: the statement does not exist
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
-
-  /relations/{id}:
-    get:
-      summary: gets the statement of type relationship with the {id}
-      parameters:
-        - $ref: "#/parameters/id"
-      responses:
-        200:
-          description: a statement object
-          schema:
-            #$ref: "#/definitions/Relation"
-            type: object
-            description: "relationship to another person"
-            properties:
-              targeturi:
-                type: string
-                format: uri
-                description: "uri of a person"
-                ##source URI
-              relationtypelabel:
-                type: string
-                description: "descriptive text to the content of the resource identified by the URI. We can imagine this to be a short type name or more verbose description."
-        #Name:{pref[1], alt}, Identifier:{uri:*[+]}, Event:{uri[1], type, when[1]}, Relation:{uri:target[1], type}.
-        404:
-          description: the statement does not exist
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
-
-
-
 # Gunv search is handled via query parameter          
 #  /sources/search:
 #    #Do we need a "search" path, or can we replace it by ?q-Parameter?
@@ -633,29 +585,30 @@ paths:
 #      responses:
 #        500:
 #          $ref: "#/responses/Standard500ErrorResponse"
-  /describe:
-    get:
-      description: Gives basic information about schemas used, numbers of entries and implementation of API
-             TODO *This could possibly be handled via HEAD request?* 
-      responses:
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
-  /describe/statement/schema:
-    get:
-      description: The schema used to describe the statements
-      responses:
-        200:
-          description: "A URL pointing to the @context for the JSON-LD used in graph respones"
-          schema:
-            type: string
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
-  /describe/return/schemas:
-    get:
-      description: The schemas supported by the server as return values
-      responses:
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
+
+#  /describe:
+#    get:
+#      description: Gives basic information about schemas used, numbers of entries and implementation of API
+#             TODO *This could possibly be handled via HEAD request?* 
+#      responses:
+#        500:
+#         $ref: "#/responses/Standard500ErrorResponse"
+#  /describe/statement/schema:
+#    get:
+#      description: The schema used to describe the statements
+#      responses:
+#        200:
+#          description: "A URL pointing to the @context for the JSON-LD used in graph respones"
+#          schema:
+#            type: string
+#        500:
+#          $ref: "#/responses/Standard500ErrorResponse"
+#  /describe/return/schemas:
+#    get:
+#      description: The schemas supported by the server as return values
+#      responses:
+#        500:
+#          $ref: "#/responses/Standard500ErrorResponse"
 #  /describe/return/formats:
 #    get:
 #      description: The vocabularies supported by the server for return values, default is JSON
@@ -665,16 +618,16 @@ paths:
 #        # covered already by "produces:"
 #        500:
 #          $ref: "#/responses/Standard500ErrorResponse"
-  /describe/source/schema:
-    get:
-      description: The schema used to describe the source
-      responses:
-        200:
-          description: "a URL pointing to the @context for the JSON-LD used in descriptions of sources"
-          schema:
-            type: string
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
+#  /describe/source/schema:
+#    get:
+#      description: The schema used to describe the source
+#      responses:
+#        200:
+#          description: "a URL pointing to the @context for the JSON-LD used in descriptions of sources"
+#          schema:
+#            type: string
+#        500:
+#          $ref: "#/responses/Standard500ErrorResponse"
 
 definitions:
   Factoid:
@@ -702,14 +655,25 @@ definitions:
           # type: object
           type: string
           items:
+            required:
+              - createdBy
+              - createdWhen
+              - modifiedBy
+              - modifiedWhen
             properties:
               createdBy:
                 type: string
               createdWhen:
                 type: string 
                 format: date
+              modifiedBy:
+                type: string
+              modifiedWhen:
+                type: string
+                format: date
               wasDerivedFrom:
-                type: string #URI?
+                type: string 
+                format: uri
       example:
         - id: TW_Pez1_809_1 
           person: Andreas_Reuter
@@ -748,18 +712,12 @@ definitions:
           person: ####
           source: ####
           statementment:
-            - restricted:
-                - name: 
-                    - pref: ####
-                - event:
-                    - uri: ####
-                    - type: ###
-                    - when: ####
-            - restricted:
-                - identifier: ####
-                - relation:
-                    - target: ####
-                    - type: ####
+          - name: 
+              - pref: ####
+          - event:
+              - uri: ####
+              - type: ###
+              - when: ####
   Person:
     description: A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.
     properties:
@@ -769,6 +727,8 @@ definitions:
         $ref: "#/definitions/uri"
       sameAs:
         $ref: "#/definitions/sameAs"
+      createdBy:
+        $ref: "#/definitions/createdBy"
     example:
       - id: Andreas_Reuter
       - uri: "http://pez-digital.at/persons#Mauro_Aspini"
@@ -777,38 +737,10 @@ definitions:
           http://d-nb.info/gnd/10102407X
           https://viaf.org/viaf/5285530/
   Statement:
-    required:
-    - id
-    properties:
-#      id:
-#        $ref: "#/definitions/id"
-#      text:
-#        type: string
-#        description: "In 'text' the consumer should not expect any structure, although it is not excluded to use it for delivering data in a syntax foreign to the current MIME-Type (e.g. BibTex)."
-#      graph:
-#        description: "The object representing the statement as a graph follows these rules: 
-#          1. Every path possible in the graph has to be linked to the person described by the factoid via steps explicitly expressed in the graph.
-#          2. All types and properties used in the graph can be mapped to a superclass or superproperty taken from the CIDOC-CRM. These relationships are formaly described as a schema which can be accessed via the /describe/statement/schema path of the API."
-#        #type: object
-#        type: string
-#        format: URI
-    example:
-      - id: Pez1_809_1
-        text: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
-      - graph:
-          - "@context" : "http://pez-digital.at/prosopography-schema.json-ld"
-            "@graph": 
-            - "@id" : "http://pez-digital.at/Lindner-Album_Ettalense253f"
-              "assignedTo" : 
-              - "@id" : "http://pez-digital.at/placidus_Seiz"
-              "hasName" :  
-              - "@value" : "Placidus Seitz"
-  Event:
     type: object
     required:
       - id
       - uri
-      - sortdate
     properties:
       id:
         $ref: "#/definitions/id"
@@ -816,6 +748,9 @@ definitions:
         type: string
         format: uri
         description: "A fully dereferencably URI. The API recommends to serve requests for serialisations of W3C RDF."
+      name:
+        type: string
+        description: "any verbal identification of a person"
       date:
         type: object
         properties:
@@ -844,7 +779,7 @@ definitions:
           label:
             type: string
             description: "reference to geo referenceable object (e.g. single place)"
-      lrelatesToPerson:
+      relatesToPerson:
         type: object
         properties:
           uri:
@@ -885,6 +820,20 @@ definitions:
   sameAs:
     description: the uri of an object (factoid, person, source, statement) referenced with owl:sameAs
     type: string
+  createdBy:
+    description: ""
+    type: string
+  createdWhen:
+    description: ""
+    type: string
+    format: date
+  modifiedBy:
+    description: ""
+    type: string
+  modifiedWhen:
+    description: ""
+    type: string
+    format: date
   Error:
     properties:
       code:
@@ -930,7 +879,7 @@ parameters:
     name: sort_by
     type: string
     in: query
-    description: defines the sort order of the returned factoids. TODO does this make sense? TODO What is the default sort order? TODO Allowed values should be discussed TODO Do we need an additional order parameter? (asc, desc)?
+    description: "defines the sort order of the returned factoids, can contain all properties of the ressource searched. ## ASC/DESC"
   p_id:
     name: p_id
     type: string
@@ -971,29 +920,58 @@ parameters:
     type: string
     in: query
     description: filter by factoid id
-  mime_type:
-    name: type
+  from:
+    name: from
     type: string
     in: query
-    description: MIME-type of data returned (serialisation)
-    #schema:
-    #    type: string
-    #    default: json
-    #    enum:
-    #        - xml
-    #        - json
-  
-#  datastructure:
-#    name: format
-#    in: query
-#    type: string
-#    description: "descriptive deepness of the data returned, can be either a plain text ('text'), a structured JSON-LD ('graph') or a JSON-LD restricted to a generic subset as described in http://prosopography.org/schemas/context.json-ld ('restricted'). This defines as possible returns: Name:{pref[1], alt}, Identifier:{uri:*[+]}, Event:{uri[1], type, when[1]}, Relation:{uri:target[1], type}. The 'graph' is a generic JSON-LD object which can use a local vocabulary but should describe this vocabulary in relationship to the CIDOC-CRM. This description in a JSON-LD context can be partial. In 'text' the user should not expect any structure, although it is not excluded to use it for delivering data in a syntax foreign to the current MIME-Type (e.g. BibTex)"
-    #enum:
-    #    - restricted 
-    #    - graph  
-    #    - text 
-        # Future formats could be:
-        #- TEI
-        #- json/cidoc-crm # representation of graph-data as CIDOC-CRM.rdfs URIs in JSON
-        #- text/beacon # representation of alternative IDs to a person queried following the beacon-specifications https://gbv.github.io/beaconspec
-        
+    description: ""
+  to:
+    name: to
+    type: string
+    in: query
+    description: ""
+  eventType:
+    name: statementType
+    type: string
+    in: query
+    description: "could be URI or label"
+  place:
+    name: place
+    type: string
+    in: query
+    description: "could be URI or label"
+  relatesToPerson:
+    name: relatestToPerson
+    type: string
+    in: query
+    description: "could be URI or label"
+  name:
+    name: name
+    type: string
+    in: query
+    description: "names of a person"
+  createdBefore:
+    name: createdBefore
+    type: string
+    in: query
+  createdAfter:
+    name: createdAfter
+    type: string
+    in: query
+  createdBy:
+    name: createdBy
+    type: string
+    in: query
+  modifiedBefore:
+    name: createdBefore
+    type: string
+    in: query
+  modifiedAfter:
+    name: createdAfter
+    type: string
+    in: query
+  modifiedBy:
+    name: createdBy
+    type: string
+    in: query
+    description: "list of persons comma seperated"
