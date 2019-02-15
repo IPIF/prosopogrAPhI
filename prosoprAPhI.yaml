@@ -679,7 +679,7 @@ definitions:
           person: Andreas_Reuter
           statement: 
             - id: Pez1_809_1
-              text: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
+              eventType: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
           source: PezNachlassVol1
           metadata:
             createdBy: Thomas Wallnig
@@ -687,8 +687,8 @@ definitions:
         - id: TW_Pez1_123456
           person: Placidus_Seiz
           statement: 
-            - id: "Pez#474-7"
-              text: "... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ..."
+            - id: Pez#474-7,
+              eventType: ... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...
           source: "Pez#474"
           metadata:
             createdBy: Thomas Wallnig
@@ -696,28 +696,48 @@ definitions:
         - id: TW_Pez1_123456
           person: Placidus_Seiz
           statement: 
-            - graph:
-              - "@context" : "http://pez-digital.at/prosopography-schema.json-ld"
-                "@graph": 
-                  - "@id" : "http://pez-digital.at/Lindner-Album_Ettalense253f"
-                    "assignedTo" : 
-                      - "@id" : "http://pez-digital.at/placidus_Seiz"
-                    "hasName" :  
-                      - "@value" : "Placidus Seitz"
+            #- graph:
+            #  - "@context" : "http://pez-digital.at/prosopography-schema.json-ld"
+            #    "@graph": 
+            #      - "@id" : "http://pez-digital.at/Lindner-Album_Ettalense253f"
+            #        "assignedTo" : 
+            #          - "@id" : "http://pez-digital.at/placidus_Seiz"
+            #        "hasName" :  
+            #          - "@value" : "Placidus Seitz"
+            name: Placidus Seitz
+            uri: http://pez-digital.at/placidus_Seiz
           source: "Lindner-Album_Ettalense253f."
           metadata:
             createdBy: Thomas Wallnig
             createdWhen: 2007-04-16
-        - id: Fd2qwr #####
-          person: ####
-          source: ####
-          statementment:
-          - name: 
-              - pref: ####
-          - event:
-              - uri: ####
-              - type: ###
-              - when: ####
+        - id: Fd2qwr
+          person: Andreas_Reuter
+          statement: 
+            - id: Fd2qwr
+              date: 
+                sortdate: 1648-01-01
+                label: ca. 1648
+              eventType:
+                label: Geburt
+              place: 
+                label: Kremsmünster
+            - id: Pez1_809_1
+              eventType: 
+                label: Death
+              date:
+                sortdate: 1715-12-31
+                label: 1715
+              place:
+                label: Gleink
+            - id: Pez1_809_2
+              eventType:
+                label: Konventuale
+              place:
+                label: Gleink
+          source: PezNachlassVol1
+          metadata:
+            createdBy: Thomas Wallnig
+            createdWhen: 2010
   Person:
     description: A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.
     properties:
@@ -787,6 +807,10 @@ definitions:
             format: uri
           label:
             type: string
+#    examples:
+#Reuter        
+#Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
+
   Source:
     required: 
       - metadata
