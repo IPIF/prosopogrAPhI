@@ -12,8 +12,6 @@ info:
 schemes:
   - https
   - http
-#host: www.cei.lmu.de
-#basePath: /prosopographi/api.0.1
 host: localhost
 basePath: /api/
 produces: # any possibility to describe which of them is default? 
@@ -41,6 +39,11 @@ paths:
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/eventType"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: A list of Factoids
@@ -54,10 +57,7 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"
     head:
       summary: Gets metadata about factoids
-      description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of factoids etc.
-                   TODO *I'm not sure if we really need this and what metadata will be useful beside the total number of
-                   available factoids*
-                   TODO *Possibly this could replace the describe uris?*
+      description: Using the same filtering parameters as GET, it does not return any results, but metadata like the number of factoids etc.
       parameters:
         - $ref: "#/parameters/p_id"
         - $ref: "#/parameters/p"
@@ -73,7 +73,6 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"          
     post:
-      # ToDo: Authentication!
       summary: "creates a factoid. No Factoid can be created without references to a person, a source, and at least one statement
       parameters:
         - name: factoid
@@ -134,7 +133,6 @@ paths:
 #        501:
 #          $ref: "#/responses/NotImplementedError"
     put:
-      # ToDo: Authentication!
       summary: updates the factoid with the {id}
       parameters:
         - $ref: "#/parameters/id"      
@@ -186,6 +184,12 @@ paths:
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
+        - $ref: "#/parameters/eventType"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Successfull response
@@ -324,6 +328,12 @@ paths:
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
+        - $ref: "#/parameters/eventType"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Successfull response
@@ -455,12 +465,12 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
+        - $ref: "#/parameters/eventType"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/name"
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
-        - $ref: "#/parameters/relatesToPerson"
         - $ref: "#/parameters/place"
-        - $ref: "#/parameters/eventType"
-        - $ref: "#/parameters/name"
       responses:
         200:
           description: Successfull response
@@ -683,7 +693,7 @@ definitions:
           source: PezNachlassVol1
           metadata:
             createdBy: Thomas Wallnig
-            createdWhen: 2010
+            createdWhen: 2010-05-05
         - id: TW_Pez1_123456
           person: Placidus_Seiz
           statement: 
@@ -734,10 +744,51 @@ definitions:
                 label: Konventuale
               place:
                 label: Gleink
+            - id: Pez1_809_3
+              eventType: 
+                label: Doktor der Theologie
+            - id: Pez1_809_4
+              eventType: 
+                label: apostolischer Protonotar
+            - id: Pez1_809_5
+              eventType: 
+                label: Ökonom des Klosters
+              place: 
+                label: Gleink
+            - id: Pez1_809_6
+              eventType: 
+                label: Prior
+              place: 
+                label: Gleink
+            - id: Pez1_809_7
+              eventType: 
+                label: Prior (belegt als)
+              place: 
+                label: Gleink
+              date:
+                sortdate: 1708-01-01
+            - id: Pez1_809_7
+              eventType: 
+                label: Unterzeichner der Rotel auf Abt Rupert von Kimpflern 
+              place: 
+                label: Gleink
+              date:
+                sortdate: 1708-01-01
+                label: 1708
+              relatesToPerson:
+                label: Abt Rupert von Kimpflern
+            - id: Pez1_809_8
+              eventType: 
+                label: Brief an Bernhard Pez 
+              date:
+                sortdate: 1710-01-01
+                label: 1710
+              relatesToPerson:
+                label: Bernhard Pez
           source: PezNachlassVol1
           metadata:
             createdBy: Thomas Wallnig
-            createdWhen: 2010
+            createdWhen: 2010-05-05
   Person:
     description: A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.
     properties:
@@ -807,6 +858,7 @@ definitions:
             format: uri
           label:
             type: string
+            description: a human readable description of the person to which the statement relates the persons referenced in the factoid, e.g. the name of the person
 #    examples:
 #Reuter        
 #Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
