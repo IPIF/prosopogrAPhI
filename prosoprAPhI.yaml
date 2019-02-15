@@ -780,18 +780,18 @@ definitions:
     required:
     - id
     properties:
-      id:
-        $ref: "#/definitions/id"
-      text:
-        type: string
-        description: "In 'text' the consumer should not expect any structure, although it is not excluded to use it for delivering data in a syntax foreign to the current MIME-Type (e.g. BibTex)."
-      graph:
-        description: "The object representing the statement as a graph follows these rules: 
-          1. Every path possible in the graph has to be linked to the person described by the factoid via steps explicitly expressed in the graph.
-          2. All types and properties used in the graph can be mapped to a superclass or superproperty taken from the CIDOC-CRM. These relationships are formaly described as a schema which can be accessed via the /describe/statement/schema path of the API."
-        #type: object
-        type: string
-        format: URI
+#      id:
+#        $ref: "#/definitions/id"
+#      text:
+#        type: string
+#        description: "In 'text' the consumer should not expect any structure, although it is not excluded to use it for delivering data in a syntax foreign to the current MIME-Type (e.g. BibTex)."
+#      graph:
+#        description: "The object representing the statement as a graph follows these rules: 
+#          1. Every path possible in the graph has to be linked to the person described by the factoid via steps explicitly expressed in the graph.
+#          2. All types and properties used in the graph can be mapped to a superclass or superproperty taken from the CIDOC-CRM. These relationships are formaly described as a schema which can be accessed via the /describe/statement/schema path of the API."
+#        #type: object
+#        type: string
+#        format: URI
     example:
       - id: Pez1_809_1
         text: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
@@ -816,17 +816,42 @@ definitions:
         type: string
         format: uri
         description: "A fully dereferencably URI. The API recommends to serve requests for serialisations of W3C RDF."
-      sortdate:
-        type: string
-        format: date
-        description: "formal version of the date following W3C. This date is not expected to represent the full range of possible dating, e.g. by century, by year, time ranges, date not before/not after, and similar."
-      datetext:
-        type: string
-        description: "verbal version of the date, which should enable the human reader to get an idea of the chronological concept."
-      eventtypelabel:
-        type: string
-        description: "descriptive text to the content of the resource identified by the URI. We can imagine this to be a term from a controlled vocabulary, short type name or more verbose description."
-       ##source URI
+      date:
+        type: object
+        properties:
+          sortdate:
+            type: string
+            format: date
+            description: "formal version of the date following W3C. This date is not expected to represent the full range of possible dating, e.g. by century, by year, time ranges, date not before/not after, and similar."
+          label:
+            type: string
+            description: "verbal version of the date, which should enable the human reader to get an idea of the chronological concept."
+      eventType:
+        type: object
+        properties:
+          uri:
+            type: string
+            format: uri
+          label:
+            type: string
+            description: "descriptive text to the content of the resource identified by the URI. We can imagine this to be a term from a controlled vocabulary, short type name or more verbose description."
+      place:
+        type: object
+        properties:
+          uri:
+            type: string
+            format: uri
+          label:
+            type: string
+            description: "reference to geo referenceable object (e.g. single place)"
+      lrelatesToPerson:
+        type: object
+        properties:
+          uri:
+            type: string
+            format: uri
+          label:
+            type: string
   Source:
     required: 
       - metadata
