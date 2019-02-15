@@ -573,9 +573,9 @@ paths:
 #        501:
 #          $ref: "#/responses/NotImplementedError"        
 
-  /statements/{id}/event:
+  /events/{id}:
     get:
-      summary: gets the statement with the {id} as in a restricted format with an obligatory temporal property
+      summary: gets the temporal statement with the {id}
       parameters:
         - $ref: "#/parameters/id"
       responses:
@@ -588,9 +588,9 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"
 
-  /statements/{id}/relation:
+  /relations/{id}:
     get:
-      summary: gets the statement with the {id} as in a restricted format with an obligatory temporal property
+      summary: gets the statement of type relationship with the {id}
       parameters:
         - $ref: "#/parameters/id"
       responses:
