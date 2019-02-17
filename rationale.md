@@ -36,11 +36,11 @@ I am a developer building tools for digital humanists. I want my tools to integr
 The data can be accessed via the four major components (objects) of the factoid model:
 
 * the **person**, which only has to be identified abstractly, i.e. by an id or IRI. There can be alternative IRIs which describe the same person, so they are owl:sameAs
-* a **statement** about this person, formalized in RDF assertions or just plain text
+* a **statement** about this person, formalized as a simple datastructure to cover events, social relationships and identification. 
 * a **source** attesting this statement
 * the **factoid** tying all the three together, created by somebody at some time
 
 The paths therefore have to be able to
 * *create*, *update* and *delete* these four objects - well protected by authentication and user roles.
-* *query* these four objects (incl. pointing directly to one single object - preferably via the IRI for it)
+* *query* these four objects (incl. pointing directly to one single object - e.g. via the IRI for it)
 * give information about the *context* for the four objects (e.g. the schema of for the formal representation of the statements, relationship between them incl. versioning, number of objects available, etc.)
