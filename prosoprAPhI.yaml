@@ -38,7 +38,7 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/eventType"
+        - $ref: "#/parameters/statementType"
         - $ref: "#/parameters/relatesToPerson"
         - $ref: "#/parameters/name"
         - $ref: "#/parameters/from"
@@ -57,7 +57,7 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"
     head:
       summary: Gets metadata about factoids
-      description: Using the same filtering parameters as GET, it does not return any results, but metadata like the number of factoids etc.
+      description: "Using the same filtering parameters as GET, it does not return any results, but metadata like the number of factoids etc."
       parameters:
         - $ref: "#/parameters/p_id"
         - $ref: "#/parameters/p"
@@ -184,7 +184,7 @@ paths:
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
-        - $ref: "#/parameters/eventType"
+        - $ref: "#/parameters/statementType"
         - $ref: "#/parameters/relatesToPerson"
         - $ref: "#/parameters/name"
         - $ref: "#/parameters/from"
@@ -328,7 +328,7 @@ paths:
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/eventType"
+        - $ref: "#/parameters/statementType"
         - $ref: "#/parameters/relatesToPerson"
         - $ref: "#/parameters/name"
         - $ref: "#/parameters/from"
@@ -465,7 +465,7 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/eventType"
+        - $ref: "#/parameters/statementType"
         - $ref: "#/parameters/relatesToPerson"
         - $ref: "#/parameters/name"
         - $ref: "#/parameters/from"
@@ -579,23 +579,6 @@ paths:
 #        501:
 #          $ref: "#/responses/NotImplementedError"        
 
-# Gunv search is handled via query parameter          
-#  /sources/search:
-#    #Do we need a "search" path, or can we replace it by ?q-Parameter?
-#    get:
-#      summary: full text search in all literal content of the source description
-#      # ToDo: Or search in all factoids based on this source?
-#      responses:
-#        500:
-#          $ref: "#/responses/Standard500ErrorResponse"
-#  /search:
-#    #Do we need a "search" path, or can we replace it by ?q-Parameter?
-#    get:
-#      summary: full text search in all literal content
-#      responses:
-#        500:
-#          $ref: "#/responses/Standard500ErrorResponse"
-
 #  /describe:
 #    get:
 #      description: Gives basic information about schemas used, numbers of entries and implementation of API
@@ -641,10 +624,9 @@ paths:
 
 definitions:
   Factoid:
-    # FPO calls this "Assertion"
-    description: A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time.
-#    type: object
-    type: string    
+    description: "A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time."
+    type: object
+    #type: string    
     items:
       required:
         - id
@@ -672,15 +654,13 @@ definitions:
               - modifiedWhen
             properties:
               createdBy:
-                type: string
+                $ref: "#/definitions/createdBy"
               createdWhen:
-                type: string 
-                format: date
+                $ref: "#/definitions/createdWhen"
               modifiedBy:
-                type: string
+                $ref: "#/definitions/modifiedBy"
               modifiedWhen:
-                type: string
-                format: date
+                $ref: "#/definitions/modifiedWhen"
               wasDerivedFrom:
                 type: string 
                 format: uri
@@ -689,7 +669,7 @@ definitions:
           person: Andreas_Reuter
           statement: 
             - id: Pez1_809_1
-              eventType: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
+              statementType: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
           source: PezNachlassVol1
           metadata:
             createdBy: Thomas Wallnig
@@ -698,7 +678,7 @@ definitions:
           person: Placidus_Seiz
           statement: 
             - id: Pez#474-7,
-              eventType: ... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...
+              statementType: ... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...
           source: "Pez#474"
           metadata:
             createdBy: Thomas Wallnig
@@ -727,12 +707,12 @@ definitions:
               date: 
                 sortdate: 1648-01-01
                 label: ca. 1648
-              eventType:
+              statementType:
                 label: Geburt
               place: 
                 label: Kremsmünster
             - id: Pez1_809_1
-              eventType: 
+              statementType: 
                 label: Death
               date:
                 sortdate: 1715-12-31
@@ -740,35 +720,35 @@ definitions:
               place:
                 label: Gleink
             - id: Pez1_809_2
-              eventType:
+              statementType:
                 label: Konventuale
               place:
                 label: Gleink
             - id: Pez1_809_3
-              eventType: 
+              statementType: 
                 label: Doktor der Theologie
             - id: Pez1_809_4
-              eventType: 
+              statementType: 
                 label: apostolischer Protonotar
             - id: Pez1_809_5
-              eventType: 
+              statementType: 
                 label: Ökonom des Klosters
               place: 
                 label: Gleink
             - id: Pez1_809_6
-              eventType: 
+              statementType: 
                 label: Prior
               place: 
                 label: Gleink
             - id: Pez1_809_7
-              eventType: 
+              statementType: 
                 label: Prior (belegt als)
               place: 
                 label: Gleink
               date:
                 sortdate: 1708-01-01
             - id: Pez1_809_7
-              eventType: 
+              statementType: 
                 label: Unterzeichner der Rotel auf Abt Rupert von Kimpflern 
               place: 
                 label: Gleink
@@ -778,7 +758,7 @@ definitions:
               relatesToPerson:
                 label: Abt Rupert von Kimpflern
             - id: Pez1_809_8
-              eventType: 
+              statementType: 
                 label: Brief an Bernhard Pez 
               date:
                 sortdate: 1710-01-01
@@ -800,6 +780,12 @@ definitions:
         $ref: "#/definitions/sameAs"
       createdBy:
         $ref: "#/definitions/createdBy"
+      createdWhen:
+        $ref: "#/definitions/createdWhen"
+      modifiedBy:
+        $ref: "#/definitions/modifiedBy"
+      modifiedWhen:
+        $ref: "#/definitions/modifiedWhen"
     example:
       - id: Andreas_Reuter
       - uri: "http://pez-digital.at/persons#Mauro_Aspini"
@@ -811,58 +797,59 @@ definitions:
     type: object
     required:
       - id
-      - uri
     properties:
       id:
         $ref: "#/definitions/id"
       uri:
         type: string
         format: uri
-        description: "A fully dereferencably URI. The API recommends to serve requests for serialisations of W3C RDF."
+        description: "A fully dereferencably URI representing the statement. The API recommends to serve requests for serialisations of W3C RDF via this URI."
       name:
         type: string
         description: "any verbal identification of a person"
       date:
         type: object
+        description: "The temporal allocation of the statement: To which time frame the statement on the person applies?"
         properties:
           sortdate:
             type: string
             format: date
-            description: "formal version of the date following W3C. This date is not expected to represent the full range of possible dating, e.g. by century, by year, time ranges, date not before/not after, and similar."
+            description: "Formal version of the date following W3C recommendations. This date is not expected to represent the full range of possible dating. Use the label property to describe the date in more detail dates by century, by year, time ranges, date not before/not after, and similar."
           label:
             type: string
             description: "verbal version of the date, which should enable the human reader to get an idea of the chronological concept."
-      eventType:
+      statementType:
         type: object
+        description: "describes the statement conceptually: which type of event, what type of relationship."
         properties:
           uri:
             type: string
             format: uri
+            description: "A fully dereferencably URI, which could be an endpoint to RESTful API for the applied taxonomy"
           label:
             type: string
-            description: "descriptive text to the content of the resource identified by the URI. We can imagine this to be a term from a controlled vocabulary, short type name or more verbose description."
+            description: "descriptive text to the content of the resource identified by the URI. We can imagine this to be a term from a controlled vocabulary, a short type name or more verbose description."
       place:
         type: object
+        description: "describes the geographical"
         properties:
           uri:
             type: string
             format: uri
+            description: "reference to geo-referenceable object (e.g. single place), preferably an endpoint of an RESTful API serving coordinates of a single place or a polygon together with information on projection used."
           label:
             type: string
-            description: "reference to geo referenceable object (e.g. single place)"
+            description: "verbal reference to geo-referenceable object, e.g. name of a city, name of an area."
       relatesToPerson:
         type: object
+        description: ""
         properties:
           uri:
             type: string
             format: uri
           label:
             type: string
-            description: a human readable description of the person to which the statement relates the persons referenced in the factoid, e.g. the name of the person
-#    examples:
-#Reuter        
-#Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
-
+            description: "a human readable description of the person to which the statement relates the persons referenced in the factoid, e.g. the name of the person"
   Source:
     required: 
       - metadata
@@ -874,10 +861,18 @@ definitions:
       sameAs:
         $ref: "#/definitions/sameAs"
       metadata:
-        description: a verbal or formal bibliographical/archival description of the source
+        description: "a verbal or formal bibliographical/archival description of the source"
         type: string
         # Allow string or structured metadata
         # define methods to relate single source locus with a description of a source work (e.g. tei:locus, partOf, occursIn or similar
+      createdBy:
+        $ref: "#/definitions/createdBy"
+      createdWhen:
+        $ref: "#/definitions/createdWhen"
+      modifiedBy:
+        $ref: "#/definitions/modifiedBy"
+      modifiedWhen:
+        $ref: "#/definitions/modifiedWhen"
     example:
       - id: PezNachlassVol1
         sameAs: https://e-book.fwf.ac.at/o:370
@@ -890,22 +885,23 @@ definitions:
     description: the local id of the object (factoid, person, source, statement)
     type: string
   uri:
-    description: the uri of the object (factoid, person, source, statement)
+    description: "the uri of the object (factoid, person, source, statement, etc.). The API recommends to use endpoints of a RESTful API which gives further machine readable information on the object."
     type: string
-    #ToDo: uri as type e.g. by pattern?
+    format: uri
   sameAs:
-    description: the uri of an object (factoid, person, source, statement) referenced with owl:sameAs
+    description: the uri of an object (factoid, person, source, statement, etc.) referenced with owl:sameAs
     type: string
+    format: uri
   createdBy:
-    description: ""
     type: string
+    description: "The user responsbile for a creation of the object. A group of persons is represented by a comma seperated list."
   createdWhen:
     description: ""
     type: string
     format: date
   modifiedBy:
-    description: ""
     type: string
+    description: "The user responsbile for a modification of the object. A group of persons is represented by a comma seperated list."
   modifiedWhen:
     description: ""
     type: string
@@ -918,32 +914,30 @@ definitions:
         type: string
 responses:
   BadRequestError:
-    description: Bad request. Caused by unknown parameters or illegal parameter values
+    description: "Bad request. Caused by unknown parameters or illegal parameter values"
     schema:
       $ref: "#/definitions/Error"
   Standard500ErrorResponse:
-    description: An unexpected error occurred. #I'm not sure if we need this in the API as a 500 could occur anytime and for many reasons and should normaly not expose the reason to the public. The typical message would be something like the standard "Internal Server Error".
+    description: "An unexpected error occurred." #GunV: I'm not sure if we need this in the API as a 500 could occur anytime and for many reasons and should normaly not expose the reason to the public. The typical message would be something like the standard "Internal Server Error".
     schema:
       $ref: "#/definitions/Error"
   NotImplementedError:
-    description: 
-      Functionality not implemented. Some implementations will only support read operations. 
-      For any data modifying request they must return a 501 response.
+    description: "Functionality not implemented. Some implementations will only support read operations. For any data modifying request they must return a 501 response."
     schema:
       $ref: "#/definitions/Error"
 parameters:
   size:
     name: size
     in: query
-    description: sets the  number of objects returned per page. Should the API define a default value?
+    description: "sets the  number of objects returned per page."
     type: integer
+    default: 30
   page:
     name: page
     in: query
-    description: 
-      Sets the page number of returned objects. 
-      So if size is set to 10 and page is set to 2, the objects 11-20 will be returned.
-      Default value is 1.
+    default: 1
+    description: "Sets the page number of returned objects. 
+      So if size is set to 10 and page is set to 2, the objects 11-20 will be returned."
     type: integer
   id:
     name: id
@@ -955,7 +949,8 @@ parameters:
     name: sort_by
     type: string
     in: query
-    description: "defines the sort order of the returned factoids, can contain all properties of the ressource searched. ## ASC/DESC"
+    description: "defines the sort order of the returned factoids, can contain all properties of the ressource searched. The closing keywords 'ASC' and 'DESC' describe the sort order as 'ASCending' and 'DESCending'."
+    default: "createdWhen"
   p_id:
     name: p_id
     type: string
@@ -965,48 +960,48 @@ parameters:
     name: p
     type: string
     in: query
-    description: filter by applying a pattern on persons (fulltext search)
+    description: "filter by applying a pattern on persons (fulltext search)"
   st_id:
     name: st_id
     type: string
     in: query
-    description: filter by statement id
+    description: "filter by statement id"
   st:
     name: st
     type: string
     in: query
-    description: filter by applying a pattern on statements (fulltext search)
+    description: "filter by applying a pattern on statements (fulltext search)"
   s_id:
     name: s_id
     type: string
     in: query
-    description: filter by source id
+    description: "filter by source id"
   s:
     name: s
     type: string
     in: query
-    description: filter by applying a pattern on sources (fulltext search)
+    description: "filter by applying a pattern on sources (fulltext search)"
   f:
     name: f
     type: string
     in: query
-    description: filter by applying a pattern on factoid (fulltext search)
+    description: "filter by applying a pattern on factoid (fulltext search)"
   f_id:
     name: f_id
     type: string
     in: query
-    description: filter by factoid id
+    description: "filter by factoid id"
   from:
     name: from
     type: string
     in: query
-    description: ""
+    description: "all dates after the event date (including the event date) will be included. If `from` and `to` are the same, only a single exact date is included. Fragments (yyyy, yyyy-mm) will be interpreted as exact time ranges if the second parameter is missing (`from=yyyy-mm` is interpreted as `from=start of month`, `to=end of month`. If conflicting data is present, for example ``from=yyyy&to=yyyy-mm-dd`, the most correct interpretation will be decided on by the backend. For instance, the example before will be interpreted as `from=yyyy-01-01&to=yyyy-mm-dd`."
   to:
     name: to
     type: string
     in: query
-    description: ""
-  eventType:
+    description: "all dates before the event date (including the event date) will be included. If `from` and `to` are the same, only a single exact date is included. Fragments (yyyy, yyyy-mm) will be interpreted as exact time ranges if the second parameter is missing (`from=yyyy-mm` is interpreted as `from=start of month`, `to=end of month`. If conflicting data is present, for example ``from=yyyy&to=yyyy-mm-dd`, the most correct interpretation will be decided on by the backend. For instance, the example before will be interpreted as `from=yyyy-01-01&to=yyyy-mm-dd`."
+  statementType:
     name: statementType
     type: string
     in: query
@@ -1038,6 +1033,7 @@ parameters:
     name: createdBy
     type: string
     in: query
+    description: "Filters by full text search in the description of the user responsbile for the creation of the object. A group of persons is represented by a comma seperated list."
   modifiedBefore:
     name: createdBefore
     type: string
@@ -1050,4 +1046,4 @@ parameters:
     name: createdBy
     type: string
     in: query
-    description: "list of persons comma seperated"
+    description: "Filters by full text  search in the description of the user responsbile for a modification of the object. A group of persons is represented by a comma seperated list."
