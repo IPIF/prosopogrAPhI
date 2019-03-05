@@ -23,11 +23,7 @@ paths:
   /factoids:
     get:
       summary: Gets factoids
-      description: "Gets an array of `Factoid` objects. 
-                   The number of array members returned with each response is restricted by the **size** parameter. 
-                   Factoids can be filtered by setting additional parameters like **p_id** or **p**. TODO Further 
-                   parameters for filtering have to be specified.
-                   Factoids are sorted by default by date of create time."
+      description: "Gets an array of `Factoid` objects. The number of array members returned with each response is restricted by the **size** parameter. Factoids can be filtered by setting additional parameters like **p_id** or **p**. Factoids are sorted by default by date of create time."
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
@@ -38,8 +34,10 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/statementType"
+        - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
         - $ref: "#/parameters/name"
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
@@ -184,8 +182,10 @@ paths:
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
-        - $ref: "#/parameters/statementType"
+        - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
         - $ref: "#/parameters/name"
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
@@ -328,8 +328,10 @@ paths:
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/statementType"
+        - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
         - $ref: "#/parameters/name"
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
@@ -465,8 +467,10 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/statementType"
+        - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
         - $ref: "#/parameters/name"
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
@@ -633,6 +637,10 @@ definitions:
         - person
         - source
         - statement
+        - createdBy
+        - createdWhen
+        - modifiedBy
+        - modifiedWhen
       properties:
         id:
           $ref: "#/definitions/id"
@@ -642,77 +650,64 @@ definitions:
           $ref: "#/definitions/Statement"
         source:
           $ref: "#/definitions/Source"
-        metadata:
-          description: metadata describing the creation event of the factoid
-          # type: object
-          type: string
-          items:
-            required:
-              - createdBy
-              - createdWhen
-              - modifiedBy
-              - modifiedWhen
-            properties:
-              createdBy:
-                $ref: "#/definitions/createdBy"
-              createdWhen:
-                $ref: "#/definitions/createdWhen"
-              modifiedBy:
-                $ref: "#/definitions/modifiedBy"
-              modifiedWhen:
-                $ref: "#/definitions/modifiedWhen"
-              wasDerivedFrom:
-                type: string 
-                format: uri
+        createdBy:
+          $ref: "#/definitions/createdBy"
+        createdWhen:
+          $ref: "#/definitions/createdWhen"
+        modifiedBy:
+          $ref: "#/definitions/modifiedBy"
+        modifiedWhen:
+          $ref: "#/definitions/modifiedWhen"
+        wasDerivedFrom:
+          type: string 
+          format: uri
       example:
         - id: TW_Pez1_809_1 
           person: Andreas_Reuter
           statement: 
             - id: Pez1_809_1
-              statementType: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
+              statementContent: 
+                label: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
           source: PezNachlassVol1
-          metadata:
-            createdBy: Thomas Wallnig
-            createdWhen: 2010-05-05
+          createdBy: Thomas Wallnig
+          createdWhen: 2010-05-05
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2010-05-05
         - id: TW_Pez1_123456
           person: Placidus_Seiz
           statement: 
             - id: Pez#474-7,
-              statementType: ... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...
+              statementContent: 
+                label: ... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...
           source: "Pez#474"
-          metadata:
-            createdBy: Thomas Wallnig
-            createdWhen: 2007-04-16
+          createdBy: Thomas Wallnig
+          createdWhen: 2007-04-16
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2007-04-16
         - id: TW_Pez1_123456
           person: Placidus_Seiz
           statement: 
-            #- graph:
-            #  - "@context" : "http://pez-digital.at/prosopography-schema.json-ld"
-            #    "@graph": 
-            #      - "@id" : "http://pez-digital.at/Lindner-Album_Ettalense253f"
-            #        "assignedTo" : 
-            #          - "@id" : "http://pez-digital.at/placidus_Seiz"
-            #        "hasName" :  
-            #          - "@value" : "Placidus Seitz"
+            id: person1241
             name: Placidus Seitz
             uri: http://pez-digital.at/placidus_Seiz
           source: "Lindner-Album_Ettalense253f."
-          metadata:
-            createdBy: Thomas Wallnig
-            createdWhen: 2007-04-16
+          createdBy: Thomas Wallnig
+          createdWhen: 2007-04-16
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2007-07-01
         - id: Fd2qwr
           person: Andreas_Reuter
           statement: 
             - id: Fd2qwr
               date: 
-                sortdate: 1648-01-01
+                sortdate: 1648-06-15
                 label: ca. 1648
-              statementType:
+              statementContent:
                 label: Geburt
               place: 
                 label: Kremsmünster
             - id: Pez1_809_1
-              statementType: 
+              statementContent: 
                 label: Death
               date:
                 sortdate: 1715-12-31
@@ -720,35 +715,37 @@ definitions:
               place:
                 label: Gleink
             - id: Pez1_809_2
-              statementType:
+              statementContent:
+                uri: "http://religiouspeople.org/rdf/#conventmember"
                 label: Konventuale
               place:
                 label: Gleink
             - id: Pez1_809_3
-              statementType: 
+              statementContent: 
                 label: Doktor der Theologie
             - id: Pez1_809_4
-              statementType: 
+              statementContent: 
                 label: apostolischer Protonotar
             - id: Pez1_809_5
-              statementType: 
+              statementContent: 
                 label: Ökonom des Klosters
               place: 
                 label: Gleink
             - id: Pez1_809_6
-              statementType: 
+              statementContent: 
                 label: Prior
               place: 
+                uri: "http://sws.geonames.org/2778486/"
                 label: Gleink
             - id: Pez1_809_7
-              statementType: 
+              statementContent: 
                 label: Prior (belegt als)
               place: 
                 label: Gleink
               date:
                 sortdate: 1708-01-01
             - id: Pez1_809_7
-              statementType: 
+              statementContent: 
                 label: Unterzeichner der Rotel auf Abt Rupert von Kimpflern 
               place: 
                 label: Gleink
@@ -758,7 +755,7 @@ definitions:
               relatesToPerson:
                 label: Abt Rupert von Kimpflern
             - id: Pez1_809_8
-              statementType: 
+              statementContent: 
                 label: Brief an Bernhard Pez 
               date:
                 sortdate: 1710-01-01
@@ -766,9 +763,10 @@ definitions:
               relatesToPerson:
                 label: Bernhard Pez
           source: PezNachlassVol1
-          metadata:
-            createdBy: Thomas Wallnig
-            createdWhen: 2010-05-05
+          createdBy: Thomas Wallnig
+          createdWhen: 2010-05-05
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2010-05-05
   Person:
     description: A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.
     properties:
@@ -795,6 +793,7 @@ definitions:
           https://viaf.org/viaf/5285530/
   Statement:
     type: object
+    description: "The statement object gives human and machine readable information on the person(s) listed in the factoid."  
     required:
       - id
     properties:
@@ -807,6 +806,30 @@ definitions:
       name:
         type: string
         description: "any verbal identification of a person"
+      statementContent:
+        type: array
+        description: "describes the statement in more detail: e.g. which type of event, what type of relationship, but can also report citations from source or descriptive prose."
+        items:
+          type: object
+          properties:
+            uri:
+              type: string
+              format: uri
+              description: "A fully dereferencably URI, which could be an endpoint to RESTful API for the applied taxonomy"
+            label:
+              type: string
+              description: "descriptive text. We can imagine this to be a term from a controlled vocabulary, a short type name or more verbose description including the wording from the source or a short biogram."
+      role:
+        type: object
+        description: "describes the role of the person in the statement. If empty it is considered generically as 'participates in something which could be an event'"
+        properties:
+          uri:
+            type: string
+            format: uri
+            description: "A fully dereferencably URI, which could be an endpoint to RESTful API for the applied taxonomy"
+          label:
+            type: string
+            description: "descriptive text of the role of the person in the statement."      
       date:
         type: object
         description: "The temporal allocation of the statement: To which time frame the statement on the person applies?"
@@ -818,20 +841,9 @@ definitions:
           label:
             type: string
             description: "verbal version of the date, which should enable the human reader to get an idea of the chronological concept."
-      statementType:
-        type: object
-        description: "describes the statement conceptually: which type of event, what type of relationship."
-        properties:
-          uri:
-            type: string
-            format: uri
-            description: "A fully dereferencably URI, which could be an endpoint to RESTful API for the applied taxonomy"
-          label:
-            type: string
-            description: "descriptive text to the content of the resource identified by the URI. We can imagine this to be a term from a controlled vocabulary, a short type name or more verbose description."
       place:
         type: object
-        description: "describes the geographical"
+        description: "describes the geographical information of the statement, e.g. the place where an event happened, the geographic coverage of a social role etc."
         properties:
           uri:
             type: string
@@ -841,18 +853,42 @@ definitions:
             type: string
             description: "verbal reference to geo-referenceable object, e.g. name of a city, name of an area."
       relatesToPerson:
+        description: "relationships of the person on which the statement is made to other persons."
+        type: array
+        items:
+          type: object
+          properties:
+            uri:
+              type: string
+              format: uri
+              description: "reference to a machine readably object on a person, preferably an endpoint following the definitions of this API."
+            label:
+              type: string
+              description: "a human readable description of the person to which the statement relates the persons referenced in the factoid, e.g. the name of the person"
+      memberOf:
         type: object
-        description: ""
+        description: "relationship of the person on which the statement is made to institutions or groups of persons identifiable."
         properties:
           uri:
             type: string
             format: uri
           label:
             type: string
-            description: "a human readable description of the person to which the statement relates the persons referenced in the factoid, e.g. the name of the person"
+            description: "a human readable description of the group/institution to which the statement relates the persons referenced in the factoid"
+      createdBy:
+        $ref: "#/definitions/createdBy"
+      createdWhen:
+        $ref: "#/definitions/createdWhen"
+      modifiedBy:
+        $ref: "#/definitions/modifiedBy"
+      modifiedWhen:
+        $ref: "#/definitions/modifiedWhen"
   Source:
     required: 
-      - metadata
+      - createdBy
+      - createdWhen
+      - modifiedBy
+      - modifiedWhen
     properties:
       id:
         $ref: "#/definitions/id"
@@ -936,15 +972,14 @@ parameters:
     name: page
     in: query
     default: 1
-    description: "Sets the page number of returned objects. 
-      So if size is set to 10 and page is set to 2, the objects 11-20 will be returned."
+    description: "Sets the page number of returned objects. If size is set to 10 and page is set to 2, the objects 11-20 will be returned."
     type: integer
   id:
     name: id
     in: path
     required: true
     type: string
-    description: can be either the local id, or the uri or the uri of a owl:sameAs entry
+    description: "can be either the local id, or the uri or the uri of a owl:sameAs entry"
   sort_by:
     name: sort_by
     type: string
@@ -991,6 +1026,16 @@ parameters:
     type: string
     in: query
     description: "filter by factoid id"
+  statementContent:
+    name: statementContent
+    type: string
+    in: query
+    description: "could be URI or label"
+  role:
+    name: role
+    type: string
+    in: query
+    description: "could be URI or label"
   from:
     name: from
     type: string
@@ -1001,11 +1046,6 @@ parameters:
     type: string
     in: query
     description: "all dates before the event date (including the event date) will be included. If `from` and `to` are the same, only a single exact date is included. Fragments (yyyy, yyyy-mm) will be interpreted as exact time ranges if the second parameter is missing (`from=yyyy-mm` is interpreted as `from=start of month`, `to=end of month`. If conflicting data is present, for example ``from=yyyy&to=yyyy-mm-dd`, the most correct interpretation will be decided on by the backend. For instance, the example before will be interpreted as `from=yyyy-01-01&to=yyyy-mm-dd`."
-  statementType:
-    name: statementType
-    type: string
-    in: query
-    description: "could be URI or label"
   place:
     name: place
     type: string
@@ -1013,6 +1053,11 @@ parameters:
     description: "could be URI or label"
   relatesToPerson:
     name: relatestToPerson
+    type: string
+    in: query
+    description: "could be URI or label"
+  memberOf:
+    name: memberOf
     type: string
     in: query
     description: "could be URI or label"
