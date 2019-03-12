@@ -842,16 +842,18 @@ definitions:
             type: string
             description: "verbal version of the date, which should enable the human reader to get an idea of the chronological concept."
       place:
-        type: object
         description: "describes the geographical information of the statement, e.g. the place where an event happened, the geographic coverage of a social role etc."
-        properties:
-          uri:
-            type: string
-            format: uri
-            description: "reference to geo-referenceable object (e.g. single place), preferably an endpoint of an RESTful API serving coordinates of a single place or a polygon together with information on projection used."
-          label:
-            type: string
-            description: "verbal reference to geo-referenceable object, e.g. name of a city, name of an area."
+        type: array
+        items:
+            type: object
+            properties:
+              uri:
+                type: string
+                format: uri
+                description: "reference to geo-referenceable object (e.g. single place), preferably an endpoint of an RESTful API serving coordinates of a single place or a polygon together with information on projection used."
+              label:
+                type: string
+                description: "verbal reference to geo-referenceable object, e.g. name of a city, name of an area."
       relatesToPerson:
         description: "relationships of the person on which the statement is made to other persons."
         type: array
