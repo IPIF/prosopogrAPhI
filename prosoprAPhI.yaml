@@ -886,16 +886,16 @@ definitions:
       modifiedWhen:
         $ref: "#/definitions/modifiedWhen"
   Source:
-    required: 
-      - createdBy
-      - createdWhen
-      - modifiedBy
-      - modifiedWhen
+    required:
+      - id
     properties:
       id:
         $ref: "#/definitions/id"
       uri:
         $ref: "#/definitions/uri"
+      label:
+        description: "A human readable description of the source of information for the factoid, e.g. a bibliographic reference, an archival shelfmark etc."
+        type: string
       sameAs:
         $ref: "#/definitions/sameAs"
       metadata:
@@ -920,7 +920,7 @@ definitions:
       - id: "Lindner-Album_Ettalense253f."
         metadata: "Lindner: Album Ettalense, S. 253f."
   id:
-    description: the local id of the object (factoid, person, source, statement)
+    description: "the local id of the object (factoid, person, source, statement)"
     type: string
   uri:
     description: "the uri of the object (factoid, person, source, statement, etc.). The API recommends to use endpoints of a RESTful API which gives further machine readable information on the object."
