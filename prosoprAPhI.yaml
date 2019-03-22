@@ -1,36 +1,32 @@
 swagger: "2.0"
 
 info:
-  version: 0.1.0
+  version: 0.2.0
   title: prosopogrAPhI
   description: basic prosopographical data API
   # contact: georg.vogeler@uni-graz.at
-  # licence 
+  license:
+    name: CC-BY-SA 4.0
+    url: https://creativecommons.org/licenses/by-sa/4.0/
 
 schemes:
   - https
   - http
-#host: www.cei.lmu.de
-#basePath: /prosopographi/api.0.1
 host: localhost
-basePath: "/api"
-produces:
-  - application/json
-  - text/xml
+basePath: /api/
+produces: # any possibility to describe which of them is default? 
+  - application/json #this is default
+  #- text/xml
   
 paths:
 
   /factoids:
     get:
       summary: Gets factoids
-      description: Gets an array of `Factoid` objects. 
-                   The number of array members returned with each response is restricted by the **size** parameter. 
-                   Factoids can be filtered by setting additional parameters like **p_id** or **p**. TODO Further 
-                   parameters for filtering have to be specified.
+      description: "Gets an array of `Factoid` objects. The number of array members returned with each response is restricted by the **size** parameter. Factoids can be filtered by setting additional parameters like **p_id** or **p**. Factoids are sorted by default by date of create time."
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
         - $ref: "#/parameters/p_id"
         - $ref: "#/parameters/p"
         - $ref: "#/parameters/st_id"
@@ -38,6 +34,14 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: A list of Factoids
@@ -51,10 +55,7 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"
     head:
       summary: Gets metadata about factoids
-      description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of factoids etc.
-                   TODO *I'm not sure if we really need this and what metadata will be useful beside the totel number of
-                   available factoids*
-                   TODO *Possibly this could replace the describe uris?*
+      description: "Using the same filtering parameters as GET, it does not return any results, but metadata like the number of factoids etc."
       parameters:
         - $ref: "#/parameters/p_id"
         - $ref: "#/parameters/p"
@@ -70,12 +71,11 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"          
     post:
-      # ToDo: Authentication!
-      summary: creates a factoid
+      summary: "creates a factoid. No Factoid can be created without references to a person, a source, and at least one statement"
       parameters:
-        - name: factoid
+        - name: body
           in: body
-          description: the factoid
+          description: the factoid data
           schema:
             $ref: "#/definitions/Factoid"
       responses:
@@ -131,19 +131,18 @@ paths:
 #        501:
 #          $ref: "#/responses/NotImplementedError"
     put:
-      # ToDo: Authentication!
       summary: updates the factoid with the {id}
       parameters:
         - $ref: "#/parameters/id"      
-        - name: content
+        - name: body
           in: body
           schema:
             $ref: "#/definitions/Factoid"
       responses:
         201:
-          description: factoid updated
+          description: Factoid updated
         400:
-          description: factoid could not be updated or created. TODO should return reason as message
+          description: Factoid could not be updated or created. TODO should return reason as message
         403:
           description: Forbidden. Missing token or user is not allowed to create persons. 
         500:
@@ -165,11 +164,6 @@ paths:
 #          
           
           
-  # ToDo: Which subpaths do we need, e.g.
-  #  getting only the person, statement, source of factoid to enhance walk through?
-  #  sort order? maybe as path
-  
-  
   /persons:
     get:
       summary: Get persons
@@ -188,6 +182,14 @@ paths:
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Successfull response
@@ -224,6 +226,11 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"                
     post:
       summary: Add a new person
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Person"
       responses:
         201:
           description: Person created
@@ -264,8 +271,9 @@ paths:
       summary: updates the person with the {id}
       parameters:
         - $ref: "#/parameters/id"      
-        - name: content
+        - name: body
           in: body
+          description: the person data
           schema:
             $ref: "#/definitions/Person"
       responses:
@@ -326,6 +334,14 @@ paths:
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Successfull response
@@ -365,6 +381,12 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"                
     post:
       summary: Add a new source
+      parameters:
+        - name: body
+          in: body
+          description: the source data
+          schema:
+            $ref: "#/definitions/Source"
       responses:
         201:
           description: Source created
@@ -385,12 +407,11 @@ paths:
           $ref: "#/responses/NotImplementedError"
 
           
-  /source/{id}:
+  /sources/{id}:
     get:
       summary: gets the source with the {id}
       parameters:
-        - $ref: "#/parameters/id"
-        
+        - $ref: "#/parameters/id"      
       responses:
         200:
           description: a source object
@@ -409,8 +430,9 @@ paths:
           in: path
           required: true
           type: string
-        - name: metadata
+        - name: body
           in: body
+          description: the source data
           schema:
             $ref: "#/definitions/Source"
       responses:
@@ -458,6 +480,14 @@ paths:
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Successfull response
@@ -498,6 +528,11 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"                
     post:
       summary: Add a new statement
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Statement"
       responses:
         201:
           description: Statement created
@@ -518,7 +553,7 @@ paths:
           $ref: "#/responses/NotImplementedError"
 
           
-  /statement/{id}:
+  /statements/{id}:
     get:
       summary: gets the statement with the {id}
       parameters:
@@ -538,7 +573,7 @@ paths:
       summary: updates the statement with the {id}
       parameters:
         - $ref: "#/parameters/id"      
-        - name: content
+        - name: body
           in: body
           schema:
             $ref: "#/definitions/Statement"
@@ -566,123 +601,192 @@ paths:
 #        501:
 #          $ref: "#/responses/NotImplementedError"        
 
-
-# Gunv search is handled via query parameter          
-#  /sources/search:
-#    #Do we need a "search" path, or can we replace it by ?q-Parameter?
+#  /describe:
 #    get:
-#      summary: full text search in all literal content of the source description
-#      # ToDo: Or search in all factoids based on this source?
+#      description: Gives basic information about schemas used, numbers of entries and implementation of API
+#             TODO *This could possibly be handled via HEAD request?* 
+#      responses:
+#        500:
+#         $ref: "#/responses/Standard500ErrorResponse"
+#  /describe/statement/schema:
+#    get:
+#      description: The schema used to describe the statements
+#      responses:
+#        200:
+#          description: "A URL pointing to the @context for the JSON-LD used in graph respones"
+#          schema:
+#            type: string
+#        500:
+#          $ref: "#/responses/Standard500ErrorResponse"
+#  /describe/return/schemas:
+#    get:
+#      description: The schemas supported by the server as return values
 #      responses:
 #        500:
 #          $ref: "#/responses/Standard500ErrorResponse"
-#  /search:
-#    #Do we need a "search" path, or can we replace it by ?q-Parameter?
+#  /describe/return/formats:
 #    get:
-#      summary: full text search in all literal content
+#      description: The vocabularies supported by the server for return values, default is JSON
 #      responses:
+#        #200:
+#        ## ToDo: give an enumarted list included default
+#        # covered already by "produces:"
 #        500:
 #          $ref: "#/responses/Standard500ErrorResponse"
-  /describe:
-    get:
-      description: Gives basic information about schemas used, numbers of entries and implementation of API
-             TODO *This could possibly be handled via HEAD request?* 
-      responses:
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
-  /describe/statement/schema:
-    get:
-      description: The schema used to describe the statements
-      responses:
-        200:
-          description: "A URL pointing to the @context for the JSON-LD used in graph respones"
-          schema:
-            type: string
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
-  /describe/return/schemas:
-    get:
-      description: The schemas supported by the server as return values
-      responses:
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
-  /describe/return/formats:
-    get:
-      description: The serialisations supported by the server for return values, default is JSON
-      responses:
-        #200:
-        ## ToDo: give an enumarted list included default
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
-  /describe/source/schema:
-    get:
-      description: The schema used to describe the source
-      responses:
-        200:
-          description: "a URL pointing to the @context for the JSON-LD used in descriptions of sources"
-          schema:
-            type: string
-        500:
-          $ref: "#/responses/Standard500ErrorResponse"
+#  /describe/source/schema:
+#    get:
+#      description: The schema used to describe the source
+#      responses:
+#        200:
+#          description: "a URL pointing to the @context for the JSON-LD used in descriptions of sources"
+#          schema:
+#            type: string
+#        500:
+#          $ref: "#/responses/Standard500ErrorResponse"
 
 definitions:
   Factoid:
-    # FPO calls this "Ássertion" ?
-    description: A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time
-#    type: object
-    # type: object    
+    description: "A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time."
+    type: object
+    #type: string    
+    #items:
+    required:
+      - id
+      - person
+      - source
+      - statements
+      - createdBy
+      - createdWhen
+      - modifiedBy
+      - modifiedWhen
     properties:
-        id:
-          $ref: "#/definitions/id"
-        person:
-          $ref: "#/definitions/Person"
-        statement:
-          $ref: "#/definitions/Statement"
-        source:
-          $ref: "#/definitions/Source"
-        metadata:
-          description: metadata describing the creation event of the factoid
-#          type: object
+      id:
+        $ref: "#/definitions/id"
+      person:
+        $ref: "#/definitions/Person"
+      statements:
+          type: array
           items:
-            properties:
-              createdBy:
-                type: string
-              createdWhen:
-                type: string # date ? 
+            $ref: "#/definitions/Statement"
+      source:
+        $ref: "#/definitions/Source"
+      createdBy:
+        $ref: "#/definitions/createdBy"
+      createdWhen:
+        $ref: "#/definitions/createdWhen"
+      modifiedBy:
+        $ref: "#/definitions/modifiedBy"
+      modifiedWhen:
+        $ref: "#/definitions/modifiedWhen"
+      wasDerivedFrom:
+        type: string 
+        format: uri
     example:
-        - id: TW_Pez1_809_1 
-          person: Andreas_Reuter
-          statement: 
-            - id: Pez1_809_1
-              text: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
-          source: PezNachlassVol1
-          metadata:
-            createdBy: Thomas Wallnig
-            createdWhen: 2010
-        - id: TW_Pez1_123456
-          person: Placidus_Seiz
-          statement: 
-            - id: "Pez#474-7"
-              text: "... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ..."
-          source: "Pez#474"
-          metadata:
-            createdBy: Thomas Wallnig
-            createdWhen: 2007-04-16
-        - id: TW_Pez1_123456
-          person: Placidus_Seiz
-          statement: 
-            - graph:
-              - "@context" : "http://pez-digital.at/prosopography-schema.json-ld"
-                "@graph": 
-                  - "@id" : "http://pez-digital.at/Lindner-Album_Ettalense253f"
-                    "assignedTo" : 
-                      - "@id" : "http://pez-digital.at/placidus_Seiz"
-                    "hasName" :  
-                      - "@value" : "Placidus Seitz"
-          source: "Lindner-Album_Ettalense253f."
-          metadata:
-            createdBy: Thomas Wallnig
-            createdWhen: 2007-04-16
+      - id: TW_Pez1_809_1 
+        person: Andreas_Reuter
+        statements: 
+          - id: Pez1_809_1
+            statementContent: 
+              label: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
+        source: PezNachlassVol1
+        createdBy: Thomas Wallnig
+        createdWhen: 2010-05-05
+        modifiedBy: Thomas Wallnig
+        modifiedWhen: 2010-05-05
+      - id: TW_Pez1_123456
+        person: Placidus_Seiz
+        statements: 
+          - id: Pez#474-7,
+            statementContent: 
+            label: ... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...
+        source: "Pez#474"
+        createdBy: Thomas Wallnig
+        createdWhen: 2007-04-16
+        modifiedBy: Thomas Wallnig
+        modifiedWhen: 2007-04-16
+      - id: TW_Pez1_123456
+        person: Placidus_Seiz
+        statements: 
+          - id: person1241
+            name: Placidus Seitz
+            uri: http://pez-digital.at/placidus_Seiz
+        source: "Lindner-Album_Ettalense253f."
+        createdBy: Thomas Wallnig
+        createdWhen: 2007-04-16
+        modifiedBy: Thomas Wallnig
+        modifiedWhen: 2007-07-01
+        id: Fd2qwr
+        person: Andreas_Reuter
+        statements: 
+          - id: Fd2qwr
+            date: 
+              sortdate: 1648-06-15
+              label: ca. 1648
+            statementContent:
+              label: Geburt
+            place: 
+              label: Kremsmünster
+          - id: Pez1_809_1
+            statementContent: 
+                label: Death
+            date:
+              sortdate: 1715-12-31
+              label: 1715
+            place:
+              label: Gleink
+          - id: Pez1_809_2
+            statementContent:
+              uri: "http://religiouspeople.org/rdf/#conventmember"
+              label: Konventuale
+            place:
+              label: Gleink
+          - id: Pez1_809_3
+            statementContent: 
+              label: Doktor der Theologie
+          - id: Pez1_809_4
+            statementContent: 
+              label: apostolischer Protonotar
+          - id: Pez1_809_5
+            statementContent: 
+               label: Ökonom des Klosters
+            place: 
+              label: Gleink
+          - id: Pez1_809_6
+            statementContent: 
+              label: Prior
+            place: 
+              uri: "http://sws.geonames.org/2778486/"
+              label: Gleink
+          - id: Pez1_809_7
+            statementContent: 
+              label: Prior (belegt als)
+            place: 
+              label: Gleink
+            date:
+              sortdate: 1708-01-01
+          - id: Pez1_809_7
+            statementContent: 
+              label: Unterzeichner der Rotel auf Abt Rupert von Kimpflern 
+            place: 
+              label: Gleink
+            date:
+              sortdate: 1708-01-01
+              label: 1708
+            relatesToPerson:
+              label: Abt Rupert von Kimpflern
+          - id: Pez1_809_8
+            statementContent: 
+              label: Brief an Bernhard Pez 
+            date:
+              sortdate: 1710-01-01
+              label: 1710
+            relatesToPerson:
+              label: Bernhard Pez
+        source: PezNachlassVol1
+        createdBy: Thomas Wallnig
+        createdWhen: 2010-05-05
+        modifiedBy: Thomas Wallnig
+        modifiedWhen: 2010-05-05
   Person:
     description: A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.
     properties:
@@ -692,50 +796,139 @@ definitions:
         $ref: "#/definitions/uri"
       sameAs:
         $ref: "#/definitions/sameAs"
+      createdBy:
+        $ref: "#/definitions/createdBy"
+      createdWhen:
+        $ref: "#/definitions/createdWhen"
+      modifiedBy:
+        $ref: "#/definitions/modifiedBy"
+      modifiedWhen:
+        $ref: "#/definitions/modifiedWhen"
     example:
       - id: Andreas_Reuter
-      - uri: "http://pezdigital/persons#Mauro_Aspini"
+      - uri: "http://pez-digital.at/persons#Mauro_Aspini"
       - id: Placidus_Seiz
         sameAs: 
           http://d-nb.info/gnd/10102407X
           https://viaf.org/viaf/5285530/
   Statement:
-    # FPO calls this factoid?
+    type: object
+    description: "The statement object gives human and machine readable information on the person(s) listed in the factoid."  
+    required:
+      - id
     properties:
       id:
         $ref: "#/definitions/id"
-      text:
+      uri:
         type: string
-      graph:
-        description: "The object describing representing the statement as a graph follwos these rules: 
-          1. Every path possible in the graph has to be linked to the person described by the factoid via steps explicitly expressed in the graph.
-          2. All types and properties used in the graph can be mapped to a superclass taken from the CIDOC-CRM. These relationships are formaly described as a schema which can be accessed via the /describe/statement/schema path of the API."
-        # type: object
+        format: uri
+        description: "A fully dereferencably URI representing the statement. The API recommends to serve requests for serialisations of W3C RDF via this URI."
+      name:
         type: string
-    example:
-      - id: Pez1_809_1
-        text: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
-      - graph:
-          - "@context" : "http://pez-digital.at/prosopography-schema.json-ld"
-            "@graph": 
-            - "@id" : "http://pez-digital.at/Lindner-Album_Ettalense253f"
-              "assignedTo" : 
-              - "@id" : "http://pez-digital.at/placidus_Seiz"
-              "hasName" :  
-              - "@value" : "Placidus Seitz"
+        description: "any verbal identification of a person"
+      statementContent:
+        type: array
+        description: "describes the statement in more detail: e.g. which type of event, what type of relationship, but can also report citations from source or descriptive prose."
+        items:
+          type: object
+          properties:
+            uri:
+              type: string
+              format: uri
+              description: "A fully dereferencably URI, which could be an endpoint to RESTful API for the applied taxonomy"
+            label:
+              type: string
+              description: "descriptive text. We can imagine this to be a term from a controlled vocabulary, a short type name or more verbose description including the wording from the source or a short biogram."
+      role:
+        type: object
+        description: "describes the role of the person in the statement. If empty it is considered generically as 'participates in something which could be an event'"
+        properties:
+          uri:
+            type: string
+            format: uri
+            description: "A fully dereferencably URI, which could be an endpoint to RESTful API for the applied taxonomy"
+          label:
+            type: string
+            description: "descriptive text of the role of the person in the statement."      
+      date:
+        type: object
+        description: "The temporal allocation of the statement: To which time frame the statement on the person applies?"
+        properties:
+          sortdate:
+            type: string
+            format: date
+            description: "Formal version of the date following W3C recommendations. This date is not expected to represent the full range of possible dating. Use the label property to describe the date in more detail dates by century, by year, time ranges, date not before/not after, and similar."
+          label:
+            type: string
+            description: "verbal version of the date, which should enable the human reader to get an idea of the chronological concept."
+      place:
+        type: object
+        description: "describes the geographical information of the statement, e.g. the place where an event happened, the geographic coverage of a social role etc."
+        properties:
+          uri:
+            type: string
+            format: uri
+            description: "reference to geo-referenceable object (e.g. single place), preferably an endpoint of an RESTful API serving coordinates of a single place or a polygon together with information on projection used."
+          label:
+            type: string
+            description: "verbal reference to geo-referenceable object, e.g. name of a city, name of an area."
+      relatesToPerson:
+        description: "relationships of the person on which the statement is made to other persons."
+        type: array
+        items:
+          type: object
+          properties:
+            uri:
+              type: string
+              format: uri
+              description: "reference to a machine readably object on a person, preferably an endpoint following the definitions of this API."
+            label:
+              type: string
+              description: "a human readable description of the person to which the statement relates the persons referenced in the factoid, e.g. the name of the person"
+      memberOf:
+        type: object
+        description: "relationship of the person on which the statement is made to institutions or groups of persons identifiable."
+        properties:
+          uri:
+            type: string
+            format: uri
+          label:
+            type: string
+            description: "a human readable description of the group/institution to which the statement relates the persons referenced in the factoid"
+      createdBy:
+        $ref: "#/definitions/createdBy"
+      createdWhen:
+        $ref: "#/definitions/createdWhen"
+      modifiedBy:
+        $ref: "#/definitions/modifiedBy"
+      modifiedWhen:
+        $ref: "#/definitions/modifiedWhen"
   Source:
-
+    required:
+      - id
     properties:
       id:
         $ref: "#/definitions/id"
       uri:
         $ref: "#/definitions/uri"
+      label:
+        description: "A human readable description of the source of information for the factoid, e.g. a bibliographic reference, an archival shelfmark etc."
+        type: string
       sameAs:
         $ref: "#/definitions/sameAs"
       metadata:
-        description: a verbal or formal bibliographical/archival description of the source
+        description: "a verbal or formal bibliographical/archival description of the source"
         type: string
         # Allow string or structured metadata
+        # define methods to relate single source locus with a description of a source work (e.g. tei:locus, partOf, occursIn or similar
+      createdBy:
+        $ref: "#/definitions/createdBy"
+      createdWhen:
+        $ref: "#/definitions/createdWhen"
+      modifiedBy:
+        $ref: "#/definitions/modifiedBy"
+      modifiedWhen:
+        $ref: "#/definitions/modifiedWhen"
     example:
       - id: PezNachlassVol1
         sameAs: https://e-book.fwf.ac.at/o:370
@@ -745,15 +938,30 @@ definitions:
       - id: "Lindner-Album_Ettalense253f."
         metadata: "Lindner: Album Ettalense, S. 253f."
   id:
-    description: the local id of the object (factoid, person, source, statement)
+    description: "the local id of the object (factoid, person, source, statement)"
     type: string
   uri:
-    description: the uri of the object (factoid, person, source, statement)
+    description: "the uri of the object (factoid, person, source, statement, etc.). The API recommends to use endpoints of a RESTful API which gives further machine readable information on the object."
     type: string
-    #ToDo: uri as type e.g. by pattern?
+    format: uri
   sameAs:
-    description: the uri of an object (factoid, person, source, statement) referenced with owl:sameAs
+    description: the uri of an object (factoid, person, source, statement, etc.) referenced with owl:sameAs
     type: string
+    format: uri
+  createdBy:
+    type: string
+    description: "The user responsbile for a creation of the object. A group of persons is represented by a comma seperated list."
+  createdWhen:
+    description: ""
+    type: string
+    format: date
+  modifiedBy:
+    type: string
+    description: "The user responsbile for a modification of the object. A group of persons is represented by a comma seperated list."
+  modifiedWhen:
+    description: ""
+    type: string
+    format: date
   Error:
     properties:
       code:
@@ -762,44 +970,42 @@ definitions:
         type: string
 responses:
   BadRequestError:
-    description: Bad request. Caused by unknown parameters or illegal parameter values
+    description: "Bad request. Caused by unknown parameters or illegal parameter values"
     schema:
       $ref: "#/definitions/Error"
   Standard500ErrorResponse:
-    description: An unexpected error occurred. #I'm not sure if we need this in the API as a 500 could occur anytime and for many reasons and should normaly not expose the reason to the public. The typical message would be something like the standard "Internal Server Error".
+    description: "An unexpected error occurred." #GunV: I'm not sure if we need this in the API as a 500 could occur anytime and for many reasons and should normaly not expose the reason to the public. The typical message would be something like the standard "Internal Server Error".
     schema:
       $ref: "#/definitions/Error"
   NotImplementedError:
-    description: 
-      Functionality not implemented. Some implementations will only support read operations. 
-      For any data modifying request they must return a 501 response.
+    description: "Functionality not implemented. Some implementations will only support read operations. For any data modifying request they must return a 501 response."
     schema:
       $ref: "#/definitions/Error"
 parameters:
   size:
     name: size
     in: query
-    description: sets the  number of objects returned per page. Should the API define a default value?
+    description: "sets the  number of objects returned per page."
     type: integer
+    default: 30
   page:
     name: page
     in: query
-    description: 
-      Sets the page number of returned objects. 
-      So if size is set to 10 and page is set to 2, the objects 11-20 will be returned.
-      Default value is 1.
+    default: 1
+    description: "Sets the page number of returned objects. If size is set to 10 and page is set to 2, the objects 11-20 will be returned."
     type: integer
   id:
     name: id
     in: path
     required: true
     type: string
-    description: can be either the local id, or the uri or the uri of a owl:sameAs entry
+    description: "can be either the local id, or the uri or the uri of a owl:sameAs entry"
   sort_by:
     name: sort_by
     type: string
     in: query
-    description: defines the sort order of the returned factoids. TODO does this make sense? TODO What is the default sort order? TODO Allowed values should be discussed TODO Do we need an additional order parameter? (asc, desc)?
+    description: "defines the sort order of the returned factoids, can contain all properties of the ressource searched. The closing keywords 'ASC' and 'DESC' describe the sort order as 'ASCending' and 'DESCending'."
+    default: "createdWhen"
   p_id:
     name: p_id
     type: string
@@ -809,34 +1015,102 @@ parameters:
     name: p
     type: string
     in: query
-    description: filter by applying a pattern on persons (fulltext search)
+    description: "filter by applying a pattern on persons (fulltext search)"
   st_id:
     name: st_id
     type: string
     in: query
-    description: filter by statement id
+    description: "filter by statement id"
   st:
     name: st
     type: string
     in: query
-    description: filter by applying a pattern on statements (fulltext search)
+    description: "filter by applying a pattern on statements (fulltext search)"
   s_id:
     name: s_id
     type: string
     in: query
-    description: filter by source id
+    description: "filter by source id"
   s:
     name: s
     type: string
     in: query
-    description: filter by applying a pattern on sources (fulltext search)
+    description: "filter by applying a pattern on sources (fulltext search)"
   f:
     name: f
     type: string
     in: query
-    description: filter by applying a pattern on factoid (fulltext search)
+    description: "filter by applying a pattern on factoid (fulltext search)"
   f_id:
     name: f_id
     type: string
     in: query
-    description: filter by factoid id
+    description: "filter by factoid id"
+  statementContent:
+    name: statementContent
+    type: string
+    in: query
+    description: "could be URI or label"
+  role:
+    name: role
+    type: string
+    in: query
+    description: "could be URI or label"
+  from:
+    name: from
+    type: string
+    in: query
+    description: "all dates after the event date (including the event date) will be included. If `from` and `to` are the same, only a single exact date is included. Fragments (yyyy, yyyy-mm) will be interpreted as exact time ranges if the second parameter is missing (`from=yyyy-mm` is interpreted as `from=start of month`, `to=end of month`. If conflicting data is present, for example ``from=yyyy&to=yyyy-mm-dd`, the most correct interpretation will be decided on by the backend. For instance, the example before will be interpreted as `from=yyyy-01-01&to=yyyy-mm-dd`."
+  to:
+    name: to
+    type: string
+    in: query
+    description: "all dates before the event date (including the event date) will be included. If `from` and `to` are the same, only a single exact date is included. Fragments (yyyy, yyyy-mm) will be interpreted as exact time ranges if the second parameter is missing (`from=yyyy-mm` is interpreted as `from=start of month`, `to=end of month`. If conflicting data is present, for example ``from=yyyy&to=yyyy-mm-dd`, the most correct interpretation will be decided on by the backend. For instance, the example before will be interpreted as `from=yyyy-01-01&to=yyyy-mm-dd`."
+  place:
+    name: place
+    type: string
+    in: query
+    description: "could be URI or label"
+  relatesToPerson:
+    name: relatestToPerson
+    type: string
+    in: query
+    description: "could be URI or label"
+  memberOf:
+    name: memberOf
+    type: string
+    in: query
+    description: "could be URI or label"
+  name:
+    name: name
+    type: string
+    in: query
+    description: "names of a person"
+  createdBefore:
+    name: createdBefore
+    type: string
+    in: query
+  createdAfter:
+    name: createdAfter
+    type: string
+    in: query
+  createdBy:
+    name: createdBy
+    type: string
+    in: query
+    description: "Filters by full text search in the description of the user responsbile for the creation of the object. A group of persons is represented by a comma seperated list."
+  modifiedBefore:
+    name: createdBefore
+    type: string
+    in: query
+  modifiedAfter:
+    name: createdAfter
+    type: string
+    in: query
+  modifiedBy:
+    name: createdBy
+    type: string
+    in: query
+    description: "Filters by full text  
+    in the description of the user responsbile for a modification of the object. A group of persons is represented by a comma seperated list."
+
