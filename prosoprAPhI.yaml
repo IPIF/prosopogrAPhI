@@ -1054,7 +1054,7 @@ parameters:
     in: query
     description: "could be URI or label"
   relatesToPerson:
-    name: relatestToPerson
+    name: relatesToPerson
     type: string
     in: query
     description: "could be URI or label"
