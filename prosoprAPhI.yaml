@@ -42,6 +42,7 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
+        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: A list of Factoids
@@ -190,6 +191,7 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
+        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: Successfull response
@@ -336,6 +338,7 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
+        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: Successfull response
@@ -475,6 +478,7 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
+        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: Successfull response
@@ -630,22 +634,25 @@ definitions:
   Factoid:
     description: "A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time."
     type: object
-    #type: string    
     items:
       required:
         - id
         - person
         - source
-        - statement
+        - statements
         - createdBy
         - createdWhen
       properties:
         id:
           $ref: "#/definitions/id"
-        person:
-          $ref: "#/definitions/Person"
-        statement:
-          $ref: "#/definitions/Statement"
+        persons:
+          type: array
+          items:
+            $ref: "#/definitions/Person"
+        statements:
+          type: array
+          items:
+            $ref: "#/definitions/Statement"
         source:
           $ref: "#/definitions/Source"
         createdBy:
@@ -946,7 +953,7 @@ definitions:
     description: "the uri of an object (factoid, person, source, statement, etc.) referenced with owl:sameAs"
     type: array
     items:
-      - $ref: "#/definitions/uri"
+      $ref: "#/definitions/uri"
   createdBy:
     type: string
     description: "The user responsbile for a creation of the object. A group of persons is represented by a comma seperated list."
@@ -1045,6 +1052,11 @@ parameters:
     type: string
     in: query
     description: "filter by factoid id"
+  restricted:
+    name: restricted
+    type: boolean
+    in: query
+    description: "if set to 'true' the endpoint returns only the ids of the resource requested."
   statementContent:
     name: statementContent
     type: string
