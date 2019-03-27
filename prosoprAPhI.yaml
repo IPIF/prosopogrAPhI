@@ -639,8 +639,6 @@ definitions:
         - statement
         - createdBy
         - createdWhen
-        - modifiedBy
-        - modifiedWhen
       properties:
         id:
           $ref: "#/definitions/id"
@@ -666,8 +664,9 @@ definitions:
           person: Andreas_Reuter
           statement: 
             - id: Pez1_809_1
-              statementContent: 
-                label: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
+              statementContents: 
+                -
+                  label: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
           source: PezNachlassVol1
           createdBy: Thomas Wallnig
           createdWhen: 2010-05-05
@@ -677,8 +676,9 @@ definitions:
           person: Placidus_Seiz
           statement: 
             - id: Pez#474-7,
-              statementContent: 
-                label: ... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...
+              statementContents: 
+                -
+                  label: ... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...
           source: "Pez#474"
           createdBy: Thomas Wallnig
           createdWhen: 2007-04-16
@@ -702,66 +702,85 @@ definitions:
               date: 
                 sortdate: 1648-06-15
                 label: ca. 1648
-              statementContent:
-                label: Geburt
-              place: 
-                label: Kremsmünster
+              statementContents:
+                -
+                  label: Geburt
+              places: 
+                -
+                  label: Kremsmünster
             - id: Pez1_809_1
-              statementContent: 
-                label: Death
+              statementContents: 
+                -
+                  label: Death
               date:
                 sortdate: 1715-12-31
                 label: 1715
-              place:
-                label: Gleink
+              places:
+                -
+                  label: Gleink
             - id: Pez1_809_2
-              statementContent:
-                uri: "http://religiouspeople.org/rdf/#conventmember"
-                label: Konventuale
-              place:
-                label: Gleink
+              statementContents:
+                -
+                  uri: "http://religiouspeople.org/rdf/#conventmember"
+                  label: Konventuale
+              places:
+                -
+                  label: Gleink
             - id: Pez1_809_3
-              statementContent: 
-                label: Doktor der Theologie
+              statementContents: 
+                - 
+                  label: Doktor der Theologie
             - id: Pez1_809_4
-              statementContent: 
-                label: apostolischer Protonotar
+              statementContents: 
+                -
+                  label: apostolischer Protonotar
             - id: Pez1_809_5
-              statementContent: 
-                label: Ökonom des Klosters
-              place: 
-                label: Gleink
+              statementContents: 
+                -
+                  label: Ökonom des Klosters
+              places: 
+                -
+                  label: Gleink
             - id: Pez1_809_6
-              statementContent: 
-                label: Prior
-              place: 
-                uri: "http://sws.geonames.org/2778486/"
-                label: Gleink
+              statementContents: 
+                -
+                  label: Prior
+              places: 
+                -
+                  uri: "http://sws.geonames.org/2778486/"
+                  label: Gleink
             - id: Pez1_809_7
-              statementContent: 
-                label: Prior (belegt als)
-              place: 
-                label: Gleink
+              statementContents: 
+                -
+                  label: Prior (belegt als)
+              places: 
+                -
+                  label: Gleink
               date:
                 sortdate: 1708-01-01
             - id: Pez1_809_7
-              statementContent: 
-                label: Unterzeichner der Rotel auf Abt Rupert von Kimpflern 
-              place: 
-                label: Gleink
+              statementContents: 
+                -
+                  label: Unterzeichner der Rotel auf Abt Rupert von Kimpflern 
+              places: 
+                -
+                  label: Gleink
               date:
                 sortdate: 1708-01-01
                 label: 1708
-              relatesToPerson:
-                label: Abt Rupert von Kimpflern
+              relatesToPersons:
+                - 
+                  label: Abt Rupert von Kimpflern
             - id: Pez1_809_8
-              statementContent: 
-                label: Brief an Bernhard Pez 
+              statementContents: 
+                - 
+                  label: Brief an Bernhard Pez 
               date:
                 sortdate: 1710-01-01
                 label: 1710
-              relatesToPerson:
-                label: Bernhard Pez
+              relatesToPersons:
+                - 
+                  label: Bernhard Pez
           source: PezNachlassVol1
           createdBy: Thomas Wallnig
           createdWhen: 2010-05-05
@@ -806,7 +825,7 @@ definitions:
       name:
         type: string
         description: "any verbal identification of a person"
-      statementContent:
+      statementContents:
         type: array
         description: "describes the statement in more detail: e.g. which type of event, what type of relationship, but can also report citations from source or descriptive prose."
         items:
@@ -841,7 +860,7 @@ definitions:
           label:
             type: string
             description: "verbal version of the date, which should enable the human reader to get an idea of the chronological concept."
-      place:
+      places:
         description: "describes the geographical information of the statement, e.g. the place where an event happened, the geographic coverage of a social role etc."
         type: array
         items:
@@ -854,7 +873,7 @@ definitions:
               label:
                 type: string
                 description: "verbal reference to geo-referenceable object, e.g. name of a city, name of an area."
-      relatesToPerson:
+      relatesToPersons:
         description: "relationships of the person on which the statement is made to other persons."
         type: array
         items:
