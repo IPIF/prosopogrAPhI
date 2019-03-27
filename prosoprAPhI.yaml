@@ -791,10 +791,8 @@ definitions:
     properties:
       id:
         $ref: "#/definitions/id"
-      uri:
-        $ref: "#/definitions/uri"
-      sameAs:
-        $ref: "#/definitions/sameAs"
+      uris:
+        $ref: "#/definitions/uris"
       createdBy:
         $ref: "#/definitions/createdBy"
       createdWhen:
@@ -807,9 +805,9 @@ definitions:
       - id: Andreas_Reuter
       - uri: "http://pez-digital.at/persons#Mauro_Aspini"
       - id: Placidus_Seiz
-        sameAs: 
-          http://d-nb.info/gnd/10102407X
-          https://viaf.org/viaf/5285530/
+        uris: 
+          - http://d-nb.info/gnd/10102407X
+          - https://viaf.org/viaf/5285530/
   Statement:
     type: object
     description: "The statement object gives human and machine readable information on the person(s) listed in the factoid."  
@@ -910,13 +908,11 @@ definitions:
     properties:
       id:
         $ref: "#/definitions/id"
-      uri:
-        $ref: "#/definitions/uri"
       label:
         description: "A human readable description of the source of information for the factoid, e.g. a bibliographic reference, an archival shelfmark etc."
         type: string
-      sameAs:
-        $ref: "#/definitions/sameAs"
+      uris:
+        $ref: "#/definitions/uris"
       metadata:
         description: "a verbal or formal bibliographical/archival description of the source"
         type: string
@@ -932,7 +928,8 @@ definitions:
         $ref: "#/definitions/modifiedWhen"
     example:
       - id: PezNachlassVol1
-        sameAs: https://e-book.fwf.ac.at/o:370
+        uris: 
+          - https://e-book.fwf.ac.at/o:370
         metadata: "Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010"
       - id: "Pez#474"
         metadata: "Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v"
@@ -945,10 +942,11 @@ definitions:
     description: "the uri of the object (factoid, person, source, statement, etc.). The API recommends to use endpoints of a RESTful API which gives further machine readable information on the object."
     type: string
     format: uri
-  sameAs:
-    description: the uri of an object (factoid, person, source, statement, etc.) referenced with owl:sameAs
-    type: string
-    format: uri
+  uris:
+    description: "the uri of an object (factoid, person, source, statement, etc.) referenced with owl:sameAs"
+    type: array
+    items:
+      - $ref: "#/definitions/uri"
   createdBy:
     type: string
     description: "The user responsbile for a creation of the object. A group of persons is represented by a comma seperated list."
