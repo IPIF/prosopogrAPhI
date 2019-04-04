@@ -60,6 +60,19 @@ paths:
       parameters:
         - $ref: "#/parameters/p_id"
         - $ref: "#/parameters/p"
+        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/s"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*
@@ -210,15 +223,22 @@ paths:
       description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of persons found etc.
                    TODO *I'm not sure if we really need this and what metadata will be useful beside the total number of
                    available persons*
-                   TODO *Possibly this could replace the describe uris?*
       parameters:
-        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p"
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
@@ -360,15 +380,19 @@ paths:
                    available sources*
                    TODO *Possibly this could replace the describe uris?*
       parameters:
-        - $ref: "#/parameters/size"
-        - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
         - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/p"
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/st_id"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/p"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
@@ -505,11 +529,18 @@ paths:
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/sort_by"
         - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/p"
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/s_id"
-        - $ref: "#/parameters/s"
-        - $ref: "#/parameters/p"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Metadata about the statements to be returned. *TODO schema has to to be discussed*                      
@@ -794,7 +825,10 @@ definitions:
           modifiedBy: Thomas Wallnig
           modifiedWhen: 2010-05-05
   Person:
+    type: object
     description: A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.
+    required:
+      - id
     properties:
       id:
         $ref: "#/definitions/id"
