@@ -34,4 +34,4 @@ Substantially enhanced during the prosopography hackathon 2019 February (Vienna)
 The major file in this is the swagger description of the proposed API ([prosopogrAPhI.yaml](https://github.com/GVogeler/prosopogrAPhI/blob/master/prosoprAPhI.yaml)). The [rationale.md](rationale.md) gives you some background to it.
 
 See Vogeler, Georg; Vasold, Gunter; Schlögl, Matthias. Von IIIF zu IPIF? Ein Vorschlag für den Datenaustausch über Personen.
-In: Sahle, Patrick (Hg.): DHd 2019 Digital Humanities: multimedial & multimodal. Konferenzabstracts. Frankfurt / Mainz. DHd. 2019 DOI: ([10.5281/zenodo.2600812](http://doi.org/10.5281/zenodo.2600812)). pp. 239-241. ([Slides of the presentation](https://online.uni-graz.at/kfu_online/wbFPCompsCallBacks.cbExecuteDownload?pDocStoreNr=5185962))
+In: Sahle, Patrick (Hg.): DHd 2019 Digital Humanities: multimedial & multimodal. Konferenzabstracts. Frankfurt / Mainz. DHd. 2019 DOI: [10.5281/zenodo.2600812](http://doi.org/10.5281/zenodo.2600812). pp. 239-241. [Slides of the presentation](https://online.uni-graz.at/kfu_online/wbFPCompsCallBacks.cbExecuteDownload?pDocStoreNr=5185962))
