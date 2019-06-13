@@ -1,0 +1,35 @@
+{
+    "Factoids": "http://prosopography.org/#factoids",
+    "Persons": "http://prosopography.org/#persons",
+    "Sources": "http://prosopography.org/#sources",
+    "statements": "http://prosopography.org/#statements",
+    "person": {
+        "@id": "http://prosopography.org/#person",
+        "@type": "@id"
+    },
+    "statementContents": "http://prosopography.org/#StatementContent",
+    "label": "http://prosopography.org/#label",
+    "source": {
+        "@id": "http://prosopography.org/#source",
+        "@type": "@id"
+    },
+    "createdBy": "http://prosopography.org/#createdBy",
+    "createdWhen": {
+        "@id": "http://prosopography.org/#createdWhen",
+        "@type": "xsd:date"
+    },
+    "modifiedBy": "http://prosopography.org/#modifiedBy",
+    "modifiedWhen": {
+        "@id": "http://prosopography.org/#modifiedWhen",
+        "@type": "xsd:date"
+    },
+    "name": "http://prosopography.org/#name",
+    "uri": "http://prosopography.org/#uri",
+    "date": "http://prosopography.org/#date",
+    "sortdate": {
+        "@id": "http://prosopography.org/#sortdate",
+        "@type": "xsd:dateTime"
+    },
+    "places": "http://prosopography.org/#places",
+    "relatesToPersons": "http://prosopography.org/#relatesToPersons"
+}
