@@ -700,7 +700,7 @@ definitions:
       example:
         - id: TW_Pez1_809_1 
           person: Andreas_Reuter
-          statement: 
+          statements: 
             - id: Pez1_809_1
               statementContents: 
                 -
@@ -712,7 +712,7 @@ definitions:
           modifiedWhen: 2010-05-05
         - id: TW_Pez1_123456
           person: Placidus_Seiz
-          statement: 
+          statements: 
             - id: Pez#474-7,
               statementContents: 
                 -
@@ -724,7 +724,7 @@ definitions:
           modifiedWhen: 2007-04-16
         - id: TW_Pez1_123456
           person: Placidus_Seiz
-          statement: 
+          statements: 
             id: person1241
             name: Placidus Seitz
             uri: http://pez-digital.at/placidus_Seiz
@@ -735,7 +735,7 @@ definitions:
           modifiedWhen: 2007-07-01
         - id: Fd2qwr
           person: Andreas_Reuter
-          statement: 
+          statements: 
             - id: Fd2qwr
               date: 
                 sortdate: 1648-06-15
