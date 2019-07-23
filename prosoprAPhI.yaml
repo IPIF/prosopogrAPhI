@@ -42,7 +42,6 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
-        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: A list of Factoids
@@ -85,11 +84,11 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"          
     post:
-      summary: "creates a factoid. No Factoid can be created without references to a person, a source, and at least one statement
+      summary: "creates a factoid. No Factoid can be created without references to a person, a source, and at least one statement"
       parameters:
         - name: factoid
           in: body
-          description: the factoid
+          description: the factoid data
           schema:
             $ref: "#/definitions/Factoid"
       responses:
@@ -204,7 +203,6 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
-        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: Successfull response
@@ -223,6 +221,7 @@ paths:
       description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of persons found etc.
                    TODO *I'm not sure if we really need this and what metadata will be useful beside the total number of
                    available persons*
+                   TODO *Possibly this could replace the describe uris?*
       parameters:
         - $ref: "#/parameters/p"
         - $ref: "#/parameters/f_id"
@@ -248,6 +247,11 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"                
     post:
       summary: Add a new person
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Person"
       responses:
         201:
           description: Person created
@@ -290,6 +294,7 @@ paths:
         - $ref: "#/parameters/id"      
         - name: content
           in: body
+          description: the person data
           schema:
             $ref: "#/definitions/Person"
       responses:
@@ -358,7 +363,6 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
-        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: Successfull response
@@ -380,10 +384,14 @@ paths:
                    available sources*
                    TODO *Possibly this could replace the describe uris?*
       parameters:
+        - $ref: "#/parameters/size"
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/sort_by"
         - $ref: "#/parameters/p_id"
         - $ref: "#/parameters/p"
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
+        - $ref: "#/parameters/st_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
@@ -402,6 +410,12 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"                
     post:
       summary: Add a new source
+      parameters:
+        - name: body
+          in: body
+          description: the source data
+          schema:
+            $ref: "#/definitions/Source"
       responses:
         201:
           description: Source created
@@ -447,6 +461,7 @@ paths:
           type: string
         - name: content
           in: body
+          description: the source data
           schema:
             $ref: "#/definitions/Source"
       responses:
@@ -502,7 +517,6 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
-        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: Successfull response
@@ -550,6 +564,11 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"                
     post:
       summary: Add a new statement
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Statement"
       responses:
         201:
           description: Statement created
@@ -665,6 +684,7 @@ definitions:
   Factoid:
     description: "A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time."
     type: object
+    #type: string    
     items:
       required:
         - id
@@ -949,6 +969,8 @@ definitions:
     properties:
       id:
         $ref: "#/definitions/id"
+      uri:
+        $ref: "#/definitions/uri"
       label:
         description: "A human readable description of the source of information for the factoid, e.g. a bibliographic reference, an archival shelfmark etc."
         type: string
@@ -1086,11 +1108,6 @@ parameters:
     type: string
     in: query
     description: "filter by factoid id"
-  restricted:
-    name: restricted
-    type: boolean
-    in: query
-    description: "if set to 'true' the endpoint returns only the ids of the resource requested."
   statementContent:
     name: statementContent
     type: string
