@@ -59,6 +59,19 @@ paths:
       parameters:
         - $ref: "#/parameters/p_id"
         - $ref: "#/parameters/p"
+        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/s"
+        - $ref: "#/parameters/f"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*
@@ -73,7 +86,7 @@ paths:
     post:
       summary: "creates a factoid. No Factoid can be created without references to a person, a source, and at least one statement"
       parameters:
-        - name: body
+        - name: factoid
           in: body
           description: the factoid data
           schema:
@@ -134,15 +147,15 @@ paths:
       summary: updates the factoid with the {id}
       parameters:
         - $ref: "#/parameters/id"      
-        - name: body
+        - name: content
           in: body
           schema:
             $ref: "#/definitions/Factoid"
       responses:
         201:
-          description: Factoid updated
+          description: factoid updated
         400:
-          description: Factoid could not be updated or created. TODO should return reason as message
+          description: factoid could not be updated or created. TODO should return reason as message
         403:
           description: Forbidden. Missing token or user is not allowed to create persons. 
         500:
@@ -210,13 +223,21 @@ paths:
                    available persons*
                    TODO *Possibly this could replace the describe uris?*
       parameters:
-        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p"
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st_id"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/s_id"
         - $ref: "#/parameters/s"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
@@ -271,7 +292,7 @@ paths:
       summary: updates the person with the {id}
       parameters:
         - $ref: "#/parameters/id"      
-        - name: body
+        - name: content
           in: body
           description: the person data
           schema:
@@ -367,11 +388,19 @@ paths:
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/sort_by"
         - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/p"
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st_id"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/p"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*                      
@@ -430,7 +459,7 @@ paths:
           in: path
           required: true
           type: string
-        - name: body
+        - name: content
           in: body
           description: the source data
           schema:
@@ -514,11 +543,18 @@ paths:
         - $ref: "#/parameters/page"
         - $ref: "#/parameters/sort_by"
         - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/p"
         - $ref: "#/parameters/f_id"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/s_id"
-        - $ref: "#/parameters/s"
-        - $ref: "#/parameters/p"
+        - $ref: "#/parameters/st"
+        - $ref: "#/parameters/statementContent"
+        - $ref: "#/parameters/relatesToPerson"
+        - $ref: "#/parameters/memberOf"
+        - $ref: "#/parameters/role"
+        - $ref: "#/parameters/name"
+        - $ref: "#/parameters/from"
+        - $ref: "#/parameters/to"
+        - $ref: "#/parameters/place"
       responses:
         200:
           description: Metadata about the statements to be returned. *TODO schema has to to be discussed*                      
@@ -573,7 +609,7 @@ paths:
       summary: updates the statement with the {id}
       parameters:
         - $ref: "#/parameters/id"      
-        - name: body
+        - name: content
           in: body
           schema:
             $ref: "#/definitions/Statement"
@@ -649,153 +685,175 @@ definitions:
     description: "A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time."
     type: object
     #type: string    
-    #items:
-    required:
-      - id
-      - person
-      - source
-      - statements
-      - createdBy
-      - createdWhen
-      - modifiedBy
-      - modifiedWhen
-    properties:
-      id:
-        $ref: "#/definitions/id"
-      person:
-        $ref: "#/definitions/Person"
-      statements:
+    items:
+      required:
+        - id
+        - person
+        - source
+        - statements
+        - createdBy
+        - createdWhen
+      properties:
+        id:
+          $ref: "#/definitions/id"
+        persons:
+          type: array
+          items:
+            $ref: "#/definitions/Person"
+        statements:
           type: array
           items:
             $ref: "#/definitions/Statement"
-      source:
-        $ref: "#/definitions/Source"
-      createdBy:
-        $ref: "#/definitions/createdBy"
-      createdWhen:
-        $ref: "#/definitions/createdWhen"
-      modifiedBy:
-        $ref: "#/definitions/modifiedBy"
-      modifiedWhen:
-        $ref: "#/definitions/modifiedWhen"
-      wasDerivedFrom:
-        type: string 
-        format: uri
-    example:
-      - id: TW_Pez1_809_1 
-        person: Andreas_Reuter
-        statements: 
-          - id: Pez1_809_1
-            statementContent: 
-              label: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
-        source: PezNachlassVol1
-        createdBy: Thomas Wallnig
-        createdWhen: 2010-05-05
-        modifiedBy: Thomas Wallnig
-        modifiedWhen: 2010-05-05
-      - id: TW_Pez1_123456
-        person: Placidus_Seiz
-        statements: 
-          - id: Pez#474-7,
-            statementContent: 
-            label: ... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...
-        source: "Pez#474"
-        createdBy: Thomas Wallnig
-        createdWhen: 2007-04-16
-        modifiedBy: Thomas Wallnig
-        modifiedWhen: 2007-04-16
-      - id: TW_Pez1_123456
-        person: Placidus_Seiz
-        statements: 
-          - id: person1241
+        source:
+          $ref: "#/definitions/Source"
+        createdBy:
+          $ref: "#/definitions/createdBy"
+        createdWhen:
+          $ref: "#/definitions/createdWhen"
+        modifiedBy:
+          $ref: "#/definitions/modifiedBy"
+        modifiedWhen:
+          $ref: "#/definitions/modifiedWhen"
+        wasDerivedFrom:
+          type: string 
+          format: uri
+      example:
+        - id: TW_Pez1_809_1 
+          person: Andreas_Reuter
+          statements: 
+            - id: Pez1_809_1
+              statementContents: 
+                -
+                  label: "Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez."
+          source: PezNachlassVol1
+          createdBy: Thomas Wallnig
+          createdWhen: 2010-05-05
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2010-05-05
+        - id: TW_Pez1_123456
+          person: Placidus_Seiz
+          statements: 
+            - id: Pez#474-7,
+              statementContents: 
+                -
+                  label: ... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...
+          source: "Pez#474"
+          createdBy: Thomas Wallnig
+          createdWhen: 2007-04-16
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2007-04-16
+        - id: TW_Pez1_123456
+          person: Placidus_Seiz
+          statements: 
+            id: person1241
             name: Placidus Seitz
             uri: http://pez-digital.at/placidus_Seiz
-        source: "Lindner-Album_Ettalense253f."
-        createdBy: Thomas Wallnig
-        createdWhen: 2007-04-16
-        modifiedBy: Thomas Wallnig
-        modifiedWhen: 2007-07-01
-        id: Fd2qwr
-        person: Andreas_Reuter
-        statements: 
-          - id: Fd2qwr
-            date: 
-              sortdate: 1648-06-15
-              label: ca. 1648
-            statementContent:
-              label: Geburt
-            place: 
-              label: Kremsmünster
-          - id: Pez1_809_1
-            statementContent: 
-                label: Death
-            date:
-              sortdate: 1715-12-31
-              label: 1715
-            place:
-              label: Gleink
-          - id: Pez1_809_2
-            statementContent:
-              uri: "http://religiouspeople.org/rdf/#conventmember"
-              label: Konventuale
-            place:
-              label: Gleink
-          - id: Pez1_809_3
-            statementContent: 
-              label: Doktor der Theologie
-          - id: Pez1_809_4
-            statementContent: 
-              label: apostolischer Protonotar
-          - id: Pez1_809_5
-            statementContent: 
-               label: Ökonom des Klosters
-            place: 
-              label: Gleink
-          - id: Pez1_809_6
-            statementContent: 
-              label: Prior
-            place: 
-              uri: "http://sws.geonames.org/2778486/"
-              label: Gleink
-          - id: Pez1_809_7
-            statementContent: 
-              label: Prior (belegt als)
-            place: 
-              label: Gleink
-            date:
-              sortdate: 1708-01-01
-          - id: Pez1_809_7
-            statementContent: 
-              label: Unterzeichner der Rotel auf Abt Rupert von Kimpflern 
-            place: 
-              label: Gleink
-            date:
-              sortdate: 1708-01-01
-              label: 1708
-            relatesToPerson:
-              label: Abt Rupert von Kimpflern
-          - id: Pez1_809_8
-            statementContent: 
-              label: Brief an Bernhard Pez 
-            date:
-              sortdate: 1710-01-01
-              label: 1710
-            relatesToPerson:
-              label: Bernhard Pez
-        source: PezNachlassVol1
-        createdBy: Thomas Wallnig
-        createdWhen: 2010-05-05
-        modifiedBy: Thomas Wallnig
-        modifiedWhen: 2010-05-05
+          source: "Lindner-Album_Ettalense253f."
+          createdBy: Thomas Wallnig
+          createdWhen: 2007-04-16
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2007-07-01
+        - id: Fd2qwr
+          person: Andreas_Reuter
+          statements: 
+            - id: Fd2qwr
+              date: 
+                sortdate: 1648-06-15
+                label: ca. 1648
+              statementContents:
+                -
+                  label: Geburt
+              places: 
+                -
+                  label: Kremsmünster
+            - id: Pez1_809_1
+              statementContents: 
+                -
+                  label: Death
+              date:
+                sortdate: 1715-12-31
+                label: 1715
+              places:
+                -
+                  label: Gleink
+            - id: Pez1_809_2
+              statementContents:
+                -
+                  uri: "http://religiouspeople.org/rdf/#conventmember"
+                  label: Konventuale
+              places:
+                -
+                  label: Gleink
+            - id: Pez1_809_3
+              statementContents: 
+                - 
+                  label: Doktor der Theologie
+            - id: Pez1_809_4
+              statementContents: 
+                -
+                  label: apostolischer Protonotar
+            - id: Pez1_809_5
+              statementContents: 
+                -
+                  label: Ökonom des Klosters
+              places: 
+                -
+                  label: Gleink
+            - id: Pez1_809_6
+              statementContents: 
+                -
+                  label: Prior
+              places: 
+                -
+                  uri: "http://sws.geonames.org/2778486/"
+                  label: Gleink
+            - id: Pez1_809_7
+              statementContents: 
+                -
+                  label: Prior (belegt als)
+              places: 
+                -
+                  label: Gleink
+              date:
+                sortdate: 1708-01-01
+            - id: Pez1_809_7
+              statementContents: 
+                -
+                  label: Unterzeichner der Rotel auf Abt Rupert von Kimpflern 
+              places: 
+                -
+                  label: Gleink
+              date:
+                sortdate: 1708-01-01
+                label: 1708
+              relatesToPersons:
+                - 
+                  label: Abt Rupert von Kimpflern
+            - id: Pez1_809_8
+              statementContents: 
+                - 
+                  label: Brief an Bernhard Pez 
+              date:
+                sortdate: 1710-01-01
+                label: 1710
+              relatesToPersons:
+                - 
+                  label: Bernhard Pez
+          source: PezNachlassVol1
+          createdBy: Thomas Wallnig
+          createdWhen: 2010-05-05
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2010-05-05
   Person:
+    type: object
     description: A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.
+    required:
+      - id
     properties:
       id:
         $ref: "#/definitions/id"
-      uri:
-        $ref: "#/definitions/uri"
-      sameAs:
-        $ref: "#/definitions/sameAs"
+      uris:
+        $ref: "#/definitions/uris"
       createdBy:
         $ref: "#/definitions/createdBy"
       createdWhen:
@@ -808,9 +866,9 @@ definitions:
       - id: Andreas_Reuter
       - uri: "http://pez-digital.at/persons#Mauro_Aspini"
       - id: Placidus_Seiz
-        sameAs: 
-          http://d-nb.info/gnd/10102407X
-          https://viaf.org/viaf/5285530/
+        uris: 
+          - http://d-nb.info/gnd/10102407X
+          - https://viaf.org/viaf/5285530/
   Statement:
     type: object
     description: "The statement object gives human and machine readable information on the person(s) listed in the factoid."  
@@ -826,7 +884,7 @@ definitions:
       name:
         type: string
         description: "any verbal identification of a person"
-      statementContent:
+      statementContents:
         type: array
         description: "describes the statement in more detail: e.g. which type of event, what type of relationship, but can also report citations from source or descriptive prose."
         items:
@@ -861,18 +919,20 @@ definitions:
           label:
             type: string
             description: "verbal version of the date, which should enable the human reader to get an idea of the chronological concept."
-      place:
-        type: object
+      places:
         description: "describes the geographical information of the statement, e.g. the place where an event happened, the geographic coverage of a social role etc."
-        properties:
-          uri:
-            type: string
-            format: uri
-            description: "reference to geo-referenceable object (e.g. single place), preferably an endpoint of an RESTful API serving coordinates of a single place or a polygon together with information on projection used."
-          label:
-            type: string
-            description: "verbal reference to geo-referenceable object, e.g. name of a city, name of an area."
-      relatesToPerson:
+        type: array
+        items:
+            type: object
+            properties:
+              uri:
+                type: string
+                format: uri
+                description: "reference to geo-referenceable object (e.g. single place), preferably an endpoint of an RESTful API serving coordinates of a single place or a polygon together with information on projection used."
+              label:
+                type: string
+                description: "verbal reference to geo-referenceable object, e.g. name of a city, name of an area."
+      relatesToPersons:
         description: "relationships of the person on which the statement is made to other persons."
         type: array
         items:
@@ -914,8 +974,8 @@ definitions:
       label:
         description: "A human readable description of the source of information for the factoid, e.g. a bibliographic reference, an archival shelfmark etc."
         type: string
-      sameAs:
-        $ref: "#/definitions/sameAs"
+      uris:
+        $ref: "#/definitions/uris"
       metadata:
         description: "a verbal or formal bibliographical/archival description of the source"
         type: string
@@ -931,7 +991,8 @@ definitions:
         $ref: "#/definitions/modifiedWhen"
     example:
       - id: PezNachlassVol1
-        sameAs: https://e-book.fwf.ac.at/o:370
+        uris: 
+          - https://e-book.fwf.ac.at/o:370
         metadata: "Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010"
       - id: "Pez#474"
         metadata: "Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v"
@@ -944,10 +1005,11 @@ definitions:
     description: "the uri of the object (factoid, person, source, statement, etc.). The API recommends to use endpoints of a RESTful API which gives further machine readable information on the object."
     type: string
     format: uri
-  sameAs:
-    description: the uri of an object (factoid, person, source, statement, etc.) referenced with owl:sameAs
-    type: string
-    format: uri
+  uris:
+    description: "the uri of an object (factoid, person, source, statement, etc.) referenced with owl:sameAs"
+    type: array
+    items:
+      $ref: "#/definitions/uri"
   createdBy:
     type: string
     description: "The user responsbile for a creation of the object. A group of persons is represented by a comma seperated list."
@@ -1072,7 +1134,7 @@ parameters:
     in: query
     description: "could be URI or label"
   relatesToPerson:
-    name: relatestToPerson
+    name: relatesToPerson
     type: string
     in: query
     description: "could be URI or label"
@@ -1111,6 +1173,4 @@ parameters:
     name: createdBy
     type: string
     in: query
-    description: "Filters by full text  
-    in the description of the user responsbile for a modification of the object. A group of persons is represented by a comma seperated list."
-
+    description: "Filters by full text  search in the description of the user responsbile for a modification of the object. A group of persons is represented by a comma seperated list."
