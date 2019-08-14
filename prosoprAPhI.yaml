@@ -1,7 +1,7 @@
 swagger: "2.0"
 
 info:
-  version: 0.2.0
+  version: 0.3.0
   title: prosopogrAPhI
   description: basic prosopographical data API
   # contact: georg.vogeler@uni-graz.at
@@ -61,7 +61,7 @@ paths:
         - $ref: "#/parameters/p"
         - $ref: "#/parameters/statementId"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/sourseId"
+        - $ref: "#/parameters/sourceId"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/statementContent"
