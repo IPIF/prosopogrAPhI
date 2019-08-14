@@ -386,12 +386,21 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
+<<<<<<< HEAD
         - $ref: "#/parameters/sortBy"
         - $ref: "#/parameters/personId"
+=======
+        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/p_id"
+>>>>>>> e3ba7df7890162b62f5c8a73b6f3c56ee5a7f035
         - $ref: "#/parameters/p"
         - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
+<<<<<<< HEAD
         - $ref: "#/parameters/statementId"
+=======
+        - $ref: "#/parameters/st_id"
+>>>>>>> e3ba7df7890162b62f5c8a73b6f3c56ee5a7f035
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
