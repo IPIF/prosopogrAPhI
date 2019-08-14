@@ -23,15 +23,15 @@ paths:
   /factoids:
     get:
       summary: Gets factoids
-      description: "Gets an array of `Factoid` objects. The number of array members returned with each response is restricted by the **size** parameter. Factoids can be filtered by setting additional parameters like **p_id** or **p**. Factoids are sorted by default by date of create time."
+      description: "Gets an array of `Factoid` objects. The number of array members returned with each response is restricted by the **size** parameter. Factoids can be filtered by setting additional parameters like **personId** or **p**. Factoids are sorted by default by date of create time."
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/personId"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/statementId"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/sourceId"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/statementContent"
@@ -42,7 +42,6 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
-        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: A list of Factoids
@@ -58,11 +57,11 @@ paths:
       summary: Gets metadata about factoids
       description: "Using the same filtering parameters as GET, it does not return any results, but metadata like the number of factoids etc."
       parameters:
-        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/personId"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/statementId"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/sourseId"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/statementContent"
@@ -85,11 +84,11 @@ paths:
         500:
           $ref: "#/responses/Standard500ErrorResponse"          
     post:
-      summary: "creates a factoid. No Factoid can be created without references to a person, a source, and at least one statement
+      summary: "creates a factoid. No Factoid can be created without references to a person, a source, and at least one statement"
       parameters:
         - name: factoid
           in: body
-          description: the factoid
+          description: the factoid data
           schema:
             $ref: "#/definitions/Factoid"
       responses:
@@ -183,18 +182,18 @@ paths:
       summary: Get persons
       description: Gets a list of `Person` objects.
                    The number of array members returned with each response is restricted by the **size** parameter. 
-                   Persons can be filtered by setting additional parameters like **f_id** or **f**. TODO Further 
+                   Persons can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further 
                    parameters for filtering have to be specified.      
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/sortBy"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/statementId"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/sourceId"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
@@ -204,7 +203,6 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
-        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: Successfull response
@@ -223,13 +221,14 @@ paths:
       description: Uses the same filtering parameters as GET, but does not return any results, but metadata like the number of persons found etc.
                    TODO *I'm not sure if we really need this and what metadata will be useful beside the total number of
                    available persons*
+                   TODO *Possibly this could replace the describe uris?*
       parameters:
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/statementId"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/sourceId"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
@@ -248,6 +247,11 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"                
     post:
       summary: Add a new person
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Person"
       responses:
         201:
           description: Person created
@@ -290,6 +294,7 @@ paths:
         - $ref: "#/parameters/id"      
         - name: content
           in: body
+          description: the person data
           schema:
             $ref: "#/definitions/Person"
       responses:
@@ -339,15 +344,15 @@ paths:
       summary: gets a list of sources
       description: Gets a list of `Source` objects.
                    The number of array members returned with each response is restricted by the **size** parameter. 
-                   Sources can be filtered by setting additional parameters like **f_id** or **f**. TODO Further 
+                   Sources can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further 
                    parameters for filtering have to be specified.      
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
-        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/sortBy"
+        - $ref: "#/parameters/personId"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/statementContent"
@@ -358,7 +363,6 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
-        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: Successfull response
@@ -380,10 +384,14 @@ paths:
                    available sources*
                    TODO *Possibly this could replace the describe uris?*
       parameters:
-        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/size"
+        - $ref: "#/parameters/page"
+        - $ref: "#/parameters/sortBy"
+        - $ref: "#/parameters/personId"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
+        - $ref: "#/parameters/statementId"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
@@ -402,6 +410,12 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"                
     post:
       summary: Add a new source
+      parameters:
+        - name: body
+          in: body
+          description: the source data
+          schema:
+            $ref: "#/definitions/Source"
       responses:
         201:
           description: Source created
@@ -447,6 +461,7 @@ paths:
           type: string
         - name: content
           in: body
+          description: the source data
           schema:
             $ref: "#/definitions/Source"
       responses:
@@ -482,16 +497,16 @@ paths:
       summary: gets a list of statements
       description: Gets a list of `Statement` objects.
                    The number of array members returned with each response is restricted by the **size** parameter. 
-                   Statements can be filtered by setting additional parameters like **f_id** or **f**. TODO Further 
+                   Statements can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further 
                    parameters for filtering have to be specified.      
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
-        - $ref: "#/parameters/p_id"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/sortBy"
+        - $ref: "#/parameters/personId"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/sourceId"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
         - $ref: "#/parameters/statementContent"
@@ -502,7 +517,6 @@ paths:
         - $ref: "#/parameters/from"
         - $ref: "#/parameters/to"
         - $ref: "#/parameters/place"
-        - $ref: "#/parameters/restricted"
       responses:
         200:
           description: Successfull response
@@ -527,10 +541,10 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
-        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/sortBy"
+        - $ref: "#/parameters/personId"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/statementContent"
@@ -550,6 +564,11 @@ paths:
           $ref: "#/responses/Standard500ErrorResponse"                
     post:
       summary: Add a new statement
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/Statement"
       responses:
         201:
           description: Statement created
@@ -665,6 +684,7 @@ definitions:
   Factoid:
     description: "A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time."
     type: object
+    #type: string    
     items:
       required:
         - id
@@ -694,7 +714,8 @@ definitions:
           $ref: "#/definitions/modifiedBy"
         modifiedWhen:
           $ref: "#/definitions/modifiedWhen"
-        wasDerivedFrom:
+        derivedFrom:
+          description: "references the URI of a factoid on which this factoid is based."
           type: string 
           format: uri
       example:
@@ -844,7 +865,7 @@ definitions:
         $ref: "#/definitions/modifiedWhen"
     example:
       - id: Andreas_Reuter
-      - uri: "http://pez-digital.at/persons#Mauro_Aspini"
+      - uris: "http://pez-digital.at/persons#Mauro_Aspini"
       - id: Placidus_Seiz
         uris: 
           - http://d-nb.info/gnd/10102407X
@@ -861,22 +882,22 @@ definitions:
         type: string
         format: uri
         description: "A fully dereferencably URI representing the statement. The API recommends to serve requests for serialisations of W3C RDF via this URI."
+      statementType:
+        type: object
+        properties:
+          uri:
+            type: string
+            format: uri
+            description: "A fully dereferencably URI, which could be an endpoint to RESTful API for the applied taxonomy"
+          label:
+            type: string
+            description: "descriptive text. We can imagine this to be a term from a controlled vocabulary, a short type name or more verbose description including the wording from the source or a short biogram."
+      statementContent:
+        type: string
+        description: "describes the statement in more detail: e.g. which type of event, what type of relationship, but can also report citations from source or descriptive prose."
       name:
         type: string
         description: "any verbal identification of a person"
-      statementContents:
-        type: array
-        description: "describes the statement in more detail: e.g. which type of event, what type of relationship, but can also report citations from source or descriptive prose."
-        items:
-          type: object
-          properties:
-            uri:
-              type: string
-              format: uri
-              description: "A fully dereferencably URI, which could be an endpoint to RESTful API for the applied taxonomy"
-            label:
-              type: string
-              description: "descriptive text. We can imagine this to be a term from a controlled vocabulary, a short type name or more verbose description including the wording from the source or a short biogram."
       role:
         type: object
         description: "describes the role of the person in the statement. If empty it is considered generically as 'participates in something which could be an event'"
@@ -949,16 +970,13 @@ definitions:
     properties:
       id:
         $ref: "#/definitions/id"
+      uri:
+        $ref: "#/definitions/uri"
       label:
         description: "A human readable description of the source of information for the factoid, e.g. a bibliographic reference, an archival shelfmark etc."
         type: string
       uris:
         $ref: "#/definitions/uris"
-      metadata:
-        description: "a verbal or formal bibliographical/archival description of the source"
-        type: string
-        # Allow string or structured metadata
-        # define methods to relate single source locus with a description of a source work (e.g. tei:locus, partOf, occursIn or similar
       createdBy:
         $ref: "#/definitions/createdBy"
       createdWhen:
@@ -984,7 +1002,7 @@ definitions:
     type: string
     format: uri
   uris:
-    description: "the uri of an object (factoid, person, source, statement, etc.) referenced with owl:sameAs"
+    description: "a list of uris of an object (factoid, person, source, statement, etc.) referenced with owl:sameAs"
     type: array
     items:
       $ref: "#/definitions/uri"
@@ -1040,14 +1058,14 @@ parameters:
     required: true
     type: string
     description: "can be either the local id, or the uri or the uri of a owl:sameAs entry"
-  sort_by:
-    name: sort_by
+  sortBy:
+    name: sortBy
     type: string
     in: query
-    description: "defines the sort order of the returned factoids, can contain all properties of the ressource searched. The closing keywords 'ASC' and 'DESC' describe the sort order as 'ASCending' and 'DESCending'."
+    description: "defines the sort order of the requested resource, can contain all properties of the resource searched. The closing keywords 'ASC' and 'DESC' describe the sort order as 'ASCending' and 'DESCending'. In case the property is a list of values, use the first item."
     default: "createdWhen"
-  p_id:
-    name: p_id
+  personId:
+    name: personId
     type: string
     in: query
     description: filter by person id
@@ -1056,8 +1074,8 @@ parameters:
     type: string
     in: query
     description: "filter by applying a pattern on persons (fulltext search)"
-  st_id:
-    name: st_id
+  statementId:
+    name: statementId
     type: string
     in: query
     description: "filter by statement id"
@@ -1066,8 +1084,8 @@ parameters:
     type: string
     in: query
     description: "filter by applying a pattern on statements (fulltext search)"
-  s_id:
-    name: s_id
+  sourceId:
+    name: sourceId
     type: string
     in: query
     description: "filter by source id"
@@ -1081,16 +1099,11 @@ parameters:
     type: string
     in: query
     description: "filter by applying a pattern on factoid (fulltext search)"
-  f_id:
-    name: f_id
+  factoidId:
+    name: factoidId
     type: string
     in: query
     description: "filter by factoid id"
-  restricted:
-    name: restricted
-    type: boolean
-    in: query
-    description: "if set to 'true' the endpoint returns only the ids of the resource requested."
   statementContent:
     name: statementContent
     type: string
