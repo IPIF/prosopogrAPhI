@@ -74,11 +74,12 @@ paths:
         - $ref: "#/parameters/place"
       responses:
         200:
-          description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*
-#          schema:
-#            type: array
-#            items:
-#              $ref: "#/definitions/Factoid"
+          description: "Metadata about the factoids to be returned. *TODO schema has to to be discussed* "
+         # ToDo: this solution does not conform to HTTP?
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Factoid"
         400:
           $ref: "#/responses/BadRequestError"
         500:
@@ -637,48 +638,35 @@ paths:
 #        501:
 #          $ref: "#/responses/NotImplementedError"        
 
-#  /describe:
-#    get:
-#      description: Gives basic information about schemas used, numbers of entries and implementation of API
-#             TODO *This could possibly be handled via HEAD request?* 
-#      responses:
-#        500:
-#         $ref: "#/responses/Standard500ErrorResponse"
-#  /describe/statement/schema:
-#    get:
-#      description: The schema used to describe the statements
-#      responses:
-#        200:
-#          description: "A URL pointing to the @context for the JSON-LD used in graph respones"
-#          schema:
-#            type: string
-#        500:
-#          $ref: "#/responses/Standard500ErrorResponse"
-#  /describe/return/schemas:
-#    get:
-#      description: The schemas supported by the server as return values
-#      responses:
-#        500:
-#          $ref: "#/responses/Standard500ErrorResponse"
-#  /describe/return/formats:
-#    get:
-#      description: The vocabularies supported by the server for return values, default is JSON
-#      responses:
-#        #200:
-#        ## ToDo: give an enumarted list included default
-#        # covered already by "produces:"
-#        500:
-#          $ref: "#/responses/Standard500ErrorResponse"
-#  /describe/source/schema:
-#    get:
-#      description: The schema used to describe the source
-#      responses:
-#        200:
-#          description: "a URL pointing to the @context for the JSON-LD used in descriptions of sources"
-#          schema:
-#            type: string
-#        500:
-#          $ref: "#/responses/Standard500ErrorResponse"
+  /describe:
+    get:
+      description: Gives basic information about the service and the implementation of API
+      responses:
+        200:
+          description: basic information about the service and the implementation of the API
+          schema:
+            type: object
+            items:
+              required:
+                - complianceLevel
+              properties :
+                provider:
+                  description: "information on the service provider"
+                  type: string
+                contact:
+                  description: "address of a contact point (e-mail, phone etc.)"
+                  type: string
+                complianceLevel:
+                  description: "..." #ToDo
+                  type: string
+                accessRestrictions:
+                  description: "..." #ToDo
+                  type: string
+                formats:
+                  description: "List of the possible return formats: JSON (default), XML, ..."
+                  type: string
+        500:
+         $ref: "#/responses/Standard500ErrorResponse"
 
 definitions:
   Factoid:
@@ -778,7 +766,7 @@ definitions:
                 -
                   label: Gleink
             - id: Pez1_809_2
-              statementContents:
+              role:
                 -
                   uri: "http://religiouspeople.org/rdf/#conventmember"
                   label: Konventuale
@@ -794,14 +782,14 @@ definitions:
                 -
                   label: apostolischer Protonotar
             - id: Pez1_809_5
-              statementContents: 
+              role: 
                 -
                   label: Ökonom des Klosters
               places: 
                 -
                   label: Gleink
             - id: Pez1_809_6
-              statementContents: 
+              role: 
                 -
                   label: Prior
               places: 
@@ -865,7 +853,8 @@ definitions:
         $ref: "#/definitions/modifiedWhen"
     example:
       - id: Andreas_Reuter
-      - uris: "http://pez-digital.at/persons#Mauro_Aspini"
+      - uris: 
+          - "http://pez-digital.at/persons#Mauro_Aspini"
       - id: Placidus_Seiz
         uris: 
           - http://d-nb.info/gnd/10102407X
@@ -881,9 +870,10 @@ definitions:
       uri:
         type: string
         format: uri
-        description: "A fully dereferencably URI representing the statement. The API recommends to serve requests for serialisations of W3C RDF via this URI."
+        description: "A fully dereferencably URI representing the statement in the internet, usually different from the URI created by the use of this API. The API recommends to serve requests for serialisations of W3C RDF via this URI."
       statementType:
         type: object
+        description: "in context of structured information (with places, relationships, etc.) this property gives the type of event, relationship etc. connecting the other properties"
         properties:
           uri:
             type: string
@@ -891,10 +881,7 @@ definitions:
             description: "A fully dereferencably URI, which could be an endpoint to RESTful API for the applied taxonomy"
           label:
             type: string
-            description: "descriptive text. We can imagine this to be a term from a controlled vocabulary, a short type name or more verbose description including the wording from the source or a short biogram."
-      statementContent:
-        type: string
-        description: "describes the statement in more detail: e.g. which type of event, what type of relationship, but can also report citations from source or descriptive prose."
+            description: "descriptive text. We can imagine this to be a term from a controlled vocabulary or a short type name."
       name:
         type: string
         description: "any verbal identification of a person"
@@ -956,6 +943,9 @@ definitions:
           label:
             type: string
             description: "a human readable description of the group/institution to which the statement relates the persons referenced in the factoid"
+      statementContent:
+        type: string
+        description: "describes the statement in more detail, usually quotes from source or descriptive prose including the wording from the source or a short biogram."
       createdBy:
         $ref: "#/definitions/createdBy"
       createdWhen:
@@ -964,6 +954,14 @@ definitions:
         $ref: "#/definitions/modifiedBy"
       modifiedWhen:
         $ref: "#/definitions/modifiedWhen"
+  Protocol:
+    properties:
+      pageSize:
+        type: integer
+      totalHits:
+        type: integer
+      page:
+        type: integer
   Source:
     required:
       - id
