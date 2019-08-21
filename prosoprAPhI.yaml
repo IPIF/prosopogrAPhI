@@ -798,9 +798,7 @@ components:
         properties:
           id:
             $ref: "#/components/schemas/id"
-          persons:
-            type: array
-            items:
+          person:
               $ref: "#/components/schemas/Person"
           statements:
             type: array
@@ -1102,8 +1100,6 @@ components:
       properties:
         id:
           $ref: "#/components/schemas/id"
-        uri:
-          $ref: "#/components/schemas/uri"
         label:
           description: A human readable description of the source of information for the
             factoid, e.g. a bibliographic reference, an archival shelfmark etc.
