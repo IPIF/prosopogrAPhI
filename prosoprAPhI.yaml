@@ -1,7 +1,7 @@
 swagger: "2.0"
 
 info:
-  version: 0.2.0
+  version: 0.3.0
   title: prosopogrAPhI
   description: basic prosopographical data API
   # contact: georg.vogeler@uni-graz.at
@@ -23,15 +23,15 @@ paths:
   /factoids:
     get:
       summary: Gets factoids
-      description: "Gets an array of `Factoid` objects. The number of array members returned with each response is restricted by the **size** parameter. Factoids can be filtered by setting additional parameters like **p_id** or **p**. Factoids are sorted by default by date of create time."
+      description: "Gets an array of `Factoid` objects. The number of array members returned with each response is restricted by the **size** parameter. Factoids can be filtered by setting additional parameters like **personId** or **p**. Factoids are sorted by default by date of create time."
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/personId"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/statementId"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/sourceId"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/statementContent"
@@ -57,11 +57,11 @@ paths:
       summary: Gets metadata about factoids
       description: "Using the same filtering parameters as GET, it does not return any results, but metadata like the number of factoids etc."
       parameters:
-        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/personId"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/statementId"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/sourceId"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/statementContent"
@@ -74,11 +74,12 @@ paths:
         - $ref: "#/parameters/place"
       responses:
         200:
-          description: Metadata about the factoids to be returned. *TODO schema has to to be discussed*
-#          schema:
-#            type: array
-#            items:
-#              $ref: "#/definitions/Factoid"
+          description: "Metadata about the factoids to be returned. *TODO schema has to to be discussed* "
+         # ToDo: this solution does not conform to HTTP?
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Factoid"
         400:
           $ref: "#/responses/BadRequestError"
         500:
@@ -182,18 +183,18 @@ paths:
       summary: Get persons
       description: Gets a list of `Person` objects.
                    The number of array members returned with each response is restricted by the **size** parameter. 
-                   Persons can be filtered by setting additional parameters like **f_id** or **f**. TODO Further 
+                   Persons can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further 
                    parameters for filtering have to be specified.      
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
+        - $ref: "#/parameters/sortBy"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/statementId"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/sourceId"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
@@ -224,11 +225,11 @@ paths:
                    TODO *Possibly this could replace the describe uris?*
       parameters:
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/statementId"
         - $ref: "#/parameters/st"
-        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/sourceId"
         - $ref: "#/parameters/s"
         - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
@@ -344,15 +345,15 @@ paths:
       summary: gets a list of sources
       description: Gets a list of `Source` objects.
                    The number of array members returned with each response is restricted by the **size** parameter. 
-                   Sources can be filtered by setting additional parameters like **f_id** or **f**. TODO Further 
+                   Sources can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further 
                    parameters for filtering have to be specified.      
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
-        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/sortBy"
+        - $ref: "#/parameters/personId"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/statementContent"
@@ -386,12 +387,12 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
-        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/sortBy"
+        - $ref: "#/parameters/personId"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/st_id"
+        - $ref: "#/parameters/statementId"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/statementContent"
         - $ref: "#/parameters/relatesToPerson"
@@ -497,16 +498,16 @@ paths:
       summary: gets a list of statements
       description: Gets a list of `Statement` objects.
                    The number of array members returned with each response is restricted by the **size** parameter. 
-                   Statements can be filtered by setting additional parameters like **f_id** or **f**. TODO Further 
+                   Statements can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further 
                    parameters for filtering have to be specified.      
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
-        - $ref: "#/parameters/p_id"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/sortBy"
+        - $ref: "#/parameters/personId"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
-        - $ref: "#/parameters/s_id"
+        - $ref: "#/parameters/sourceId"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/p"
         - $ref: "#/parameters/statementContent"
@@ -541,10 +542,10 @@ paths:
       parameters:
         - $ref: "#/parameters/size"
         - $ref: "#/parameters/page"
-        - $ref: "#/parameters/sort_by"
-        - $ref: "#/parameters/p_id"
+        - $ref: "#/parameters/sortBy"
+        - $ref: "#/parameters/personId"
         - $ref: "#/parameters/p"
-        - $ref: "#/parameters/f_id"
+        - $ref: "#/parameters/factoidId"
         - $ref: "#/parameters/f"
         - $ref: "#/parameters/st"
         - $ref: "#/parameters/statementContent"
@@ -637,48 +638,35 @@ paths:
 #        501:
 #          $ref: "#/responses/NotImplementedError"        
 
-#  /describe:
-#    get:
-#      description: Gives basic information about schemas used, numbers of entries and implementation of API
-#             TODO *This could possibly be handled via HEAD request?* 
-#      responses:
-#        500:
-#         $ref: "#/responses/Standard500ErrorResponse"
-#  /describe/statement/schema:
-#    get:
-#      description: The schema used to describe the statements
-#      responses:
-#        200:
-#          description: "A URL pointing to the @context for the JSON-LD used in graph respones"
-#          schema:
-#            type: string
-#        500:
-#          $ref: "#/responses/Standard500ErrorResponse"
-#  /describe/return/schemas:
-#    get:
-#      description: The schemas supported by the server as return values
-#      responses:
-#        500:
-#          $ref: "#/responses/Standard500ErrorResponse"
-#  /describe/return/formats:
-#    get:
-#      description: The vocabularies supported by the server for return values, default is JSON
-#      responses:
-#        #200:
-#        ## ToDo: give an enumarted list included default
-#        # covered already by "produces:"
-#        500:
-#          $ref: "#/responses/Standard500ErrorResponse"
-#  /describe/source/schema:
-#    get:
-#      description: The schema used to describe the source
-#      responses:
-#        200:
-#          description: "a URL pointing to the @context for the JSON-LD used in descriptions of sources"
-#          schema:
-#            type: string
-#        500:
-#          $ref: "#/responses/Standard500ErrorResponse"
+  /describe:
+    get:
+      description: Gives basic information about the service and the implementation of API
+      responses:
+        200:
+          description: basic information about the service and the implementation of the API
+          schema:
+            type: object
+            items:
+              required:
+                - complianceLevel
+              properties :
+                provider:
+                  description: "information on the service provider"
+                  type: string
+                contact:
+                  description: "address of a contact point (e-mail, phone etc.)"
+                  type: string
+                complianceLevel:
+                  description: "..." #ToDo
+                  type: string
+                accessRestrictions:
+                  description: "..." #ToDo
+                  type: string
+                formats:
+                  description: "List of the possible return formats: JSON (default), XML, ..."
+                  type: string
+        500:
+         $ref: "#/responses/Standard500ErrorResponse"
 
 definitions:
   Factoid:
@@ -714,7 +702,8 @@ definitions:
           $ref: "#/definitions/modifiedBy"
         modifiedWhen:
           $ref: "#/definitions/modifiedWhen"
-        wasDerivedFrom:
+        derivedFrom:
+          description: "references the URI of a factoid on which this factoid is based."
           type: string 
           format: uri
       example:
@@ -777,7 +766,7 @@ definitions:
                 -
                   label: Gleink
             - id: Pez1_809_2
-              statementContents:
+              role:
                 -
                   uri: "http://religiouspeople.org/rdf/#conventmember"
                   label: Konventuale
@@ -793,14 +782,14 @@ definitions:
                 -
                   label: apostolischer Protonotar
             - id: Pez1_809_5
-              statementContents: 
+              role: 
                 -
                   label: Ökonom des Klosters
               places: 
                 -
                   label: Gleink
             - id: Pez1_809_6
-              statementContents: 
+              role: 
                 -
                   label: Prior
               places: 
@@ -864,7 +853,8 @@ definitions:
         $ref: "#/definitions/modifiedWhen"
     example:
       - id: Andreas_Reuter
-      - uri: "http://pez-digital.at/persons#Mauro_Aspini"
+      - uris: 
+          - "http://pez-digital.at/persons#Mauro_Aspini"
       - id: Placidus_Seiz
         uris: 
           - http://d-nb.info/gnd/10102407X
@@ -880,23 +870,21 @@ definitions:
       uri:
         type: string
         format: uri
-        description: "A fully dereferencably URI representing the statement. The API recommends to serve requests for serialisations of W3C RDF via this URI."
+        description: "A fully dereferencably URI representing the statement in the internet, usually different from the URI created by the use of this API. The API recommends to serve requests for serialisations of W3C RDF via this URI."
+      statementType:
+        type: object
+        description: "in context of structured information (with places, relationships, etc.) this property gives the type of event, relationship etc. connecting the other properties"
+        properties:
+          uri:
+            type: string
+            format: uri
+            description: "A fully dereferencably URI, which could be an endpoint to RESTful API for the applied taxonomy"
+          label:
+            type: string
+            description: "descriptive text. We can imagine this to be a term from a controlled vocabulary or a short type name."
       name:
         type: string
         description: "any verbal identification of a person"
-      statementContents:
-        type: array
-        description: "describes the statement in more detail: e.g. which type of event, what type of relationship, but can also report citations from source or descriptive prose."
-        items:
-          type: object
-          properties:
-            uri:
-              type: string
-              format: uri
-              description: "A fully dereferencably URI, which could be an endpoint to RESTful API for the applied taxonomy"
-            label:
-              type: string
-              description: "descriptive text. We can imagine this to be a term from a controlled vocabulary, a short type name or more verbose description including the wording from the source or a short biogram."
       role:
         type: object
         description: "describes the role of the person in the statement. If empty it is considered generically as 'participates in something which could be an event'"
@@ -955,6 +943,9 @@ definitions:
           label:
             type: string
             description: "a human readable description of the group/institution to which the statement relates the persons referenced in the factoid"
+      statementContent:
+        type: string
+        description: "describes the statement in more detail, usually quotes from source or descriptive prose including the wording from the source or a short biogram."
       createdBy:
         $ref: "#/definitions/createdBy"
       createdWhen:
@@ -963,6 +954,14 @@ definitions:
         $ref: "#/definitions/modifiedBy"
       modifiedWhen:
         $ref: "#/definitions/modifiedWhen"
+  Protocol:
+    properties:
+      pageSize:
+        type: integer
+      totalHits:
+        type: integer
+      page:
+        type: integer
   Source:
     required:
       - id
@@ -976,11 +975,6 @@ definitions:
         type: string
       uris:
         $ref: "#/definitions/uris"
-      metadata:
-        description: "a verbal or formal bibliographical/archival description of the source"
-        type: string
-        # Allow string or structured metadata
-        # define methods to relate single source locus with a description of a source work (e.g. tei:locus, partOf, occursIn or similar
       createdBy:
         $ref: "#/definitions/createdBy"
       createdWhen:
@@ -1006,7 +1000,7 @@ definitions:
     type: string
     format: uri
   uris:
-    description: "the uri of an object (factoid, person, source, statement, etc.) referenced with owl:sameAs"
+    description: "a list of uris of an object (factoid, person, source, statement, etc.) referenced with owl:sameAs"
     type: array
     items:
       $ref: "#/definitions/uri"
@@ -1062,14 +1056,14 @@ parameters:
     required: true
     type: string
     description: "can be either the local id, or the uri or the uri of a owl:sameAs entry"
-  sort_by:
-    name: sort_by
+  sortBy:
+    name: sortBy
     type: string
     in: query
-    description: "defines the sort order of the returned factoids, can contain all properties of the ressource searched. The closing keywords 'ASC' and 'DESC' describe the sort order as 'ASCending' and 'DESCending'."
+    description: "defines the sort order of the requested resource, can contain all properties of the resource searched. The closing keywords 'ASC' and 'DESC' describe the sort order as 'ASCending' and 'DESCending'. In case the property is a list of values, use the first item."
     default: "createdWhen"
-  p_id:
-    name: p_id
+  personId:
+    name: personId
     type: string
     in: query
     description: filter by person id
@@ -1078,8 +1072,8 @@ parameters:
     type: string
     in: query
     description: "filter by applying a pattern on persons (fulltext search)"
-  st_id:
-    name: st_id
+  statementId:
+    name: statementId
     type: string
     in: query
     description: "filter by statement id"
@@ -1088,8 +1082,8 @@ parameters:
     type: string
     in: query
     description: "filter by applying a pattern on statements (fulltext search)"
-  s_id:
-    name: s_id
+  sourceId:
+    name: sourceId
     type: string
     in: query
     description: "filter by source id"
@@ -1103,8 +1097,8 @@ parameters:
     type: string
     in: query
     description: "filter by applying a pattern on factoid (fulltext search)"
-  f_id:
-    name: f_id
+  factoidId:
+    name: factoidId
     type: string
     in: query
     description: "filter by factoid id"
