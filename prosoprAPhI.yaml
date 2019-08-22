@@ -6,14 +6,17 @@ info:
   license:
     name: CC-BY-SA 4.0
     url: https://creativecommons.org/licenses/by-sa/4.0/
+  contact: 
+    name: Georg Vogeler
+    email: georg.vogeler@uni-graz.at
 paths:
   /factoids:
     get:
-      summary: Gets factoids
-      description: Gets an array of `Factoid` objects. The number of array members returned
+      summary: Returns array of factoids
+      description: Returns an array of `Factoid` objects. The number of array members returned
         with each response is restricted by the **size** parameter. Factoids can
         be filtered by setting additional parameters like **personId** or **p**.
-        Factoids are sorted by default by date of create time.
+        Factoids are sorted by default by date of creation time.
       parameters:
         - $ref: "#/components/parameters/size"
         - $ref: "#/components/parameters/page"
@@ -35,40 +38,6 @@ paths:
       responses:
         "200":
           description: A list of Factoids
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Factoid"
-        "400":
-          $ref: "#/components/responses/BadRequestError"
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
-    head:
-      summary: Gets metadata about factoids
-      description: Using the same filtering parameters as GET, it does not return any
-        results, but metadata like the number of factoids etc.
-      parameters:
-        - $ref: "#/components/parameters/personId"
-        - $ref: "#/components/parameters/p"
-        - $ref: "#/components/parameters/statementId"
-        - $ref: "#/components/parameters/st"
-        - $ref: "#/components/parameters/sourceId"
-        - $ref: "#/components/parameters/s"
-        - $ref: "#/components/parameters/f"
-        - $ref: "#/components/parameters/statementContent"
-        - $ref: "#/components/parameters/relatesToPerson"
-        - $ref: "#/components/parameters/memberOf"
-        - $ref: "#/components/parameters/role"
-        - $ref: "#/components/parameters/name"
-        - $ref: "#/components/parameters/from"
-        - $ref: "#/components/parameters/to"
-        - $ref: "#/components/parameters/place"
-      responses:
-        "200":
-          description: "Metadata about the factoids to be returned. *TODO schema has to to
-            be discussed* "
           content:
             application/json:
               schema:
@@ -101,7 +70,7 @@ paths:
           $ref: "#/components/responses/NotImplementedError"
   "/factoids/{id}":
     get:
-      summary: gets the factoid with the {id}
+      summary: Returns factoid with id {id}
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
@@ -139,7 +108,7 @@ paths:
   /persons:
     get:
       summary: Get persons
-      description: Gets a list of `Person` objects. The number of array members returned
+      description: Returns array of `Person` objects. The number of array members returned
         with each response is restricted by the **size** parameter. Persons can
         be filtered by setting additional parameters like **factoidId** or
         **f**. TODO Further parameters for filtering have to be specified.
@@ -176,37 +145,6 @@ paths:
           $ref: "#/components/responses/BadRequestError"
         "500":
           $ref: "#/components/responses/Standard500ErrorResponse"
-    head:
-      summary: Get metadata about persons
-      description: Uses the same filtering parameters as GET, but does not return any
-        results, but metadata like the number of persons found etc. TODO *I'm
-        not sure if we really need this and what metadata will be useful beside
-        the total number of available persons* TODO *Possibly this could replace
-        the describe uris?*
-      parameters:
-        - $ref: "#/components/parameters/p"
-        - $ref: "#/components/parameters/factoidId"
-        - $ref: "#/components/parameters/f"
-        - $ref: "#/components/parameters/statementId"
-        - $ref: "#/components/parameters/st"
-        - $ref: "#/components/parameters/sourceId"
-        - $ref: "#/components/parameters/s"
-        - $ref: "#/components/parameters/statementContent"
-        - $ref: "#/components/parameters/relatesToPerson"
-        - $ref: "#/components/parameters/memberOf"
-        - $ref: "#/components/parameters/role"
-        - $ref: "#/components/parameters/name"
-        - $ref: "#/components/parameters/from"
-        - $ref: "#/components/parameters/to"
-        - $ref: "#/components/parameters/place"
-      responses:
-        "200":
-          description: Metadata about the factoids to be returned. *TODO schema has to to
-            be discussed*
-        "400":
-          $ref: "#/components/responses/BadRequestError"
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
     post:
       summary: Add a new person
       requestBody:
@@ -236,7 +174,7 @@ paths:
           $ref: "#/components/responses/NotImplementedError"
   "/persons/{id}":
     get:
-      summary: gets the person with the {id}
+      summary: Returns person with id {id}
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
@@ -251,7 +189,7 @@ paths:
         "500":
           $ref: "#/components/responses/Standard500ErrorResponse"
     put:
-      summary: updates the person with the {id}
+      summary: Updates the person with the {id}
       parameters:
         - $ref: "#/components/parameters/id"
       requestBody:
@@ -274,8 +212,8 @@ paths:
           $ref: "#/components/responses/NotImplementedError"
   /sources:
     get:
-      summary: gets a list of sources
-      description: Gets a list of `Source` objects. The number of array members returned
+      summary: Returns array of source objects.
+      description: Returns array of `source` objects. The number of array members returned
         with each response is restricted by the **size** parameter. Sources can
         be filtered by setting additional parameters like **factoidId** or
         **f**. TODO Further parameters for filtering have to be specified.
@@ -310,39 +248,6 @@ paths:
           $ref: "#/components/responses/BadRequestError"
         "500":
           $ref: "#/components/responses/Standard500ErrorResponse"
-    head:
-      summary: gets a list of sources
-      description: Uses the same filtering parameters as GET, but does not return any
-        results, but metadata like the number of sources found etc. TODO *I'm
-        not sure if we really need this and what metadata will be useful beside
-        the totel number of available sources* TODO *Possibly this could replace
-        the describe uris?*
-      parameters:
-        - $ref: "#/components/parameters/size"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/sortBy"
-        - $ref: "#/components/parameters/personId"
-        - $ref: "#/components/parameters/p"
-        - $ref: "#/components/parameters/factoidId"
-        - $ref: "#/components/parameters/f"
-        - $ref: "#/components/parameters/statementId"
-        - $ref: "#/components/parameters/st"
-        - $ref: "#/components/parameters/statementContent"
-        - $ref: "#/components/parameters/relatesToPerson"
-        - $ref: "#/components/parameters/memberOf"
-        - $ref: "#/components/parameters/role"
-        - $ref: "#/components/parameters/name"
-        - $ref: "#/components/parameters/from"
-        - $ref: "#/components/parameters/to"
-        - $ref: "#/components/parameters/place"
-      responses:
-        "200":
-          description: Metadata about the factoids to be returned. *TODO schema has to to
-            be discussed*
-        "400":
-          $ref: "#/components/responses/BadRequestError"
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
     post:
       summary: Add a new source
       requestBody:
@@ -369,7 +274,7 @@ paths:
           $ref: "#/components/responses/NotImplementedError"
   "/sources/{id}":
     get:
-      summary: gets the source with the {id}
+      summary: Returns source with id {id}
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
@@ -407,8 +312,8 @@ paths:
           $ref: "#/components/responses/NotImplementedError"
   /statements:
     get:
-      summary: gets a list of statements
-      description: Gets a list of `Statement` objects. The number of array members returned
+      summary: Returns array of statement objects
+      description: Returns array of `Statement` objects. The number of array members returned
         with each response is restricted by the **size** parameter. Statements
         can be filtered by setting additional parameters like **factoidId** or
         **f**. TODO Further parameters for filtering have to be specified.
@@ -444,38 +349,6 @@ paths:
           $ref: "#/components/responses/BadRequestError"
         "500":
           $ref: "#/components/responses/Standard500ErrorResponse"
-    head:
-      summary: gets a list of statements
-      description: Uses the same filtering parameters as GET, but does not return any
-        results, but metadata like the number of statements found etc. TODO *I'm
-        not sure if we really need this and what metadata will be useful beside
-        the totel number of available sources* TODO *Possibly this could replace
-        the describe uris?*
-      parameters:
-        - $ref: "#/components/parameters/size"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/sortBy"
-        - $ref: "#/components/parameters/personId"
-        - $ref: "#/components/parameters/p"
-        - $ref: "#/components/parameters/factoidId"
-        - $ref: "#/components/parameters/f"
-        - $ref: "#/components/parameters/st"
-        - $ref: "#/components/parameters/statementContent"
-        - $ref: "#/components/parameters/relatesToPerson"
-        - $ref: "#/components/parameters/memberOf"
-        - $ref: "#/components/parameters/role"
-        - $ref: "#/components/parameters/name"
-        - $ref: "#/components/parameters/from"
-        - $ref: "#/components/parameters/to"
-        - $ref: "#/components/parameters/place"
-      responses:
-        "200":
-          description: Metadata about the statements to be returned. *TODO schema has to to
-            be discussed*
-        "400":
-          $ref: "#/components/responses/BadRequestError"
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
     post:
       summary: Add a new statement
       requestBody:
@@ -502,7 +375,7 @@ paths:
           $ref: "#/components/responses/NotImplementedError"
   "/statements/{id}":
     get:
-      summary: gets the statement with the {id}
+      summary: Return statement with id {id}
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
@@ -1157,8 +1030,32 @@ components:
       type: string
       format: date
     Error:
+      # See https://tools.ietf.org/html/draft-ietf-appsawg-http-problem-00
+      required:
+        - status
+        - title
       properties:
-        code:
+        status:
+          type: number
+          description:  The HTTP status code ([RFC7231], Section 6)
+            generated by the origin server for this occurrence of the problem.
+        title:
           type: string
-        message:
+          description: A short, human-readable summary of the problem
+            type.  It SHOULD NOT change from occurrence to occurrence of the 
+            problem, except for purposes of localisation.
+        detail:
           type: string
+          description: An human readable explanation specific to this
+            occurrence of the problem.
+        type:
+          type: string
+          description: An absolute URI that identifies the problem type.
+            When dereferenced, it SHOULD provide human-readable documentation 
+            for the problem type. When this member is not present, its value 
+            is assumed to be "about:blank".
+        instance:
+          type: string
+          description: An absolute URI that identifies the specific occurrence 
+            of the problem.  It may or may not yield further information if 
+            dereferenced.
