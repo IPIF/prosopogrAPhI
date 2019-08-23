@@ -463,7 +463,7 @@ components:
       name: id
       in: path
       required: true
-      description: can be either the local id, or the uri or the uri of a owl:sameAs entry
+      description: can be either the local id, or an uri representing the same resource as stored in `uris`
       schema:
         type: string
     sortBy:
@@ -662,14 +662,14 @@ components:
       type: object
       items:
         required:
-          - id
+          - "@id"
           - person
           - source
           - statements
           - createdBy
           - createdWhen
         properties:
-          id:
+          "@id":
             $ref: "#/components/schemas/id"
           person:
               $ref: "#/components/schemas/Person"
@@ -692,10 +692,10 @@ components:
             type: string
             format: uri
         example:
-          - id: TW_Pez1_809_1
+          - "@id": TW_Pez1_809_1
             person: Andreas_Reuter
             statements:
-              - id: Pez1_809_1
+              - "@id": Pez1_809_1
                 statementContents:
                   - label: Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war
                       Konventuale von Gleink. Er war Doktor der Theologie,
@@ -709,10 +709,10 @@ components:
             createdWhen: 2010-05-05
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2010-05-05
-          - id: TW_Pez1_123456
+          - "@id": TW_Pez1_123456
             person: Placidus_Seiz
             statements:
-              - id: Pez#474-7,
+              - "@id": Pez#474-7,
                 statementContents:
                   - label: ... , quam accepturum me spero a reverendissimo domino
                       abbate Ettalensi ...
@@ -721,10 +721,10 @@ components:
             createdWhen: 2007-04-16
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2007-04-16
-          - id: TW_Pez1_123456
+          - "@id": TW_Pez1_123456
             person: Placidus_Seiz
             statements:
-              id: person1241
+              "@id": person1241
               name: Placidus Seitz
               uri: http://pez-digital.at/placidus_Seiz
             source: Lindner-Album_Ettalense253f.
@@ -732,10 +732,10 @@ components:
             createdWhen: 2007-04-16
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2007-07-01
-          - id: Fd2qwr
+          - "@id": Fd2qwr
             person: Andreas_Reuter
             statements:
-              - id: Fd2qwr
+              - "@id": Fd2qwr
                 date:
                   sortdate: 1648-06-15
                   label: ca. 1648
@@ -743,7 +743,7 @@ components:
                   - label: Geburt
                 places:
                   - label: Kremsmünster
-              - id: Pez1_809_1
+              - "@id": Pez1_809_1
                 statementContents:
                   - label: Death
                 date:
@@ -751,37 +751,37 @@ components:
                   label: 1715
                 places:
                   - label: Gleink
-              - id: Pez1_809_2
+              - "@id": Pez1_809_2
                 role:
                   - uri: http://religiouspeople.org/rdf/#conventmember
                     label: Konventuale
                 places:
                   - label: Gleink
-              - id: Pez1_809_3
+              - "@id": Pez1_809_3
                 statementContents:
                   - label: Doktor der Theologie
-              - id: Pez1_809_4
+              - "@id": Pez1_809_4
                 statementContents:
                   - label: apostolischer Protonotar
-              - id: Pez1_809_5
+              - "@id": Pez1_809_5
                 role:
                   - label: Ökonom des Klosters
                 places:
                   - label: Gleink
-              - id: Pez1_809_6
+              - "@id": Pez1_809_6
                 role:
                   - label: Prior
                 places:
                   - uri: http://sws.geonames.org/2778486/
                     label: Gleink
-              - id: Pez1_809_7
+              - "@id": Pez1_809_7
                 statementContents:
                   - label: Prior (belegt als)
                 places:
                   - label: Gleink
                 date:
                   sortdate: 1708-01-01
-              - id: Pez1_809_7
+              - "@id": Pez1_809_7
                 statementContents:
                   - label: Unterzeichner der Rotel auf Abt Rupert von Kimpflern
                 places:
@@ -791,7 +791,7 @@ components:
                   label: 1708
                 relatesToPersons:
                   - label: Abt Rupert von Kimpflern
-              - id: Pez1_809_8
+              - "@id": Pez1_809_8
                 statementContents:
                   - label: Brief an Bernhard Pez
                 date:
@@ -811,9 +811,9 @@ components:
         name, status, social relationsships etc. It has therefore only formal
         identifiers as properties.
       required:
-        - id
+        - "@id"
       properties:
-        id:
+        "@id":
           $ref: "#/components/schemas/id"
         uris:
           $ref: "#/components/schemas/uris"
@@ -826,10 +826,10 @@ components:
         modifiedWhen:
           $ref: "#/components/schemas/modifiedWhen"
       example:
-        - id: Andreas_Reuter
+        - "@id": Andreas_Reuter
         - uris:
             - http://pez-digital.at/persons#Mauro_Aspini
-        - id: Placidus_Seiz
+        - "@id": Placidus_Seiz
           uris:
             - http://d-nb.info/gnd/10102407X
             - https://viaf.org/viaf/5285530/
@@ -840,7 +840,7 @@ components:
       required:
         - id
       properties:
-        id:
+        "@id":
           $ref: "#/components/schemas/id"
         uri:
           type: string
@@ -971,7 +971,7 @@ components:
       required:
         - id
       properties:
-        id:
+        "@id":
           $ref: "#/components/schemas/id"
         label:
           description: A human readable description of the source of information for the
@@ -988,15 +988,15 @@ components:
         modifiedWhen:
           $ref: "#/components/schemas/modifiedWhen"
       example:
-        - id: PezNachlassVol1
+        - "@id": PezNachlassVol1
           uris:
             - https://e-book.fwf.ac.at/o:370
           metadata: "Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten,
             Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas
             Stockinger, Wien u. Köln: Böhlau, 2010"
-        - id: Pez#474
+        - "@id": "Pez#474"
           metadata: Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v
-        - id: Lindner-Album_Ettalense253f.
+        - "@id": Lindner-Album_Ettalense253f.
           metadata: "Lindner: Album Ettalense, S. 253f."
     id:
       description: the local id of the object (factoid, person, source, statement)
