@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  version: 0.3.0
+  version: 0.3.1
   title: prosopogrAPhI
   description: basic prosopographical data API
   license:
@@ -819,7 +819,7 @@ components:
       description: The statement object gives human and machine readable information on the
         person(s) listed in the factoid.
       required:
-        - id
+        - "@id"
       properties:
         "@id":
           $ref: "#/components/schemas/id"
@@ -950,7 +950,7 @@ components:
           type: integer
     Source:
       required:
-        - id
+        - "@id"
       properties:
         "@id":
           $ref: "#/components/schemas/id"
@@ -980,29 +980,71 @@ components:
         - "@id": Lindner-Album_Ettalense253f.
           metadata: "Lindner: Album Ettalense, S. 253f."
     ServiceDescription:
-      description: describes the service providing the API
       type: object
-      items:
-        required:
-          - complianceLevel
-        properties:
-          provider:
-            description: information on the service provider
-            type: string
-          contact:
-            description: address of a contact point (e-mail, phone etc.)
-            type: string
-          complianceLevel:
-            description: ...
-            type: string
-          accessRestrictions:
-            description: ...
-            type: string
-          formats:
-            description: "List of the possible return formats: JSON (default), XML, ..."
-            type: string
-        example:
-          - formats: JSON
+      description: describes the service providing the API
+      required:
+        - complianceLevel
+      properties:
+        description:
+          description: A verbal description of the collection of factoids provided by the
+            service
+          type: string
+        provider:
+          description: information on the service provider
+          type: string
+        contact:
+          description: address of a contact point (e-mail, phone etc.)
+          type: string
+        complianceLevel:
+          type: number
+          description: >
+            defines the compliance level supported by the server. This is a numeric
+            value between 0 and 2 which indicates the functionality provided by the service.
+
+
+            *Compliance level 0* is the most minimalistic implementation. It only supports 
+            ``GET`` requests and a restricted set of filter parameters:               
+            ``f=``, ``p=``, ``s=``, ``st=`` are not allowed and result in a ``400 Bad Request``
+            response as POST and PUT requests do.
+            
+
+            *Compliance level 1* only supports ``GET`` requests (as compliance level ``0`` 
+            does), but supports all filter parameters. So compliance level ``0``  and ``1``
+            differ in that level ``1`` supports the filter parameters ``f=``, ``p=``,
+            ``s=`` and ``st=``. POST und PUT requests result in a ``400 Bad Request`` 
+            response.
+
+
+            *Compliance level 2* supports the full API and therefore also allows creation
+            and modification of resources via PUT and POST requests.
+
+
+            We recommend to publish the compliance level additionally als link header 
+            with each response to a GET request in this form:
+            
+            
+            ``Link: <https://raw.githubusercontent.com/GVogeler/prosopogrAPhI/master/level1.json>;rel="profile"``
+            
+
+#              TODO: can we put the level.json files somewhere else (not github)?
+##           TODO 
+##          accessRestrictions:
+##            description: TODO
+##            type: string
+        formats:
+          type: array
+          description: >
+            List of the supported response formats (content types). E.g. 
+            ``application/json`` (default), ``application/xml``, ``application/rdf+xml``,
+            ``application/x-turtle``, ...
+            
+      example:
+        - description: Prosopographical data from the 1890 census
+        - provider: Centre for Information Modelling, University of Graz
+        - contact: contact@example.com
+        - complianceLevel: 1 
+        - formats: 
+          - application/json
     id:
       description: the local id of the object (factoid, person, source, statement)
       type: string
