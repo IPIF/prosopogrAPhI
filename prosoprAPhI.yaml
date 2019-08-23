@@ -706,7 +706,8 @@ components:
             statements:
               "@id": person1241
               name: Placidus Seitz
-              uri: http://pez-digital.at/placidus_Seiz
+              uris: 
+                - http://pez-digital.at/placidus_Seiz
             source: Lindner-Album_Ettalense253f.
             createdBy: Thomas Wallnig
             createdWhen: 2007-04-16
@@ -1006,14 +1007,11 @@ components:
       description: the local id of the object (factoid, person, source, statement)
       type: string
     uri:
-      description: the uri of the object (factoid, person, source, statement, etc.). The
-        API recommends to use endpoints of a RESTful API which gives further
-        machine readable information on the object.
+      description: the uri of an object (factoid, person, source, statement, etc.).
       type: string
       format: uri
     uris:
-      description: a list of uris of an object (factoid, person, source, statement, etc.)
-        referenced with owl:sameAs
+      description: a list of external uris of the current object (factoid, person, source, statement, etc.) which could be used as objects to owl:sameAs.
       type: array
       items:
         $ref: "#/components/schemas/uri"
