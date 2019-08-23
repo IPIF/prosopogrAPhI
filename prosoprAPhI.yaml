@@ -416,27 +416,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                items:
-                  required:
-                    - complianceLevel
-                  properties:
-                    provider:
-                      description: information on the service provider
-                      type: string
-                    contact:
-                      description: address of a contact point (e-mail, phone etc.)
-                      type: string
-                    complianceLevel:
-                      description: ...
-                      type: string
-                    accessRestrictions:
-                      description: ...
-                      type: string
-                    formats:
-                      description: "List of the possible return formats: JSON (default),
-                        XML, ..."
-                      type: string
+                $ref: "#/components/schemas/ServiceDescription"
         "500":
           $ref: "#/components/responses/Standard500ErrorResponse"
 servers:
@@ -998,6 +978,30 @@ components:
           metadata: Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v
         - "@id": Lindner-Album_Ettalense253f.
           metadata: "Lindner: Album Ettalense, S. 253f."
+    ServiceDescription:
+      description: describes the service providing the API
+      type: object
+      items:
+        required:
+          - complianceLevel
+        properties:
+          provider:
+            description: information on the service provider
+            type: string
+          contact:
+            description: address of a contact point (e-mail, phone etc.)
+            type: string
+          complianceLevel:
+            description: ...
+            type: string
+          accessRestrictions:
+            description: ...
+            type: string
+          formats:
+            description: "List of the possible return formats: JSON (default), XML, ..."
+            type: string
+        example:
+          - formats: JSON
     id:
       description: the local id of the object (factoid, person, source, statement)
       type: string
