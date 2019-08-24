@@ -37,13 +37,11 @@ paths:
         - $ref: "#/components/parameters/place"
       responses:
         "200":
-          description: A list of Factoids
+          description: A list of Factoids with some metadata
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Factoid"
+                  $ref: "#/components/schemas/FactoidsResponse"
         "400":
           $ref: "#/components/responses/BadRequestError"
         "500":
@@ -785,6 +783,63 @@ components:
             createdWhen: 2010-05-05
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2010-05-05
+    FactoidsResponse:
+        type: object
+        description: Schema of the response of /factoids
+        properties:
+            protocol: 
+              $ref: "#/components/schemas/Protocol"
+            factoids:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Factoid"
+        example: 
+          - protocol:
+            - size: 30
+            - totalHits: 1234
+            - page: 2
+          - factoids: 
+            - "@id": TW_Pez1_809_1
+              person: Andreas_Reuter
+              statements:
+                - "@id": Pez1_809_1
+                  statementContents:
+                    - label: Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war
+                        Konventuale von Gleink. Er war Doktor der Theologie,
+                        apostolischer Protonotar und wirkte in Gleink als Ökonom
+                        sowie insgesamt 22 Jahre lang als Prior. Als solcher
+                        begegnet er 1708 als Unterzeichner der Rotel auf Abt
+                        Rupert von Kimpflern und 1710 in seinem Brief an Bernhard
+                        Pez.
+              source: PezNachlassVol1
+              createdBy: Thomas Wallnig
+              createdWhen: 2010-05-05
+              modifiedBy: Thomas Wallnig
+              modifiedWhen: 2010-05-05
+            - "@id": TW_Pez1_123456
+              person: Placidus_Seiz
+              statements:
+                - "@id": Pez#474-7,
+                  statementContents:
+                    - label: ... , quam accepturum me spero a reverendissimo domino
+                        abbate Ettalensi ...
+              source: Pez#474
+              createdBy: Thomas Wallnig
+              createdWhen: 2007-04-16
+              modifiedBy: Thomas Wallnig
+              modifiedWhen: 2007-04-16
+            - "@id": TW_Pez1_123456
+              person: Placidus_Seiz
+              statements:
+                "@id": person1241
+                name: Placidus Seitz
+                uris: 
+                  - http://pez-digital.at/placidus_Seiz
+              source: Lindner-Album_Ettalense253f.
+              createdBy: Thomas Wallnig
+              createdWhen: 2007-04-16
+              modifiedBy: Thomas Wallnig
+              modifiedWhen: 2007-07-01
     Person:
       type: object
       description: A Person is an abstract entity representing a human individual
@@ -814,6 +869,29 @@ components:
           uris:
             - http://d-nb.info/gnd/10102407X
             - https://viaf.org/viaf/5285530/
+    PersonsResponse:
+        type: object
+        description: Schema of the response of /persons
+        properties:
+            protocol: 
+              $ref: "#/components/schemas/Protocol"
+            persons:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Person"
+        example: 
+          - protocol:
+            - size: 30
+            - totalHits: 12345
+            - page: 2
+          - persons:                   
+            - "@id": Andreas_Reuter
+            - uris:
+                - http://pez-digital.at/persons#Mauro_Aspini
+            - "@id": Placidus_Seiz
+              uris:
+                - http://d-nb.info/gnd/10102407X
+                - https://viaf.org/viaf/5285530/
     Statement:
       type: object
       description: The statement object gives human and machine readable information on the
@@ -940,14 +1018,39 @@ components:
           $ref: "#/components/schemas/modifiedBy"
         modifiedWhen:
           $ref: "#/components/schemas/modifiedWhen"
+    StatementsResponse:
+        type: object
+        description: Schema of the response of /statements
+        properties:
+            protocol: 
+              $ref: "#/components/schemas/Protocol"
+            persons:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Statement"
+        example:           
+          - protocol:
+            - size: 30
+            - totalHits: 1234
+            - page: 2
+          - statements: 
+            - "@id": st1
+            - ...
+            - "@id": st2
+            - ...
+
     Protocol:
+      description: Provides metadata about the current request
       properties:
-        pageSize:
+        size:
           type: integer
-        totalHits:
-          type: integer
+          description: Number of objects returned per page
         page:
           type: integer
+          description: Number of result page (first page, second page etc.)
+        totalHits:
+          type: integer
+          description: Total number of objects found by this request
     Source:
       required:
         - "@id"
@@ -979,6 +1082,26 @@ components:
           metadata: Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v
         - "@id": Lindner-Album_Ettalense253f.
           metadata: "Lindner: Album Ettalense, S. 253f."
+    SourcesResponse:
+        type: object
+        description: Schema of the response of /sources
+        properties:
+            protocol: 
+              $ref: "#/components/schemas/Protocol"
+            sources:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Source"
+        example:           
+          - protocol:
+            - size: 30
+            - totalHits: 1234
+            - page: 2
+          - sources:
+            - "@id": source 1
+            - ...
+            - "@id": source 2
+
     ServiceDescription:
       type: object
       description: describes the service providing the API
