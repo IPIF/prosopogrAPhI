@@ -901,13 +901,8 @@ components:
       properties:
         "@id":
           $ref: "#/components/schemas/id"
-        uri:
-          type: string
-          format: uri
-          description: A fully dereferencably URI representing the statement in the
-            internet, usually different from the URI created by the use of this
-            API. The API recommends to serve requests for serialisations of W3C
-            RDF via this URI.
+        uris:
+          $ref: "#/components/schemas/uris"
         statementType:
           type: object
           description: in context of structured information (with places, relationships,
@@ -1173,7 +1168,7 @@ components:
       description: the local id of the object (factoid, person, source, statement)
       type: string
     uri:
-      description: the uri of an object (factoid, person, source, statement, etc.).
+      description: the uri of an object (role, place, organisation, type, factoid, person, source, statement, etc.).
       type: string
       format: uri
     uris:
