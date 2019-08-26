@@ -649,6 +649,10 @@ components:
         properties:
           "@id":
             $ref: "#/components/schemas/id"
+          "@type":
+            type: "string"
+            readOnly: true
+            default: "http://prosopography.org/#Factoid"
           person:
               $ref: "#/components/schemas/Person"
           statements:
@@ -851,6 +855,10 @@ components:
       properties:
         "@id":
           $ref: "#/components/schemas/id"
+        "@type":
+          type: "string"
+          readOnly: true
+          default: "http://prosopography.org/#Person"
         uris:
           $ref: "#/components/schemas/uris"
         createdBy:
@@ -901,6 +909,10 @@ components:
       properties:
         "@id":
           $ref: "#/components/schemas/id"
+        "@type":
+          type: "string"
+          readOnly: true
+          default: "http://prosopography.org/#Statement"
         uri:
           type: string
           format: uri
@@ -1057,6 +1069,10 @@ components:
       properties:
         "@id":
           $ref: "#/components/schemas/id"
+        "@type":
+          type: "string"
+          readOnly: true
+          default: "http://prosopography.org/#Source"
         label:
           description: A human readable description of the source of information for the
             factoid, e.g. a bibliographic reference, an archival shelfmark etc.
