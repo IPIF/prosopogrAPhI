@@ -871,7 +871,7 @@ components:
           $ref: "#/components/schemas/modifiedWhen"
       example:
         - "@id": Andreas_Reuter
-        - uris:
+          uris:
             - http://pez-digital.at/persons#Mauro_Aspini
         - "@id": Placidus_Seiz
           uris:
