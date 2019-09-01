@@ -334,10 +334,7 @@ paths:
           content:
             application/json:
               schema:
-                title: Array of Statement objects
-                type: array
-                items:
-                  $ref: "#/components/schemas/Statement"
+                  $ref: "#/components/schemas/StatementsResponse"
         "400":
           $ref: "#/components/responses/BadRequestError"
         "500":
