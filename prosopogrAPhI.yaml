@@ -35,6 +35,7 @@ paths:
         - $ref: "#/components/parameters/from"
         - $ref: "#/components/parameters/to"
         - $ref: "#/components/parameters/place"
+        - $ref: "#/components/parameters/sortBy"
       responses:
         "200":
           description: A list of Factoids with some metadata
@@ -135,10 +136,7 @@ paths:
           content:
             application/json:
               schema:
-                title: Array of Person objects
-                type: array
-                items:
-                  $ref: "#/components/schemas/Person"
+                  $ref: "#/components/schemas/PersonsResponse"
         "400":
           $ref: "#/components/responses/BadRequestError"
         "500":
@@ -238,10 +236,7 @@ paths:
           content:
             application/json:
               schema:
-                title: Array of Source objects
-                type: array
-                items:
-                  $ref: "#/components/schemas/Source"
+                $ref: "#/components/schemas/SourcesResponse"
         "400":
           $ref: "#/components/responses/BadRequestError"
         "500":
@@ -445,6 +440,8 @@ components:
       schema:
         type: string
     sortBy:
+      # TODO: this must be more precise: allowed values per endpoint
+      # TODO: how to address properties not on level 0?
       name: sortBy
       in: query
       description: defines the sort order of the requested resource, can contain all
@@ -792,7 +789,7 @@ components:
         properties:
             protocol: 
               $ref: "#/components/schemas/Protocol"
-            factoids:
+            data:
                 type: array
                 items:
                   $ref: "#/components/schemas/Factoid"
@@ -801,7 +798,7 @@ components:
             - size: 30
             - totalHits: 1234
             - page: 2
-          - factoids: 
+          - data: 
             - "@id": TW_Pez1_809_1
               person: 
                 "@id" : Andreas_Reuter
@@ -881,7 +878,7 @@ components:
         properties:
             protocol: 
               $ref: "#/components/schemas/Protocol"
-            persons:
+            data:
                 type: array
                 items:
                   $ref: "#/components/schemas/Person"
@@ -890,7 +887,7 @@ components:
             - size: 30
             - totalHits: 12345
             - page: 2
-          - persons:                   
+          - data:                   
             - "@id": Andreas_Reuter
             - uris:
                 - http://pez-digital.at/persons#Mauro_Aspini
@@ -1025,7 +1022,7 @@ components:
         properties:
             protocol: 
               $ref: "#/components/schemas/Protocol"
-            persons:
+            data:
                 type: array
                 items:
                   $ref: "#/components/schemas/Statement"
@@ -1034,7 +1031,7 @@ components:
             - size: 30
             - totalHits: 1234
             - page: 2
-          - statements: 
+          - data: 
             - "@id": st1
             - ...
             - "@id": st2
@@ -1089,7 +1086,7 @@ components:
         properties:
             protocol: 
               $ref: "#/components/schemas/Protocol"
-            sources:
+            data:
                 type: array
                 items:
                   $ref: "#/components/schemas/Source"
@@ -1098,7 +1095,7 @@ components:
             - size: 30
             - totalHits: 1234
             - page: 2
-          - sources:
+          - data:
             - "@id": source 1
             - ...
             - "@id": source 2
