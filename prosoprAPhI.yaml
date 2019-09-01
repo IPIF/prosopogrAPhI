@@ -334,10 +334,7 @@ paths:
           content:
             application/json:
               schema:
-                title: Array of Statement objects
-                type: array
-                items:
-                  $ref: "#/components/schemas/Statement"
+                  $ref: "#/components/schemas/StatementsResponse"
         "400":
           $ref: "#/components/responses/BadRequestError"
         "500":
@@ -668,7 +665,8 @@ components:
             format: uri
         example:
           - "@id": TW_Pez1_809_1
-            person: Andreas_Reuter
+            person: 
+              "@id": Andreas_Reuter
             statements:
               - "@id": Pez1_809_1
                 statementContents:
@@ -685,7 +683,8 @@ components:
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2010-05-05
           - "@id": TW_Pez1_123456
-            person: Placidus_Seiz
+            person: 
+              "@id": Placidus_Seiz
             statements:
               - "@id": Pez#474-7,
                 statementContents:
@@ -697,19 +696,20 @@ components:
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2007-04-16
           - "@id": TW_Pez1_123456
-            person: Placidus_Seiz
+            person: 
+              "@id": Placidus_Seiz
+              uris: http://pez-digital.at/placidus_Seiz
             statements:
               "@id": person1241
               name: Placidus Seitz
-              uris: 
-                - http://pez-digital.at/placidus_Seiz
             source: Lindner-Album_Ettalense253f.
             createdBy: Thomas Wallnig
             createdWhen: 2007-04-16
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2007-07-01
           - "@id": Fd2qwr
-            person: Andreas_Reuter
+            person: 
+              "@id" : Andreas_Reuter
             statements:
               - "@id": Fd2qwr
                 date:
@@ -797,7 +797,8 @@ components:
             - page: 2
           - data: 
             - "@id": TW_Pez1_809_1
-              person: Andreas_Reuter
+              person: 
+                "@id" : Andreas_Reuter
               statements:
                 - "@id": Pez1_809_1
                   statementContents:
@@ -814,7 +815,8 @@ components:
               modifiedBy: Thomas Wallnig
               modifiedWhen: 2010-05-05
             - "@id": TW_Pez1_123456
-              person: Placidus_Seiz
+              person: 
+                "@id" : Placidus_Seiz
               statements:
                 - "@id": Pez#474-7,
                   statementContents:
@@ -826,7 +828,8 @@ components:
               modifiedBy: Thomas Wallnig
               modifiedWhen: 2007-04-16
             - "@id": TW_Pez1_123456
-              person: Placidus_Seiz
+              person:
+                "@id" : Placidus_Seiz
               statements:
                 "@id": person1241
                 name: Placidus Seitz
@@ -898,13 +901,8 @@ components:
       properties:
         "@id":
           $ref: "#/components/schemas/id"
-        uri:
-          type: string
-          format: uri
-          description: A fully dereferencably URI representing the statement in the
-            internet, usually different from the URI created by the use of this
-            API. The API recommends to serve requests for serialisations of W3C
-            RDF via this URI.
+        uris:
+          $ref: "#/components/schemas/uris"
         statementType:
           type: object
           description: in context of structured information (with places, relationships,
@@ -1170,7 +1168,7 @@ components:
       description: the local id of the object (factoid, person, source, statement)
       type: string
     uri:
-      description: the uri of an object (factoid, person, source, statement, etc.).
+      description: the uri of an object (role, place, organisation, type, factoid, person, source, statement, etc.).
       type: string
       format: uri
     uris:
