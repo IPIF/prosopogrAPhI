@@ -47,5 +47,6 @@
 	"places": "http://prosopography.org/#places",
 	"relatesToPersons": "http://prosopography.org/#relatesToPersons",
 	"role": "http://prosopography.org/#role",
-	"memberOf": "http://prosopography.org/#memberOf"
+	"memberOf": "http://prosopography.org/#memberOf",
+	"derivedFrom": "http://www.w3.org/ns/prov#wasDerivedFrom"
 }
