@@ -99,6 +99,21 @@ paths:
           $ref: '#/components/responses/Standard500ErrorResponse'
         '501':
           $ref: '#/components/responses/NotImplementedError'
+    delete:
+      summary: delete the factoid with id {id}
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Factoid has been deleted successfully
+        '403':
+          description: Missing token or user is not allowed to delete this factoid
+        '404':
+          description: Factoid not found
+        '409':
+          description: 'Conflict: Factoid cannot be deleted eg. because of referential integrity. Reason should be given as error response detail'
+        '501':
+          $ref: '#/components/responses/NotImplementedError' 
   /persons:
     get:
       summary: Get persons
@@ -197,6 +212,21 @@ paths:
           $ref: '#/components/responses/Standard500ErrorResponse'
         '501':
           $ref: '#/components/responses/NotImplementedError'
+    delete:
+      summary: delete the person with id {id}
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Person has been deleted successfully
+        '403':
+          description: Missing token or user is not allowed to delete this person
+        '404':
+          description: Person not found
+        '409':
+          description: 'Conflict: Person cannot be deleted eg. because of referential integrity. Reason should be given as error response detail'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'         
   /sources:
     get:
       summary: Returns array of source objects.
@@ -288,6 +318,22 @@ paths:
           description: Forbidden. Missing token or user is not allowed to create sources.
         '500':
           $ref: '#/components/responses/Standard500ErrorResponse'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
+    delete:
+      summary: delete the source with id {id}
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Source has been deleted successfully
+        '403':
+          description: Missing token or user is not allowed to delete this source
+        '404':
+          description: Source not found
+        '409':
+          description: 'Conflict: Source cannot be deleted eg. because of
+             referential integrity. Reason should be given as error response detail'
         '501':
           $ref: '#/components/responses/NotImplementedError'
   /statements:
