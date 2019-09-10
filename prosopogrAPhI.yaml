@@ -18,35 +18,35 @@ paths:
         be filtered by setting additional parameters like **personId** or **p**.
         Factoids are sorted by default by date of creation time.
       parameters:
-        - $ref: "#/components/parameters/size"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/personId"
-        - $ref: "#/components/parameters/p"
-        - $ref: "#/components/parameters/statementId"
-        - $ref: "#/components/parameters/st"
-        - $ref: "#/components/parameters/sourceId"
-        - $ref: "#/components/parameters/s"
-        - $ref: "#/components/parameters/f"
-        - $ref: "#/components/parameters/statementContent"
-        - $ref: "#/components/parameters/relatesToPerson"
-        - $ref: "#/components/parameters/memberOf"
-        - $ref: "#/components/parameters/role"
-        - $ref: "#/components/parameters/name"
-        - $ref: "#/components/parameters/from"
-        - $ref: "#/components/parameters/to"
-        - $ref: "#/components/parameters/place"
-        - $ref: "#/components/parameters/sortBy"
+        - $ref: '#/components/parameters/size'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/personId'
+        - $ref: '#/components/parameters/p'
+        - $ref: '#/components/parameters/statementId'
+        - $ref: '#/components/parameters/st'
+        - $ref: '#/components/parameters/sourceId'
+        - $ref: '#/components/parameters/s'
+        - $ref: '#/components/parameters/f'
+        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/relatesToPerson'
+        - $ref: '#/components/parameters/memberOf'
+        - $ref: '#/components/parameters/role'
+        - $ref: '#/components/parameters/name'
+        - $ref: '#/components/parameters/from'
+        - $ref: '#/components/parameters/to'
+        - $ref: '#/components/parameters/place'
+        - $ref: '#/components/parameters/sortBy'
       responses:
-        "200":
+        '200':
           description: A list of Factoids with some metadata
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/FactoidsResponse"
-        "400":
-          $ref: "#/components/responses/BadRequestError"
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
+                  $ref: '#/components/schemas/FactoidsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
     post:
       summary: creates a factoid. No Factoid can be created without references to a
         person, a source, and at least one statement
@@ -54,72 +54,72 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Factoid"
+              $ref: '#/components/schemas/Factoid'
         description: the factoid data
       responses:
-        "201":
+        '201':
           description: factoid created
-        "400":
+        '400':
           description: factoid could not be created or updated
-        "403":
+        '403':
           description: Forbidden. Missing token or user is not allowed to create persons.
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
-        "501":
-          $ref: "#/components/responses/NotImplementedError"
-  "/factoids/{id}":
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
+  '/factoids/{id}':
     get:
       summary: Returns factoid with id {id}
       parameters:
-        - $ref: "#/components/parameters/id"
+        - $ref: '#/components/parameters/id'
       responses:
-        "200":
+        '200':
           description: a factoid
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Factoid"
-        "404":
+                $ref: '#/components/schemas/Factoid'
+        '404':
           description: the factoid does not exist
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
     put:
       summary: updates the factoid with the {id}
       parameters:
-        - $ref: "#/components/parameters/id"
+        - $ref: '#/components/parameters/id'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Factoid"
+              $ref: '#/components/schemas/Factoid'
       responses:
-        "201":
+        '201':
           description: factoid updated
-        "400":
+        '400':
           description: factoid could not be updated or created. TODO should return reason
             as message
-        "403":
+        '403':
           description: Forbidden. Missing token or user is not allowed to create persons.
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
-        "501":
-          $ref: "#/components/responses/NotImplementedError"
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
     delete:
       summary: delete the factoid with id {id}
       parameters:
-        - $ref: "#/components/parameters/id"
+        - $ref: '#/components/parameters/id'
       responses:
-        "204":
+        '204':
           description: Factoid has been deleted successfully
-        "403":
+        '403':
           description: Missing token or user is not allowed to delete this factoid
-        "404":
+        '404':
           description: Factoid not found
-        "409":
-          description: "Conflict: Factoid cannot be deleted eg. because of
-             referential integrity. Reason should be given as error response detail"
-        "501":
-          $ref: "#/components/responses/NotImplementedError"
+        '409':
+          description: 'Conflict: Factoid cannot be deleted eg. because of
+             referential integrity. Reason should be given as error response detail'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
   /persons:
     get:
       summary: Get persons
@@ -128,44 +128,44 @@ paths:
         be filtered by setting additional parameters like **factoidId** or
         **f**. TODO Further parameters for filtering have to be specified.
       parameters:
-        - $ref: "#/components/parameters/size"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/sortBy"
-        - $ref: "#/components/parameters/p"
-        - $ref: "#/components/parameters/factoidId"
-        - $ref: "#/components/parameters/f"
-        - $ref: "#/components/parameters/statementId"
-        - $ref: "#/components/parameters/st"
-        - $ref: "#/components/parameters/sourceId"
-        - $ref: "#/components/parameters/s"
-        - $ref: "#/components/parameters/statementContent"
-        - $ref: "#/components/parameters/relatesToPerson"
-        - $ref: "#/components/parameters/memberOf"
-        - $ref: "#/components/parameters/role"
-        - $ref: "#/components/parameters/name"
-        - $ref: "#/components/parameters/from"
-        - $ref: "#/components/parameters/to"
-        - $ref: "#/components/parameters/place"
+        - $ref: '#/components/parameters/size'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/sortBy'
+        - $ref: '#/components/parameters/p'
+        - $ref: '#/components/parameters/factoidId'
+        - $ref: '#/components/parameters/f'
+        - $ref: '#/components/parameters/statementId'
+        - $ref: '#/components/parameters/st'
+        - $ref: '#/components/parameters/sourceId'
+        - $ref: '#/components/parameters/s'
+        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/relatesToPerson'
+        - $ref: '#/components/parameters/memberOf'
+        - $ref: '#/components/parameters/role'
+        - $ref: '#/components/parameters/name'
+        - $ref: '#/components/parameters/from'
+        - $ref: '#/components/parameters/to'
+        - $ref: '#/components/parameters/place'
       responses:
-        "200":
+        '200':
           description: Successfull response
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/PersonsResponse"
-        "400":
-          $ref: "#/components/responses/BadRequestError"
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
+                  $ref: '#/components/schemas/PersonsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
     post:
       summary: Add a new person
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Person"
+              $ref: '#/components/schemas/Person'
       responses:
-        "201":
+        '201':
           description: Person created
           headers:
             Location:
@@ -175,69 +175,69 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Person"
-        "400":
-          $ref: "#/components/responses/BadRequestError"
-        "403":
+                $ref: '#/components/schemas/Person'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
           description: Forbidden. Missing token or user is not allowed to create persons.
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
-        "501":
-          $ref: "#/components/responses/NotImplementedError"
-  "/persons/{id}":
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
+  '/persons/{id}':
     get:
       summary: Returns person with id {id}
       parameters:
-        - $ref: "#/components/parameters/id"
+        - $ref: '#/components/parameters/id'
       responses:
-        "200":
+        '200':
           description: a person object
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Person"
-        "404":
+                $ref: '#/components/schemas/Person'
+        '404':
           description: the person does not exist
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
     put:
       summary: Updates the person with the {id}
       parameters:
-        - $ref: "#/components/parameters/id"
+        - $ref: '#/components/parameters/id'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Person"
+              $ref: '#/components/schemas/Person'
         description: the person data
       responses:
-        "201":
+        '201':
           description: person updated
-        "400":
+        '400':
           description: person could not be updated or created. TODO should return reason as
             message
-        "403":
+        '403':
           description: Forbidden. Missing token or user is not allowed to create persons.
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
-        "501":
-          $ref: "#/components/responses/NotImplementedError"
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
     delete:
       summary: delete the person with id {id}
       parameters:
-        - $ref: "#/components/parameters/id"
+        - $ref: '#/components/parameters/id'
       responses:
-        "204":
+        '204':
           description: Person has been deleted successfully
-        "403":
+        '403':
           description: Missing token or user is not allowed to delete this person
-        "404":
+        '404':
           description: Person not found
-        "409":
-          description: "Conflict: Person cannot be deleted eg. because of
-             referential integrity. Reason should be given as error response detail"
-        "501":
-          $ref: "#/components/responses/NotImplementedError"
+        '409':
+          description: 'Conflict: Person cannot be deleted eg. because of
+             referential integrity. Reason should be given as error response detail'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
   /sources:
     get:
       summary: Returns array of source objects.
@@ -246,39 +246,39 @@ paths:
         be filtered by setting additional parameters like **factoidId** or
         **f**. TODO Further parameters for filtering have to be specified.
       parameters:
-        - $ref: "#/components/parameters/size"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/sortBy"
-        - $ref: "#/components/parameters/personId"
-        - $ref: "#/components/parameters/p"
-        - $ref: "#/components/parameters/factoidId"
-        - $ref: "#/components/parameters/f"
-        - $ref: "#/components/parameters/st"
-        - $ref: "#/components/parameters/statementContent"
-        - $ref: "#/components/parameters/relatesToPerson"
-        - $ref: "#/components/parameters/memberOf"
-        - $ref: "#/components/parameters/role"
-        - $ref: "#/components/parameters/name"
-        - $ref: "#/components/parameters/from"
-        - $ref: "#/components/parameters/to"
-        - $ref: "#/components/parameters/place"
+        - $ref: '#/components/parameters/size'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/sortBy'
+        - $ref: '#/components/parameters/personId'
+        - $ref: '#/components/parameters/p'
+        - $ref: '#/components/parameters/factoidId'
+        - $ref: '#/components/parameters/f'
+        - $ref: '#/components/parameters/st'
+        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/relatesToPerson'
+        - $ref: '#/components/parameters/memberOf'
+        - $ref: '#/components/parameters/role'
+        - $ref: '#/components/parameters/name'
+        - $ref: '#/components/parameters/from'
+        - $ref: '#/components/parameters/to'
+        - $ref: '#/components/parameters/place'
       responses:
-        "200":
+        '200':
           description: Successfull response
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SourcesResponse"
-        "400":
-          $ref: "#/components/responses/BadRequestError"
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
+                $ref: '#/components/schemas/SourcesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
     post:
       summary: Add a new source
       requestBody:
-        $ref: "#/components/requestBodies/Source"
+        $ref: '#/components/requestBodies/Source'
       responses:
-        "201":
+        '201':
           description: Source created
           headers:
             Location:
@@ -288,31 +288,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Source"
-        "400":
-          $ref: "#/components/responses/BadRequestError"
-        "403":
+                $ref: '#/components/schemas/Source'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
           description: Forbidden. Missing token or user is not allowed to create persons.
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
-        "501":
-          $ref: "#/components/responses/NotImplementedError"
-  "/sources/{id}":
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
+  '/sources/{id}':
     get:
       summary: Returns source with id {id}
       parameters:
-        - $ref: "#/components/parameters/id"
+        - $ref: '#/components/parameters/id'
       responses:
-        "200":
+        '200':
           description: a source object
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Source"
-        "404":
+                $ref: '#/components/schemas/Source'
+        '404':
           description: the source does not exist
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
     put:
       summary: updates the source with the {id}
       parameters:
@@ -322,35 +322,35 @@ paths:
           schema:
             type: string
       requestBody:
-        $ref: "#/components/requestBodies/Source"
+        $ref: '#/components/requestBodies/Source'
       responses:
-        "201":
+        '201':
           description: source updated
-        "400":
+        '400':
           description: source could not be updated or created. TODO should return reason as
             message
-        "403":
+        '403':
           description: Forbidden. Missing token or user is not allowed to create sources.
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
-        "501":
-          $ref: "#/components/responses/NotImplementedError"
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
     delete:
       summary: delete the source with id {id}
       parameters:
-        - $ref: "#/components/parameters/id"
+        - $ref: '#/components/parameters/id'
       responses:
-        "204":
+        '204':
           description: Source has been deleted successfully
-        "403":
+        '403':
           description: Missing token or user is not allowed to delete this source
-        "404":
+        '404':
           description: Source not found
-        "409":
-          description: "Conflict: Source cannot be deleted eg. because of
-             referential integrity. Reason should be given as error response detail"
-        "501":
-          $ref: "#/components/responses/NotImplementedError"
+        '409':
+          description: 'Conflict: Source cannot be deleted eg. because of
+             referential integrity. Reason should be given as error response detail'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
   /statements:
     get:
       summary: Returns array of statement objects
@@ -359,105 +359,64 @@ paths:
         can be filtered by setting additional parameters like **factoidId** or
         **f**. TODO Further parameters for filtering have to be specified.
       parameters:
-        - $ref: "#/components/parameters/size"
-        - $ref: "#/components/parameters/page"
-        - $ref: "#/components/parameters/sortBy"
-        - $ref: "#/components/parameters/personId"
-        - $ref: "#/components/parameters/factoidId"
-        - $ref: "#/components/parameters/f"
-        - $ref: "#/components/parameters/sourceId"
-        - $ref: "#/components/parameters/st"
-        - $ref: "#/components/parameters/p"
-        - $ref: "#/components/parameters/statementContent"
-        - $ref: "#/components/parameters/relatesToPerson"
-        - $ref: "#/components/parameters/memberOf"
-        - $ref: "#/components/parameters/role"
-        - $ref: "#/components/parameters/name"
-        - $ref: "#/components/parameters/from"
-        - $ref: "#/components/parameters/to"
-        - $ref: "#/components/parameters/place"
+        - $ref: '#/components/parameters/size'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/sortBy'
+        - $ref: '#/components/parameters/personId'
+        - $ref: '#/components/parameters/factoidId'
+        - $ref: '#/components/parameters/f'
+        - $ref: '#/components/parameters/sourceId'
+        - $ref: '#/components/parameters/st'
+        - $ref: '#/components/parameters/p'
+        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/relatesToPerson'
+        - $ref: '#/components/parameters/memberOf'
+        - $ref: '#/components/parameters/role'
+        - $ref: '#/components/parameters/name'
+        - $ref: '#/components/parameters/from'
+        - $ref: '#/components/parameters/to'
+        - $ref: '#/components/parameters/place'
       responses:
-        "200":
+        '200':
           description: Successfull response
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/StatementsResponse"
-        "400":
-          $ref: "#/components/responses/BadRequestError"
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
-  # Statements cannot be created without factoids
-  #   post:
-  #     summary: Add a new statement
-  #     requestBody:
-  #       $ref: "#/components/requestBodies/Statement"
-  #     responses:
-  #       "201":
-  #         description: Statement created
-  #         headers:
-  #           Location:
-  #             description: the uri of the created statement
-  #             schema:
-  #               type: string
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: "#/components/schemas/Statement"
-  #       "400":
-  #         $ref: "#/components/responses/BadRequestError"
-  #       "403":
-  #         description: Forbidden. Missing token or user is not allowed to create statement.
-  #       "500":
-  #         $ref: "#/components/responses/Standard500ErrorResponse"
-  #       "501":
-  #         $ref: "#/components/responses/NotImplementedError"
-  "/statements/{id}":
+                  $ref: '#/components/schemas/StatementsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
+
+  '/statements/{id}':
     get:
       summary: Return statement with id {id}
       parameters:
-        - $ref: "#/components/parameters/id"
+        - $ref: '#/components/parameters/id'
       responses:
-        "200":
+        '200':
           description: a statement object
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Statement"
-        "404":
+                $ref: '#/components/schemas/Statement'
+        '404':
           description: the statement does not exist
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
-  #   put:
-  #     summary: updates the statement with the {id}
-  #     parameters:
-  #       - $ref: "#/components/parameters/id"
-  #     requestBody:
-  #       $ref: "#/components/requestBodies/Statement"
-  #     responses:
-  #       "201":
-  #         description: statement updated
-  #       "400":
-  #         description: statement could not be updated or created. TODO should return reason
-  #           as message
-  #       "403":
-  #         description: Forbidden. Missing token or user is not allowed to create statements.
-  #       "500":
-  #         $ref: "#/components/responses/Standard500ErrorResponse"
-  #       "501":
-  #         $ref: "#/components/responses/NotImplementedError"
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
+
   /describe:
     get:
       description: Gives basic information about the service and the implementation of API
       responses:
-        "200":
+        '200':
           description: basic information about the service and the implementation of the API
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ServiceDescription"
-        "500":
-          $ref: "#/components/responses/Standard500ErrorResponse"
+                $ref: '#/components/schemas/ServiceDescription'
+        '500':
+          $ref: '#/components/responses/Standard500ErrorResponse'
 servers:
   - url: https://localhost/api/
   - url: http://localhost/api/
@@ -649,13 +608,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
     Standard500ErrorResponse:
       description: An unexpected error occurred.
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
     NotImplementedError:
       description: Functionality not implemented. Some implementations will only support
         read operations. For any data modifying request they must return a 501
@@ -663,19 +622,19 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
   requestBodies:
     Source:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Source"
+            $ref: '#/components/schemas/Source'
       description: the source data
     Statement:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Statement"
+            $ref: '#/components/schemas/Statement'
   schemas:
     Factoid:
       description: A Factoid is a composite of one or more statements about a person
@@ -683,39 +642,39 @@ components:
       type: object
       items:
         required:
-          - "@id"
+          - '@id'
           - person
           - source
           - statements
           - createdBy
           - createdWhen
         properties:
-          "@id":
-            $ref: "#/components/schemas/id"
+          '@id':
+            $ref: '#/components/schemas/id'
           person:
-              $ref: "#/components/schemas/Person"
+              $ref: '#/components/schemas/Person'
           statement:
-            $ref: "#/components/schemas/Statement"
+            $ref: '#/components/schemas/Statement'
           source:
-            $ref: "#/components/schemas/Source"
+            $ref: '#/components/schemas/Source'
           createdBy:
-            $ref: "#/components/schemas/createdBy"
+            $ref: '#/components/schemas/createdBy'
           createdWhen:
-            $ref: "#/components/schemas/createdWhen"
+            $ref: '#/components/schemas/createdWhen'
           modifiedBy:
-            $ref: "#/components/schemas/modifiedBy"
+            $ref: '#/components/schemas/modifiedBy'
           modifiedWhen:
-            $ref: "#/components/schemas/modifiedWhen"
+            $ref: '#/components/schemas/modifiedWhen'
           derivedFrom:
             description: references the URI of a factoid on which this factoid is based.
             type: string
             format: uri
         example:
-          - "@id": TW_Pez1_809_1
+          - '@id': TW_Pez1_809_1
             person: 
-              "@id": Andreas_Reuter
+              '@id': Andreas_Reuter
             statements:
-              - "@id": Pez1_809_1
+              - '@id': Pez1_809_1
                 statementContents:
                   - label: Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war
                       Konventuale von Gleink. Er war Doktor der Theologie,
@@ -729,11 +688,11 @@ components:
             createdWhen: 2010-05-05
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2010-05-05
-          - "@id": TW_Pez1_123456
+          - '@id': TW_Pez1_123456
             person: 
-              "@id": Placidus_Seiz
+              '@id': Placidus_Seiz
             statements:
-              - "@id": Pez#474-7,
+              - '@id': Pez#474-7,
                 statementContents:
                   - label: ... , quam accepturum me spero a reverendissimo domino
                       abbate Ettalensi ...
@@ -742,23 +701,23 @@ components:
             createdWhen: 2007-04-16
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2007-04-16
-          - "@id": TW_Pez1_123456
+          - '@id': TW_Pez1_123456
             person: 
-              "@id": Placidus_Seiz
+              '@id': Placidus_Seiz
               uris: http://pez-digital.at/placidus_Seiz
             statements:
-              "@id": person1241
+              '@id': person1241
               name: Placidus Seitz
             source: Lindner-Album_Ettalense253f.
             createdBy: Thomas Wallnig
             createdWhen: 2007-04-16
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2007-07-01
-          - "@id": Fd2qwr
+          - '@id': Fd2qwr
             person: 
-              "@id" : Andreas_Reuter
+              '@id' : Andreas_Reuter
             statements:
-              - "@id": Fd2qwr
+              - '@id': Fd2qwr
                 date:
                   sortdate: 1648-06-15
                   label: ca. 1648
@@ -766,7 +725,7 @@ components:
                   - label: Geburt
                 places:
                   - label: Kremsmünster
-              - "@id": Pez1_809_1
+              - '@id': Pez1_809_1
                 statementContents:
                   - label: Death
                 date:
@@ -774,37 +733,37 @@ components:
                   label: 1715
                 places:
                   - label: Gleink
-              - "@id": Pez1_809_2
+              - '@id': Pez1_809_2
                 role:
                   - uri: http://religiouspeople.org/rdf/#conventmember
                     label: Konventuale
                 places:
                   - label: Gleink
-              - "@id": Pez1_809_3
+              - '@id': Pez1_809_3
                 statementContents:
                   - label: Doktor der Theologie
-              - "@id": Pez1_809_4
+              - '@id': Pez1_809_4
                 statementContents:
                   - label: apostolischer Protonotar
-              - "@id": Pez1_809_5
+              - '@id': Pez1_809_5
                 role:
                   - label: Ökonom des Klosters
                 places:
                   - label: Gleink
-              - "@id": Pez1_809_6
+              - '@id': Pez1_809_6
                 role:
                   - label: Prior
                 places:
                   - uri: http://sws.geonames.org/2778486/
                     label: Gleink
-              - "@id": Pez1_809_7
+              - '@id': Pez1_809_7
                 statementContents:
                   - label: Prior (belegt als)
                 places:
                   - label: Gleink
                 date:
                   sortdate: 1708-01-01
-              - "@id": Pez1_809_7
+              - '@id': Pez1_809_7
                 statementContents:
                   - label: Unterzeichner der Rotel auf Abt Rupert von Kimpflern
                 places:
@@ -814,7 +773,7 @@ components:
                   label: 1708
                 relatesToPersons:
                   - label: Abt Rupert von Kimpflern
-              - "@id": Pez1_809_8
+              - '@id': Pez1_809_8
                 statementContents:
                   - label: Brief an Bernhard Pez
                 date:
@@ -832,22 +791,22 @@ components:
         description: Schema of the response of /factoids
         properties:
             protocol: 
-              $ref: "#/components/schemas/Protocol"
+              $ref: '#/components/schemas/Protocol'
             factoids:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Factoid"
+                  $ref: '#/components/schemas/Factoid'
         example: 
           - protocol:
             - size: 30
             - totalHits: 1234
             - page: 2
           - factoids: 
-            - "@id": TW_Pez1_809_1
+            - '@id': TW_Pez1_809_1
               person: 
-                "@id" : Andreas_Reuter
+                '@id' : Andreas_Reuter
               statements:
-                - "@id": Pez1_809_1
+                - '@id': Pez1_809_1
                   statementContents:
                     - label: Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war
                         Konventuale von Gleink. Er war Doktor der Theologie,
@@ -861,11 +820,11 @@ components:
               createdWhen: 2010-05-05
               modifiedBy: Thomas Wallnig
               modifiedWhen: 2010-05-05
-            - "@id": TW_Pez1_123456
+            - '@id': TW_Pez1_123456
               person: 
-                "@id" : Placidus_Seiz
+                '@id' : Placidus_Seiz
               statements:
-                - "@id": Pez#474-7,
+                - '@id': Pez#474-7,
                   statementContents:
                     - label: ... , quam accepturum me spero a reverendissimo domino
                         abbate Ettalensi ...
@@ -874,11 +833,11 @@ components:
               createdWhen: 2007-04-16
               modifiedBy: Thomas Wallnig
               modifiedWhen: 2007-04-16
-            - "@id": TW_Pez1_123456
+            - '@id': TW_Pez1_123456
               person:
-                "@id" : Placidus_Seiz
+                '@id' : Placidus_Seiz
               statements:
-                "@id": person1241
+                '@id': person1241
                 name: Placidus Seitz
                 uris: 
                   - http://pez-digital.at/placidus_Seiz
@@ -894,25 +853,25 @@ components:
         name, status, social relationsships etc. It has therefore only formal
         identifiers as properties.
       required:
-        - "@id"
+        - '@id'
       properties:
-        "@id":
-          $ref: "#/components/schemas/id"
+        '@id':
+          $ref: '#/components/schemas/id'
         uris:
-          $ref: "#/components/schemas/uris"
+          $ref: '#/components/schemas/uris'
         createdBy:
-          $ref: "#/components/schemas/createdBy"
+          $ref: '#/components/schemas/createdBy'
         createdWhen:
-          $ref: "#/components/schemas/createdWhen"
+          $ref: '#/components/schemas/createdWhen'
         modifiedBy:
-          $ref: "#/components/schemas/modifiedBy"
+          $ref: '#/components/schemas/modifiedBy'
         modifiedWhen:
-          $ref: "#/components/schemas/modifiedWhen"
+          $ref: '#/components/schemas/modifiedWhen'
       example:
-        - "@id": Andreas_Reuter
+        - '@id': Andreas_Reuter
         - uris:
             - http://pez-digital.at/persons#Mauro_Aspini
-        - "@id": Placidus_Seiz
+        - '@id': Placidus_Seiz
           uris:
             - http://d-nb.info/gnd/10102407X
             - https://viaf.org/viaf/5285530/
@@ -921,21 +880,21 @@ components:
         description: Schema of the response of /persons
         properties:
             protocol: 
-              $ref: "#/components/schemas/Protocol"
+              $ref: '#/components/schemas/Protocol'
             persons:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Person"
+                  $ref: '#/components/schemas/Person'
         example: 
           - protocol:
             - size: 30
             - totalHits: 12345
             - page: 2
           - persons:                   
-            - "@id": Andreas_Reuter
+            - '@id': Andreas_Reuter
             - uris:
                 - http://pez-digital.at/persons#Mauro_Aspini
-            - "@id": Placidus_Seiz
+            - '@id': Placidus_Seiz
               uris:
                 - http://d-nb.info/gnd/10102407X
                 - https://viaf.org/viaf/5285530/
@@ -944,12 +903,12 @@ components:
       description: The statement object gives human and machine readable information on the
         person(s) listed in the factoid.
       required:
-        - "@id"
+        - '@id'
       properties:
-        "@id":
-          $ref: "#/components/schemas/id"
+        '@id':
+          $ref: '#/components/schemas/id'
         uris:
-          $ref: "#/components/schemas/uris"
+          $ref: '#/components/schemas/uris'
         statementType:
           type: object
           description: in context of structured information (with places, relationships,
@@ -984,8 +943,8 @@ components:
               description: descriptive text of the role of the person in the statement.
         date:
           type: object
-          description: "The temporal allocation of the statement: To which time frame the
-            statement on the person applies?"
+          description: 'The temporal allocation of the statement: To which time frame the
+            statement on the person applies?'
           properties:
             sortdate:
               type: string
@@ -1053,32 +1012,32 @@ components:
             or descriptive prose including the wording from the source or a
             short biogram.
         createdBy:
-          $ref: "#/components/schemas/createdBy"
+          $ref: '#/components/schemas/createdBy'
         createdWhen:
-          $ref: "#/components/schemas/createdWhen"
+          $ref: '#/components/schemas/createdWhen'
         modifiedBy:
-          $ref: "#/components/schemas/modifiedBy"
+          $ref: '#/components/schemas/modifiedBy'
         modifiedWhen:
-          $ref: "#/components/schemas/modifiedWhen"
+          $ref: '#/components/schemas/modifiedWhen'
     StatementsResponse:
         type: object
         description: Schema of the response of /statements
         properties:
             protocol: 
-              $ref: "#/components/schemas/Protocol"
+              $ref: '#/components/schemas/Protocol'
             statements:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Statement"
+                  $ref: '#/components/schemas/Statement'
         example:           
           - protocol:
             - size: 30
             - totalHits: 1234
             - page: 2
           - statements: 
-            - "@id": st1
+            - '@id': st1
             - ...
-            - "@id": st2
+            - '@id': st2
             - ...
 
     Protocol:
@@ -1095,54 +1054,54 @@ components:
           description: Total number of objects found by this request
     Source:
       required:
-        - "@id"
+        - '@id'
       properties:
-        "@id":
-          $ref: "#/components/schemas/id"
+        '@id':
+          $ref: '#/components/schemas/id'
         label:
           description: A human readable description of the source of information for the
             factoid, e.g. a bibliographic reference, an archival shelfmark etc.
           type: string
         uris:
-          $ref: "#/components/schemas/uris"
+          $ref: '#/components/schemas/uris'
         createdBy:
-          $ref: "#/components/schemas/createdBy"
+          $ref: '#/components/schemas/createdBy'
         createdWhen:
-          $ref: "#/components/schemas/createdWhen"
+          $ref: '#/components/schemas/createdWhen'
         modifiedBy:
-          $ref: "#/components/schemas/modifiedBy"
+          $ref: '#/components/schemas/modifiedBy'
         modifiedWhen:
-          $ref: "#/components/schemas/modifiedWhen"
+          $ref: '#/components/schemas/modifiedWhen'
       example:
-        - "@id": PezNachlassVol1
+        - '@id': PezNachlassVol1
           uris:
             - https://e-book.fwf.ac.at/o:370
-          metadata: "Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten,
+          metadata: 'Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten,
             Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas
-            Stockinger, Wien u. Köln: Böhlau, 2010"
-        - "@id": "Pez#474"
+            Stockinger, Wien u. Köln: Böhlau, 2010'
+        - '@id': 'Pez#474'
           metadata: Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v
-        - "@id": Lindner-Album_Ettalense253f.
-          metadata: "Lindner: Album Ettalense, S. 253f."
+        - '@id': Lindner-Album_Ettalense253f.
+          metadata: 'Lindner: Album Ettalense, S. 253f.'
     SourcesResponse:
         type: object
         description: Schema of the response of /sources
         properties:
             protocol: 
-              $ref: "#/components/schemas/Protocol"
+              $ref: '#/components/schemas/Protocol'
             sources:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Source"
+                  $ref: '#/components/schemas/Source'
         example:           
           - protocol:
             - size: 30
             - totalHits: 1234
             - page: 2
           - sources:
-            - "@id": source 1
+            - '@id': source 1
             - ...
-            - "@id": source 2
+            - '@id': source 2
 
     ServiceDescription:
       type: object
@@ -1188,7 +1147,7 @@ components:
             with each response to a GET request in this form:
             
             
-            ``Link: <https://raw.githubusercontent.com/GVogeler/prosopogrAPhI/master/level1.json>;rel="profile"``
+            ``Link: <https://raw.githubusercontent.com/GVogeler/prosopogrAPhI/master/level1.json>;rel='profile'``
             
 
 #              TODO: can we put the level.json files somewhere else (not github)?
@@ -1198,9 +1157,9 @@ components:
 ##            type: string
         formats:
           type: array
-          description: "List of the supported response formats (content types). E.g. 
+          description: 'List of the supported response formats (content types). E.g. 
             ``application/json`` (default), ``application/xml``, ``application/rdf+xml``,
-            ``application/x-turtle``, ..."
+            ``application/x-turtle``, ...'
           items:
             type: string
             
@@ -1222,13 +1181,13 @@ components:
       description: a list of external uris of the current object (factoid, person, source, statement, etc.) which could be used as objects to owl:sameAs.
       type: array
       items:
-        $ref: "#/components/schemas/uri"
+        $ref: '#/components/schemas/uri'
     createdBy:
       type: string
       description: The user responsbile for a creation of the object. A group of persons is
         represented by a comma seperated list.
     createdWhen:
-      description: ""
+      description: ''
       type: string
       format: date
     modifiedBy:
@@ -1236,7 +1195,7 @@ components:
       description: The user responsbile for a modification of the object. A group of
         persons is represented by a comma seperated list.
     modifiedWhen:
-      description: ""
+      description: ''
       type: string
       format: date
     Error:
@@ -1263,7 +1222,7 @@ components:
           description: An absolute URI that identifies the problem type.
             When dereferenced, it SHOULD provide human-readable documentation 
             for the problem type. When this member is not present, its value 
-            is assumed to be "about:blank".
+            is assumed to be 'about:blank'.
         instance:
           type: string
           description: An absolute URI that identifies the specific occurrence 
