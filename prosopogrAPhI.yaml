@@ -111,8 +111,7 @@ paths:
         '404':
           description: Factoid not found
         '409':
-          description: 'Conflict: Factoid cannot be deleted eg. because of
-             referential integrity. Reason should be given as error response detail'
+          description: 'Conflict: Factoid cannot be deleted eg. because of referential integrity. Reason should be given as error response detail'
         '501':
           $ref: '#/components/responses/NotImplementedError'
   /persons:
@@ -225,8 +224,7 @@ paths:
         '404':
           description: Person not found
         '409':
-          description: 'Conflict: Person cannot be deleted eg. because of
-             referential integrity. Reason should be given as error response detail'
+          description: 'Conflict: Person cannot be deleted eg. because of referential integrity. Reason should be given as error response detail'
         '501':
           $ref: '#/components/responses/NotImplementedError'
   /sources:
@@ -600,7 +598,7 @@ components:
           - '@id'
           - person
           - source
-          - statements
+          - statement
           - createdBy
           - createdWhen
         properties:
@@ -608,10 +606,8 @@ components:
             $ref: '#/components/schemas/id'
           person:
             $ref: '#/components/schemas/Person'
-          statements:
-            type: array
-            items:
-              $ref: '#/components/schemas/Statement'
+          statement:
+            $ref: '#/components/schemas/Statement'
           source:
             $ref: '#/components/schemas/Source'
           createdBy:
@@ -664,7 +660,7 @@ components:
           - '@id': Fd2qwr
             person:
               '@id': Andreas_Reuter
-            statements:
+            statement:
               - '@id': Fd2qwr
                 date:
                   sortdate: 1648-06-15T00:00:00.000Z
@@ -674,93 +670,33 @@ components:
                   - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
                 places:
                   - label: Kremsmünster
-              - '@id': Pez1_809_1
-                statementType: 
-                  - label: "Death"
-                  - uri: "http://purl.org/vocab/bio/0.1/death"
-                date:
-                  sortdate: 1715-12-31T00:00:00.000Z
-                  label: 1715
-                places:
-                  - label: "Gleink"
-                  - uri: "http://sws.geonames.org/2778486/"
-              - '@id': Pez1_809_2
-                role:
-                  - uri: 'http://religiouspeople.org/rdf/#conventmember'
-                    label: Konventuale
-                places:
-                  - label: Gleink
-              - '@id': Pez1_809_3
-                statementContent: "Doktor der Theologie"
-              - '@id': Pez1_809_4
-                statementContent: "apostolischer Protonotar"
-              - '@id': Pez1_809_5
-                role:
-                  - label: Ökonom des Klosters
-                places:
-                  - label: Gleink
-              - '@id': Pez1_809_6
-                role:
-                  - label: Prior
-                places:
-                  - uri: 'http://sws.geonames.org/2778486/'
-                    label: Gleink
-              - '@id': Pez1_809_7
-                statementContent: Prior (belegt als)
-                places:
-                  - label: Gleink
-                date:
-                  sortdate: 1708-01-01T00:00:00.000Z
-              - '@id': Pez1_809_7
-                statementContent: Unterzeichner der Rotel auf Abt Rupert von Kimpflern
-                places:
-                  - label: Gleink
-                date:
-                  sortdate: 1708-01-01T00:00:00.000Z
-                  label: 1708
-                relatesToPersons:
-                  - label: Abt Rupert von Kimpflern
-              - '@id': Pez1_809_8
-                statementContent: "Brief an Bernhard Pez"
-                date:
-                  sortdate: 1710-01-01T00:00:00.000Z
-                  label: 1710
-                relatesToPersons:
-                  - label: Bernhard Pez
             source: PezNachlassVol1
             createdBy: Thomas Wallnig
             createdWhen: 2010-05-05T00:00:00.000Z
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2010-05-05T00:00:00.000Z
     FactoidsResponse:
-        type: object
-        description: Schema of the response of /factoids
-        properties:
-            protocol: 
-              $ref: '#/components/schemas/Protocol'
-            factoids:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Factoid'
-        example: 
-          - protocol:
+      type: object
+      description: Schema of the response of /factoids
+      properties:
+        protocol:
+          $ref: '#/components/schemas/Protocol'
+        factoids:
+          type: array
+          items:
+            $ref: '#/components/schemas/Factoid'
+      example:
+        - protocol:
             - size: 30
             - totalHits: 1234
             - page: 2
-          - factoids: 
+        - factoids:
             - '@id': TW_Pez1_809_1
-              person: 
-                '@id' : Andreas_Reuter
-              statements:
+              person:
+                '@id': Andreas_Reuter
+              statement:
                 - '@id': Pez1_809_1
-                  statementContents:
-                    - label: Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war
-                        Konventuale von Gleink. Er war Doktor der Theologie,
-                        apostolischer Protonotar und wirkte in Gleink als Ökonom
-                        sowie insgesamt 22 Jahre lang als Prior. Als solcher
-                        begegnet er 1708 als Unterzeichner der Rotel auf Abt
-                        Rupert von Kimpflern und 1710 in seinem Brief an Bernhard
-                        Pez.
+                  statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
               source: PezNachlassVol1
               createdBy: Thomas Wallnig
               createdWhen: 2010-05-05T00:00:00.000Z
@@ -817,21 +753,21 @@ components:
             - 'http://d-nb.info/gnd/10102407X'
             - 'https://viaf.org/viaf/5285530/'
     PersonsResponse:
-        type: object
-        description: Schema of the response of /persons
-        properties:
-            protocol: 
-              $ref: '#/components/schemas/Protocol'
-            persons:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Person'
-        example: 
-          - protocol:
+      type: object
+      description: Schema of the response of /persons
+      properties:
+        protocol:
+          $ref: '#/components/schemas/Protocol'
+        persons:
+          type: array
+          items:
+            $ref: '#/components/schemas/Person'
+      example:
+        - protocol:
             - size: 30
             - totalHits: 12345
             - page: 2
-          - persons:                   
+        - persons:
             - '@id': Andreas_Reuter
             - uris:
                 - http://pez-digital.at/persons#Mauro_Aspini
@@ -933,21 +869,21 @@ components:
         modifiedWhen:
           $ref: '#/components/schemas/modifiedWhen'
     StatementsResponse:
-        type: object
-        description: Schema of the response of /statements
-        properties:
-            protocol: 
-              $ref: '#/components/schemas/Protocol'
-            statements:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Statement'
-        example:           
-          - protocol:
+      type: object
+      description: Schema of the response of /statements
+      properties:
+        protocol:
+          $ref: '#/components/schemas/Protocol'
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Statement'
+      example:
+        - protocol:
             - size: 30
             - totalHits: 1234
             - page: 2
-          - statements: 
+        - statements:
             - '@id': st1
             - ...
             - '@id': st2
@@ -1007,7 +943,7 @@ components:
             - size: 30
             - totalHits: 1234
             - page: 2
-        - data:
+        - sources:
             - '@id': source 1
             - ...
             - '@id': source 2
@@ -1054,9 +990,7 @@ components:
 ##            type: string
         formats:
           type: array
-          description: 'List of the supported response formats (content types). E.g. 
-            ``application/json`` (default), ``application/xml``, ``application/rdf+xml``,
-            ``application/x-turtle``, ...'
+          description: 'List of the supported response formats (content types). E.g.  ``application/json`` (default), ``application/xml``, ``application/rdf+xml``, ``application/x-turtle``, ...'
           items:
             type: string
       example:
