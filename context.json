@@ -31,7 +31,10 @@
 		"@id": "http://prosopography.org/#modifiedWhen",
 		"@type": "xsd:dateTime"
 	},
-	"statementContents": "http://prosopography.org/#statementContent",
+	"statementContents": { 
+	   "@id": "http://prosopography.org/#statementContent",
+	   "@type" : "xsd:string"
+	},
 	"name": {
 		"@id":"http://prosopography.org/#name",
 		"@type":"xsd:string"
@@ -44,5 +47,6 @@
 	"places": "http://prosopography.org/#places",
 	"relatesToPersons": "http://prosopography.org/#relatesToPersons",
 	"role": "http://prosopography.org/#role",
-	"memberOf": "http://prosopography.org/#memberOf"
+	"memberOf": "http://prosopography.org/#memberOf",
+	"derivedFrom": "http://www.w3.org/ns/prov#wasDerivedFrom"
 }
