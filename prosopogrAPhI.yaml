@@ -99,6 +99,21 @@ paths:
           $ref: '#/components/responses/Standard500ErrorResponse'
         '501':
           $ref: '#/components/responses/NotImplementedError'
+    delete:
+      summary: delete the factoid with id {id}
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Factoid has been deleted successfully
+        '403':
+          description: Missing token or user is not allowed to delete this factoid
+        '404':
+          description: Factoid not found
+        '409':
+          description: 'Conflict: Factoid cannot be deleted eg. because of referential integrity. Reason should be given as error response detail'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
   /persons:
     get:
       summary: Get persons
@@ -197,6 +212,21 @@ paths:
           $ref: '#/components/responses/Standard500ErrorResponse'
         '501':
           $ref: '#/components/responses/NotImplementedError'
+    delete:
+      summary: delete the person with id {id}
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Person has been deleted successfully
+        '403':
+          description: Missing token or user is not allowed to delete this person
+        '404':
+          description: Person not found
+        '409':
+          description: 'Conflict: Person cannot be deleted eg. because of referential integrity. Reason should be given as error response detail'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
   /sources:
     get:
       summary: Returns array of source objects.
@@ -290,6 +320,22 @@ paths:
           $ref: '#/components/responses/Standard500ErrorResponse'
         '501':
           $ref: '#/components/responses/NotImplementedError'
+    delete:
+      summary: delete the source with id {id}
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Source has been deleted successfully
+        '403':
+          description: Missing token or user is not allowed to delete this source
+        '404':
+          description: Source not found
+        '409':
+          description: 'Conflict: Source cannot be deleted eg. because of
+             referential integrity. Reason should be given as error response detail'
+        '501':
+          $ref: '#/components/responses/NotImplementedError'
   /statements:
     get:
       summary: Returns array of statement objects
@@ -323,30 +369,6 @@ paths:
           $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/Standard500ErrorResponse'
-    post:
-      summary: Add a new statement
-      requestBody:
-        $ref: '#/components/requestBodies/Statement'
-      responses:
-        '201':
-          description: Statement created
-          headers:
-            Location:
-              description: the uri of the created statement
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Statement'
-        '400':
-          $ref: '#/components/responses/BadRequestError'
-        '403':
-          description: Forbidden. Missing token or user is not allowed to create statement.
-        '500':
-          $ref: '#/components/responses/Standard500ErrorResponse'
-        '501':
-          $ref: '#/components/responses/NotImplementedError'
   '/statements/{id}':
     get:
       summary: 'Return statement with id {id}'
@@ -363,23 +385,6 @@ paths:
           description: the statement does not exist
         '500':
           $ref: '#/components/responses/Standard500ErrorResponse'
-    put:
-      summary: 'updates the statement with the {id}'
-      parameters:
-        - $ref: '#/components/parameters/id'
-      requestBody:
-        $ref: '#/components/requestBodies/Statement'
-      responses:
-        '201':
-          description: statement updated
-        '400':
-          description: statement could not be updated or created. TODO should return reason as message
-        '403':
-          description: Forbidden. Missing token or user is not allowed to create statements.
-        '500':
-          $ref: '#/components/responses/Standard500ErrorResponse'
-        '501':
-          $ref: '#/components/responses/NotImplementedError'
   /describe:
     get:
       description: Gives basic information about the service and the implementation of API
@@ -593,7 +598,7 @@ components:
           - '@id'
           - person
           - source
-          - statements
+          - statement
           - createdBy
           - createdWhen
         properties:
@@ -601,10 +606,8 @@ components:
             $ref: '#/components/schemas/id'
           person:
             $ref: '#/components/schemas/Person'
-          statements:
-            type: array
-            items:
-              $ref: '#/components/schemas/Statement'
+          statement:
+            $ref: '#/components/schemas/Statement'
           source:
             $ref: '#/components/schemas/Source'
           createdBy:
@@ -623,7 +626,7 @@ components:
           - '@id': TW_Pez1_809_1
             person:
               '@id': Andreas_Reuter
-            statements:
+            statement:
               - '@id': Pez1_809_1
                 statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
             source: PezNachlassVol1
@@ -634,7 +637,7 @@ components:
           - '@id': TW_Pez1_123456
             person:
               '@id': Placidus_Seiz
-            statements:
+            statement:
               - '@id': 'Pez#474-7,'
                 statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
             source: 'Pez#474'
@@ -646,7 +649,7 @@ components:
             person:
               '@id': Placidus_Seiz
               uris: 'http://pez-digital.at/placidus_Seiz'
-            statements:
+            statement:
               '@id': person1241
               name: Placidus Seitz
             source: Lindner-Album_Ettalense253f.
@@ -657,7 +660,7 @@ components:
           - '@id': Fd2qwr
             person:
               '@id': Andreas_Reuter
-            statements:
+            statement:
               - '@id': Fd2qwr
                 date:
                   sortdate: 1648-06-15T00:00:00.000Z
@@ -667,59 +670,6 @@ components:
                   - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
                 places:
                   - label: Kremsmünster
-              - '@id': Pez1_809_1
-                statementType: 
-                  - label: "Death"
-                  - uri: "http://purl.org/vocab/bio/0.1/death"
-                date:
-                  sortdate: 1715-12-31T00:00:00.000Z
-                  label: 1715
-                places:
-                  - label: "Gleink"
-                  - uri: "http://sws.geonames.org/2778486/"
-              - '@id': Pez1_809_2
-                role:
-                  - uri: 'http://religiouspeople.org/rdf/#conventmember'
-                    label: Konventuale
-                places:
-                  - label: Gleink
-              - '@id': Pez1_809_3
-                statementContent: "Doktor der Theologie"
-              - '@id': Pez1_809_4
-                statementContent: "apostolischer Protonotar"
-              - '@id': Pez1_809_5
-                role:
-                  - label: Ökonom des Klosters
-                places:
-                  - label: Gleink
-              - '@id': Pez1_809_6
-                role:
-                  - label: Prior
-                places:
-                  - uri: 'http://sws.geonames.org/2778486/'
-                    label: Gleink
-              - '@id': Pez1_809_7
-                statementContent: Prior (belegt als)
-                places:
-                  - label: Gleink
-                date:
-                  sortdate: 1708-01-01T00:00:00.000Z
-              - '@id': Pez1_809_7
-                statementContent: Unterzeichner der Rotel auf Abt Rupert von Kimpflern
-                places:
-                  - label: Gleink
-                date:
-                  sortdate: 1708-01-01T00:00:00.000Z
-                  label: 1708
-                relatesToPersons:
-                  - label: Abt Rupert von Kimpflern
-              - '@id': Pez1_809_8
-                statementContent: "Brief an Bernhard Pez"
-                date:
-                  sortdate: 1710-01-01T00:00:00.000Z
-                  label: 1710
-                relatesToPersons:
-                  - label: Bernhard Pez
             source: PezNachlassVol1
             createdBy: Thomas Wallnig
             createdWhen: 2010-05-05T00:00:00.000Z
@@ -731,7 +681,7 @@ components:
       properties:
         protocol:
           $ref: '#/components/schemas/Protocol'
-        data:
+        factoids:
           type: array
           items:
             $ref: '#/components/schemas/Factoid'
@@ -740,11 +690,11 @@ components:
             - size: 30
             - totalHits: 1234
             - page: 2
-        - data:
+        - factoids:
             - '@id': TW_Pez1_809_1
               person:
                 '@id': Andreas_Reuter
-              statements:
+              statement:
                 - '@id': Pez1_809_1
                   statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
               source: PezNachlassVol1
@@ -755,7 +705,7 @@ components:
             - '@id': TW_Pez1_123456
               person:
                 '@id': Placidus_Seiz
-              statements:
+              statement:
                 - '@id': 'Pez#474-7,'
                   statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
               source: 'Pez#474'
@@ -766,7 +716,7 @@ components:
             - '@id': TW_Pez1_123456
               person:
                 '@id': Placidus_Seiz
-              statements:
+              statement:
                 '@id': person1241
                 name: Placidus Seitz
                 uris:
@@ -808,7 +758,7 @@ components:
       properties:
         protocol:
           $ref: '#/components/schemas/Protocol'
-        data:
+        persons:
           type: array
           items:
             $ref: '#/components/schemas/Person'
@@ -817,10 +767,10 @@ components:
             - size: 30
             - totalHits: 12345
             - page: 2
-        - data:
+        - persons:
             - '@id': Andreas_Reuter
             - uris:
-                - 'http://pez-digital.at/persons#Mauro_Aspini'
+                - http://pez-digital.at/persons#Mauro_Aspini
             - '@id': Placidus_Seiz
               uris:
                 - 'http://d-nb.info/gnd/10102407X'
@@ -924,7 +874,7 @@ components:
       properties:
         protocol:
           $ref: '#/components/schemas/Protocol'
-        data:
+        statements:
           type: array
           items:
             $ref: '#/components/schemas/Statement'
@@ -933,7 +883,7 @@ components:
             - size: 30
             - totalHits: 1234
             - page: 2
-        - data:
+        - statements:
             - '@id': st1
             - ...
             - '@id': st2
@@ -993,7 +943,7 @@ components:
             - size: 30
             - totalHits: 1234
             - page: 2
-        - data:
+        - sources:
             - '@id': source 1
             - ...
             - '@id': source 2
@@ -1025,7 +975,19 @@ components:
 
             We recommend to publish the compliance level additionally als link header  with each response to a GET request in this form:
 
-            ``Link: <https://raw.githubusercontent.com/GVogeler/prosopogrAPhI/master/level1.json>;rel="profile"``
+
+            We recommend to publish the compliance level additionally als link header 
+            with each response to a GET request in this form:
+            
+            
+            ``Link: <https://raw.githubusercontent.com/GVogeler/prosopogrAPhI/master/level1.json>;rel='profile'``
+            
+
+#              TODO: can we put the level.json files somewhere else (not github)?
+##           TODO 
+##          accessRestrictions:
+##            description: TODO
+##            type: string
         formats:
           type: array
           description: 'List of the supported response formats (content types). E.g.  ``application/json`` (default), ``application/xml``, ``application/rdf+xml``, ``application/x-turtle``, ...'
