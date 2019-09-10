@@ -323,30 +323,6 @@ paths:
           $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/Standard500ErrorResponse'
-    post:
-      summary: Add a new statement
-      requestBody:
-        $ref: '#/components/requestBodies/Statement'
-      responses:
-        '201':
-          description: Statement created
-          headers:
-            Location:
-              description: the uri of the created statement
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Statement'
-        '400':
-          $ref: '#/components/responses/BadRequestError'
-        '403':
-          description: Forbidden. Missing token or user is not allowed to create statement.
-        '500':
-          $ref: '#/components/responses/Standard500ErrorResponse'
-        '501':
-          $ref: '#/components/responses/NotImplementedError'
   '/statements/{id}':
     get:
       summary: 'Return statement with id {id}'
@@ -363,23 +339,6 @@ paths:
           description: the statement does not exist
         '500':
           $ref: '#/components/responses/Standard500ErrorResponse'
-    put:
-      summary: 'updates the statement with the {id}'
-      parameters:
-        - $ref: '#/components/parameters/id'
-      requestBody:
-        $ref: '#/components/requestBodies/Statement'
-      responses:
-        '201':
-          description: statement updated
-        '400':
-          description: statement could not be updated or created. TODO should return reason as message
-        '403':
-          description: Forbidden. Missing token or user is not allowed to create statements.
-        '500':
-          $ref: '#/components/responses/Standard500ErrorResponse'
-        '501':
-          $ref: '#/components/responses/NotImplementedError'
   /describe:
     get:
       description: Gives basic information about the service and the implementation of API
