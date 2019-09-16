@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  version: 0.3.1
+  version: 0.3.2
   title: prosopogrAPhI
   description: basic prosopographical data API
   license:
@@ -24,7 +24,7 @@ paths:
         - $ref: '#/components/parameters/sourceId'
         - $ref: '#/components/parameters/s'
         - $ref: '#/components/parameters/f'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -129,7 +129,7 @@ paths:
         - $ref: '#/components/parameters/st'
         - $ref: '#/components/parameters/sourceId'
         - $ref: '#/components/parameters/s'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -240,7 +240,7 @@ paths:
         - $ref: '#/components/parameters/factoidId'
         - $ref: '#/components/parameters/f'
         - $ref: '#/components/parameters/st'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -350,7 +350,7 @@ paths:
         - $ref: '#/components/parameters/sourceId'
         - $ref: '#/components/parameters/st'
         - $ref: '#/components/parameters/p'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -478,8 +478,8 @@ components:
       description: filter by factoid id
       schema:
         type: string
-    statementContent:
-      name: statementContent
+    statementText:
+      name: statementText
       in: query
       description: filter by any keyword occurring in the statement content
       schema:
@@ -628,7 +628,7 @@ components:
               '@id': Andreas_Reuter
             statement:
               - '@id': Pez1_809_1
-                statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
+                statementText: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
             source: PezNachlassVol1
             createdBy: Thomas Wallnig
             createdWhen: 2010-05-05T00:00:00.000Z
@@ -639,7 +639,7 @@ components:
               '@id': Placidus_Seiz
             statement:
               - '@id': 'Pez#474-7,'
-                statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
+                statementText: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
             source: 'Pez#474'
             createdBy: Thomas Wallnig
             createdWhen: 2007-04-16T00:00:00.000Z
@@ -696,7 +696,7 @@ components:
                 '@id': Andreas_Reuter
               statement:
                 - '@id': Pez1_809_1
-                  statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
+                  statementText: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
               source: PezNachlassVol1
               createdBy: Thomas Wallnig
               createdWhen: 2010-05-05T00:00:00.000Z
@@ -707,7 +707,7 @@ components:
                 '@id': Placidus_Seiz
               statement:
                 - '@id': 'Pez#474-7,'
-                  statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
+                  statementText: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
               source: 'Pez#474'
               createdBy: Thomas Wallnig
               createdWhen: 2007-04-16T00:00:00.000Z
@@ -857,7 +857,7 @@ components:
             label:
               type: string
               description: a human readable description of the group/institution to which the statement relates the persons referenced in the factoid
-        statementContent:
+        statementText:
           type: string
           description: 'describes the statement in more detail, usually quotes from source or descriptive prose including the wording from the source or a short biogram.'
         createdBy:
