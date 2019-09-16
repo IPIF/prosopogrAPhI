@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  version: 0.3.2
+  version: 0.3.1
   title: prosopogrAPhI
   description: basic prosopographical data API
   license:
@@ -962,6 +962,11 @@ components:
         contact:
           description: 'address of a contact point (e-mail, phone etc.)'
           type: string
+        vocabs:
+          description: lists the vocabularies used for URIs used in the `role` and `statemenType` propertis of the statements. API consumer should be able to create valid assumption on URIs used in properties of the statements.
+          type: array
+          items:
+            type: string
         complianceLevel:
           type: number
           description: |
@@ -996,6 +1001,8 @@ components:
       example:
         - description: Prosopographical data from the 1890 census
         - provider: 'Centre for Information Modelling, University of Graz'
+        - vocabs:
+          - http://schema.org/person
         - contact: contact@example.com
         - complianceLevel: 1
         - formats:
