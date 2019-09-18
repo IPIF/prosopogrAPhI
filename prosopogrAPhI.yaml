@@ -892,6 +892,7 @@ components:
             - '@id': st2
             - ...
     Protocol:
+      type: object
       description: Provides metadata about the current request
       properties:
         size:
@@ -904,6 +905,7 @@ components:
           type: integer
           description: Total number of objects found by this request
     Source:
+      type: object  
       required:
         - '@id'
       properties:
@@ -1030,6 +1032,7 @@ components:
       type: string
       format: date
     Error:
+      type: object
       required:
         - status
         - title
