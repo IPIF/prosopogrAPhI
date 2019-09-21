@@ -968,7 +968,7 @@ components:
           description: 'address of a contact point (e-mail, phone etc.)'
           type: string
         vocabs:
-          description: lists the vocabularies used for URIs used in the `role` and `statemenType` propertis of the statements. API consumer should be able to create valid assumption on URIs used in properties of the statements.
+          description: "lists the vocabularies used for URIs in the `role` and `statemenType` properties of the statements. API consumers should be able to create valid assumption on URIs used in properties of the statements."
           type: array
           items:
             type: string
