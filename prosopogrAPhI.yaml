@@ -627,8 +627,8 @@ components:
           person:
             '@id': Andreas_Reuter
           statement:
-            - '@id': Pez1_809_1
-              statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
+            '@id': Pez1_809_1
+            statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
           source: PezNachlassVol1
           createdBy: Thomas Wallnig
           createdWhen: 2010-05-05T00:00:00.000Z
@@ -639,8 +639,8 @@ components:
           person:
             '@id': Placidus_Seiz
           statement:
-            - '@id': 'Pez#474-7,'
-              statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
+            '@id': 'Pez#474-7,'
+            statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
           source: 'Pez#474'
           createdBy: Thomas Wallnig
           createdWhen: 2007-04-16T00:00:00.000Z
@@ -664,15 +664,15 @@ components:
           person:
             '@id': Andreas_Reuter
           statement:
-            - '@id': Fd2qwr
-              date:
-                sortdate: 1648-06-15T00:00:00.000Z
-                label: ca. 1648
-              statementType: 
-                - label: "Geburt"
-                - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
-              places:
-                - label: Kremsmünster
+            '@id': Fd2qwr
+            date:
+              sortdate: 1648-06-15T00:00:00.000Z
+              label: ca. 1648
+            statementType: 
+              - label: "Geburt"
+              - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
+            places:
+              - label: Kremsmünster
           source: PezNachlassVol1
           createdBy: Thomas Wallnig
           createdWhen: 2010-05-05T00:00:00.000Z
@@ -698,8 +698,8 @@ components:
               person:
                 '@id': Andreas_Reuter
               statement:
-                - '@id': Pez1_809_1
-                  statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
+                '@id': Pez1_809_1
+                statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
               source: PezNachlassVol1
               createdBy: Thomas Wallnig
               createdWhen: 2010-05-05T00:00:00.000Z
@@ -709,8 +709,8 @@ components:
               person:
                 '@id': Placidus_Seiz
               statement:
-                - '@id': 'Pez#474-7,'
-                  statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
+                '@id': 'Pez#474-7,'
+                statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
               source: 'Pez#474'
               createdBy: Thomas Wallnig
               createdWhen: 2007-04-16T00:00:00.000Z
