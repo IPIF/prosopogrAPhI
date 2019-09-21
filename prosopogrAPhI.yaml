@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  version: 0.3.1
+  version: 0.3.1a
   title: prosopogrAPhI
   description: basic prosopographical data API
   license:
@@ -669,10 +669,10 @@ components:
               sortdate: 1648-06-15T00:00:00.000Z
               label: ca. 1648
             statementType: 
-              - label: "Geburt"
-              - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
+              label: "Geburt"
+              uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
             places:
-              - label: Kremsmünster
+              label: Kremsmünster
           source: PezNachlassVol1
           createdBy: Thomas Wallnig
           createdWhen: 2010-05-05T00:00:00.000Z
@@ -748,10 +748,12 @@ components:
         modifiedWhen:
           $ref: '#/components/schemas/modifiedWhen'
       example:
-        - '@id': Andreas_Reuter
-        - uris:
+        single-uri:
+          '@id': Andreas_Reuter
+          uris:
             - 'http://pez-digital.at/persons#Mauro_Aspini'
-        - '@id': Placidus_Seiz
+        multiple-uri:
+          '@id': Placidus_Seiz
           uris:
             - 'http://d-nb.info/gnd/10102407X'
             - 'https://viaf.org/viaf/5285530/'
@@ -772,7 +774,7 @@ components:
             - page: 2
         - persons:
             - '@id': Andreas_Reuter
-            - uris:
+              uris:
                 - http://pez-digital.at/persons#Mauro_Aspini
             - '@id': Placidus_Seiz
               uris:
@@ -871,6 +873,32 @@ components:
           $ref: '#/components/schemas/modifiedBy'
         modifiedWhen:
           $ref: '#/components/schemas/modifiedWhen'
+      example: 
+        fulltext-statement:
+          '@id': Pez1_809_1
+          statementText: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
+        fulltext-citation:
+          '@id': 'Pez#474-7,'
+          statementText: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
+        structured-name:
+          '@id': person1241
+          name: Placidus Seitz
+        structured-relation:
+          '@id': st1321pu
+          relatesToPersons:
+            label: 'Johann Franz Eckher von Kapfing und Liechteneck, Bf. v. Freising'
+          role:
+            label: geweiht von
+        structured-event:
+          '@id': Fd2qwr
+          date:
+            sortdate: 1648-06-15T00:00:00.000Z
+            label: ca. 1648
+          statementType: 
+            label: "Geburt"
+            uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
+          places:
+            label: Kremsmünster
     StatementsResponse:
       type: object
       description: Schema of the response of /statements
