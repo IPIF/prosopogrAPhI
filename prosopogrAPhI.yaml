@@ -593,88 +593,91 @@ components:
     Factoid:
       description: A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time.
       type: object
-      items:
-        required:
-          - '@id'
-          - person
-          - source
-          - statement
-          - createdBy
-          - createdWhen
-        properties:
-          '@id':
-            $ref: '#/components/schemas/id'
+      required:
+        - '@id'
+        - person
+        - source
+        - statement
+        - createdBy
+        - createdWhen
+      properties:
+        '@id':
+          $ref: '#/components/schemas/id'
+        person:
+          $ref: '#/components/schemas/Person'
+        statement:
+          $ref: '#/components/schemas/Statement'
+        source:
+          $ref: '#/components/schemas/Source'
+        createdBy:
+          $ref: '#/components/schemas/createdBy'
+        createdWhen:
+          $ref: '#/components/schemas/createdWhen'
+        modifiedBy:
+          $ref: '#/components/schemas/modifiedBy'
+        modifiedWhen:
+          $ref: '#/components/schemas/modifiedWhen'
+        derivedFrom:
+          description: references the URI of a factoid on which this factoid is based.
+          type: string
+          format: uri
+      example:
+        fulltext-statement:
+          '@id': TW_Pez1_809_1
           person:
-            $ref: '#/components/schemas/Person'
+            '@id': Andreas_Reuter
           statement:
-            $ref: '#/components/schemas/Statement'
-          source:
-            $ref: '#/components/schemas/Source'
-          createdBy:
-            $ref: '#/components/schemas/createdBy'
-          createdWhen:
-            $ref: '#/components/schemas/createdWhen'
-          modifiedBy:
-            $ref: '#/components/schemas/modifiedBy'
-          modifiedWhen:
-            $ref: '#/components/schemas/modifiedWhen'
-          derivedFrom:
-            description: references the URI of a factoid on which this factoid is based.
-            type: string
-            format: uri
-        example:
-          - '@id': TW_Pez1_809_1
-            person:
-              '@id': Andreas_Reuter
-            statement:
-              - '@id': Pez1_809_1
-                statementText: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
-            source: PezNachlassVol1
-            createdBy: Thomas Wallnig
-            createdWhen: 2010-05-05T00:00:00.000Z
-            modifiedBy: Thomas Wallnig
-            modifiedWhen: 2010-05-05T00:00:00.000Z
-          - '@id': TW_Pez1_123456
-            person:
-              '@id': Placidus_Seiz
-            statement:
-              - '@id': 'Pez#474-7,'
-                statementText: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
-            source: 'Pez#474'
-            createdBy: Thomas Wallnig
-            createdWhen: 2007-04-16T00:00:00.000Z
-            modifiedBy: Thomas Wallnig
-            modifiedWhen: 2007-04-16T00:00:00.000Z
-          - '@id': TW_Pez1_123456
-            person:
-              '@id': Placidus_Seiz
-              uris: 'http://pez-digital.at/placidus_Seiz'
-            statement:
-              '@id': person1241
-              name: Placidus Seitz
-            source: Lindner-Album_Ettalense253f.
-            createdBy: Thomas Wallnig
-            createdWhen: 2007-04-16T00:00:00.000Z
-            modifiedBy: Thomas Wallnig
-            modifiedWhen: 2007-07-01T00:00:00.000Z
-          - '@id': Fd2qwr
-            person:
-              '@id': Andreas_Reuter
-            statement:
-              - '@id': Fd2qwr
-                date:
-                  sortdate: 1648-06-15T00:00:00.000Z
-                  label: ca. 1648
-                statementType: 
-                  - label: "Geburt"
-                  - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
-                places:
-                  - label: Kremsmünster
-            source: PezNachlassVol1
-            createdBy: Thomas Wallnig
-            createdWhen: 2010-05-05T00:00:00.000Z
-            modifiedBy: Thomas Wallnig
-            modifiedWhen: 2010-05-05T00:00:00.000Z
+            '@id': Pez1_809_1
+            statementText: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
+          source: PezNachlassVol1
+          createdBy: Thomas Wallnig
+          createdWhen: 2010-05-05T00:00:00.000Z
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2010-05-05T00:00:00.000Z
+        fulltext-citation:
+          '@id': TW_Pez1_123456
+          person:
+            '@id': Placidus_Seiz
+          statement:
+            '@id': 'Pez#474-7,'
+            statementText: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
+          source: 'Pez#474'
+          createdBy: Thomas Wallnig
+          createdWhen: 2007-04-16T00:00:00.000Z
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2007-04-16T00:00:00.000Z
+        structured-name:
+          '@id': TW_Pez1_123456
+          person:
+            '@id': Placidus_Seiz
+            uris: 'http://pez-digital.at/placidus_Seiz'
+          statement:
+            '@id': person1241
+            name: Placidus Seitz
+          source: Lindner-Album_Ettalense253f.
+          createdBy: Thomas Wallnig
+          createdWhen: 2007-04-16T00:00:00.000Z
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2007-07-01T00:00:00.000Z
+        structured-event:
+          '@id': Fd2qwr
+          person:
+            '@id': Andreas_Reuter
+          statement:
+            '@id': Fd2qwr
+            date:
+              sortdate: 1648-06-15T00:00:00.000Z
+              label: ca. 1648
+            statementType: 
+              - label: "Geburt"
+              - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
+            places:
+              - label: Kremsmünster
+          source: PezNachlassVol1
+          createdBy: Thomas Wallnig
+          createdWhen: 2010-05-05T00:00:00.000Z
+          modifiedBy: Thomas Wallnig
+          modifiedWhen: 2010-05-05T00:00:00.000Z
     FactoidsResponse:
       type: object
       description: Schema of the response of /factoids
@@ -695,8 +698,8 @@ components:
               person:
                 '@id': Andreas_Reuter
               statement:
-                - '@id': Pez1_809_1
-                  statementText: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
+                '@id': Pez1_809_1
+                statementText: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
               source: PezNachlassVol1
               createdBy: Thomas Wallnig
               createdWhen: 2010-05-05T00:00:00.000Z
@@ -706,8 +709,8 @@ components:
               person:
                 '@id': Placidus_Seiz
               statement:
-                - '@id': 'Pez#474-7,'
-                  statementText: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
+                '@id': 'Pez#474-7,'
+                statementText: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
               source: 'Pez#474'
               createdBy: Thomas Wallnig
               createdWhen: 2007-04-16T00:00:00.000Z
@@ -889,6 +892,7 @@ components:
             - '@id': st2
             - ...
     Protocol:
+      type: object
       description: Provides metadata about the current request
       properties:
         size:
@@ -901,6 +905,7 @@ components:
           type: integer
           description: Total number of objects found by this request
     Source:
+      type: object  
       required:
         - '@id'
       properties:
@@ -1034,6 +1039,7 @@ components:
       type: string
       format: date
     Error:
+      type: object
       required:
         - status
         - title
