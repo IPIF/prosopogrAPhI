@@ -113,7 +113,7 @@ paths:
         '409':
           description: 'Conflict: Factoid cannot be deleted eg. because of referential integrity. Reason should be given as error response detail'
         '501':
-          $ref: '#/components/responses/NotImplementedError' 
+          $ref: '#/components/responses/NotImplementedError'
   /persons:
     get:
       summary: Get persons
@@ -226,7 +226,7 @@ paths:
         '409':
           description: 'Conflict: Person cannot be deleted eg. because of referential integrity. Reason should be given as error response detail'
         '501':
-          $ref: '#/components/responses/NotImplementedError'         
+          $ref: '#/components/responses/NotImplementedError'
   /sources:
     get:
       summary: Returns array of source objects.
@@ -681,7 +681,7 @@ components:
       properties:
         protocol:
           $ref: '#/components/schemas/Protocol'
-        data:
+        factoids:
           type: array
           items:
             $ref: '#/components/schemas/Factoid'
@@ -758,7 +758,7 @@ components:
       properties:
         protocol:
           $ref: '#/components/schemas/Protocol'
-        data:
+        persons:
           type: array
           items:
             $ref: '#/components/schemas/Person'
@@ -770,7 +770,7 @@ components:
         - persons:
             - '@id': Andreas_Reuter
             - uris:
-                - 'http://pez-digital.at/persons#Mauro_Aspini'
+                - http://pez-digital.at/persons#Mauro_Aspini
             - '@id': Placidus_Seiz
               uris:
                 - 'http://d-nb.info/gnd/10102407X'
@@ -874,7 +874,7 @@ components:
       properties:
         protocol:
           $ref: '#/components/schemas/Protocol'
-        data:
+        statements:
           type: array
           items:
             $ref: '#/components/schemas/Statement'
@@ -889,6 +889,7 @@ components:
             - '@id': st2
             - ...
     Protocol:
+      type: object
       description: Provides metadata about the current request
       properties:
         size:
@@ -901,6 +902,7 @@ components:
           type: integer
           description: Total number of objects found by this request
     Source:
+      type: object  
       required:
         - '@id'
       properties:
@@ -1015,6 +1017,7 @@ components:
       type: string
       format: date
     Error:
+      type: object
       required:
         - status
         - title
