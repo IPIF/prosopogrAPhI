@@ -14,6 +14,7 @@ paths:
     get:
       summary: Returns array of factoids
       description: Returns an array of `Factoid` objects. The number of array members returned with each response is restricted by the **size** parameter. Factoids can be filtered by setting additional parameters like **personId** or **p**. Factoids are sorted by default by date of creation time.
+      operationId: getFactoids
       parameters:
         - $ref: '#/components/parameters/size'
         - $ref: '#/components/parameters/page'
@@ -46,6 +47,7 @@ paths:
           $ref: '#/components/responses/Standard500ErrorResponse'
     post:
       summary: 'creates a factoid. No Factoid can be created without references to a person, a source, and at least one statement'
+      operationId: createFactoid
       requestBody:
         content:
           application/json:
@@ -66,6 +68,7 @@ paths:
   '/factoids/{id}':
     get:
       summary: 'Returns factoid with id {id}'
+      operationId: getFactoidById
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
@@ -81,6 +84,7 @@ paths:
           $ref: '#/components/responses/Standard500ErrorResponse'
     put:
       summary: 'updates the factoid with the {id}'
+      operationId: updateFactoid
       parameters:
         - $ref: '#/components/parameters/id'
       requestBody:
@@ -102,6 +106,7 @@ paths:
 
     delete:
       summary: delete the factoid with id {id}
+      operationId: deleteFactoid
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
@@ -119,6 +124,7 @@ paths:
     get:
       summary: Get persons
       description: Returns array of `Person` objects. The number of array members returned with each response is restricted by the **size** parameter. Persons can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further parameters for filtering have to be specified.
+      operationId: getPersons
       parameters:
         - $ref: '#/components/parameters/size'
         - $ref: '#/components/parameters/page'
@@ -151,6 +157,7 @@ paths:
           $ref: '#/components/responses/Standard500ErrorResponse'
     post:
       summary: Add a new person
+      operationId: createPerson
       requestBody:
         content:
           application/json:
@@ -179,6 +186,7 @@ paths:
   '/persons/{id}':
     get:
       summary: 'Returns person with id {id}'
+      operationId: getPersonById
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
@@ -194,6 +202,7 @@ paths:
           $ref: '#/components/responses/Standard500ErrorResponse'
     put:
       summary: 'Updates the person with the {id}'
+      operationId: updatePerson
       parameters:
         - $ref: '#/components/parameters/id'
       requestBody:
@@ -215,6 +224,7 @@ paths:
           $ref: '#/components/responses/NotImplementedError'
     delete:
       summary: delete the person with id {id}
+      operationId: deletePerson
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
@@ -232,6 +242,7 @@ paths:
     get:
       summary: Returns array of source objects.
       description: Returns array of `source` objects. The number of array members returned with each response is restricted by the **size** parameter. Sources can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further parameters for filtering have to be specified.
+      operationId: getSources
       parameters:
         - $ref: '#/components/parameters/size'
         - $ref: '#/components/parameters/page'
@@ -262,6 +273,7 @@ paths:
           $ref: '#/components/responses/Standard500ErrorResponse'
     post:
       summary: Add a new source
+      operationId: createSource
       requestBody:
         $ref: '#/components/requestBodies/Source'
       responses:
@@ -287,6 +299,7 @@ paths:
   '/sources/{id}':
     get:
       summary: 'Returns source with id {id}'
+      operationId: getSourceById
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
@@ -302,6 +315,7 @@ paths:
           $ref: '#/components/responses/Standard500ErrorResponse'
     put:
       summary: 'updates the source with the {id}'
+      operationId: updateSource
       parameters:
         - name: id
           in: path
@@ -323,6 +337,7 @@ paths:
           $ref: '#/components/responses/NotImplementedError'
     delete:
       summary: delete the source with id {id}
+      operationId: deleteSource
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
@@ -341,6 +356,7 @@ paths:
     get:
       summary: Returns array of statement objects
       description: Returns array of `Statement` objects. The number of array members returned with each response is restricted by the **size** parameter. Statements can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further parameters for filtering have to be specified.
+      operationId: getStatements
       parameters:
         - $ref: '#/components/parameters/size'
         - $ref: '#/components/parameters/page'
@@ -373,6 +389,7 @@ paths:
   '/statements/{id}':
     get:
       summary: 'Return statement with id {id}'
+      operationId: getStatementById
       parameters:
         - $ref: '#/components/parameters/id'
       responses:
@@ -390,6 +407,7 @@ paths:
   /describe:
     get:
       description: Gives basic information about the service and the implementation of API
+      operationId: getDescription
       responses:
         '200':
           description: basic information about the service and the implementation of the API
@@ -400,8 +418,8 @@ paths:
         '500':
           $ref: '#/components/responses/Standard500ErrorResponse'
 servers:
-  - url: 'https://localhost/api/'
-  - url: 'http://localhost/api/'
+  - url: 'https://localhost/api'
+  - url: 'http://localhost/api'
 components:
   parameters:
     size:
@@ -532,11 +550,13 @@ components:
         type: string
     createdBefore:
       name: createdBefore
+      description: sets terminus antequem for filtering by createdWhen
       in: query
       schema:
         type: string
     createdAfter:
       name: createdAfter
+      description: sets terminus postquem for filtering by createdWhen
       in: query
       schema:
         type: string
