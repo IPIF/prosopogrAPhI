@@ -967,6 +967,11 @@ components:
         contact:
           description: 'address of a contact point (e-mail, phone etc.)'
           type: string
+        vocabs:
+          description: "lists all vocabularies used for URIs in the `role` and `statemenType` properties of the statements. API consumers should be able to create valid assumption on URIs used in properties of the statements."
+          type: array
+          items:
+            type: string
         complianceLevel:
           type: number
           description: |
