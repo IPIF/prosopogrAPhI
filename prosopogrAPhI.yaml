@@ -34,6 +34,7 @@ paths:
         - $ref: '#/components/parameters/to'
         - $ref: '#/components/parameters/place'
         - $ref: '#/components/parameters/sortBy'
+        - $ref: '#/components/parameters/depth'
       responses:
         '200':
           description: A list of Factoids with some metadata
@@ -582,6 +583,15 @@ components:
       description: Filters by full text  search in the description of the user responsbile for a modification of the object. A group of persons is represented by a comma seperated list.
       schema:
         type: string
+    depth:
+      name: depth
+      in: query
+      description: "declares the depth of description to be returned by a list of factoids. With the keyword `reduced` the response should return only `@id` for the source, the person, and the statement aggregated by the factoid. If no value is given, the factoids return the full information."
+      schema:
+        type: string
+        enum:
+          - full
+          - reduced
   responses:
     BadRequestError:
       description: Bad request. Caused by unknown parameters or illegal parameter values
