@@ -625,7 +625,7 @@ components:
             $ref: '#/components/schemas/Statement'
   schemas:
     FactoidRef:
-      description: 'References the local ID of a factoid in the current service. Please use the factoid/{id}-endpoint to request further information on the factoid'
+      description: 'References the local ID of a factoid in the current service. Please use the factoids/{id}-endpoint to request further information on the factoid'
       properties:
         '@id':
           $ref: '#/components/schemas/id'
@@ -775,7 +775,7 @@ components:
               modifiedBy: Thomas Wallnig
               modifiedWhen: 2007-07-01T00:00:00.000Z
     PersonRef:
-      description: 'References the local ID of a person in the current service. Please use the person/{id}-endpoint to request further information on the person'
+      description: 'References the local ID of a person in the current service. Please use the persons/{id}-endpoint to request further information on the person'
       properties:
         '@id':
           $ref: '#/components/schemas/id'
@@ -784,6 +784,9 @@ components:
       description: 'A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.'
       required:
         - '@id'
+        - factoids
+        - sources
+        - statements
       properties:
         '@id':
           $ref: '#/components/schemas/id'
@@ -841,7 +844,7 @@ components:
                 - 'http://d-nb.info/gnd/10102407X'
                 - 'https://viaf.org/viaf/5285530/'
     StatementRef:
-      description: 'References the local ID of a statement he current service. Please use the statement/{id}-endpoint to request further information on the statement and its content'
+      description: 'References the local ID of a statement he current service. Please use the statements/{id}-endpoint to request further information on the statement and its content'
       properties:
         '@id':
           $ref: '#/components/schemas/id'
@@ -850,6 +853,9 @@ components:
       description: The statement object gives human and machine readable information on the person(s) listed in the factoid.
       required:
         - '@id'
+        - persons
+        - factoids
+        - sources
       properties:
         '@id':
           $ref: '#/components/schemas/id'
@@ -984,7 +990,7 @@ components:
           type: integer
           description: Total number of objects found by this request
     SourceRef:
-      description: 'References the local ID of a source in the current service. Please use the source/{id}-endpoint to request further information on the source'
+      description: 'References the local ID of a source in the current service. Please use the sources/{id}-endpoint to request further information on the source'
       properties:
         '@id':
           $ref: '#/components/schemas/id'
@@ -992,6 +998,9 @@ components:
       type: object  
       required:
         - '@id'
+        - factoids
+        - persons
+        - statements
       properties:
         '@id':
           $ref: '#/components/schemas/id'
