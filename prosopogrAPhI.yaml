@@ -624,25 +624,36 @@ components:
           schema:
             $ref: '#/components/schemas/Statement'
   schemas:
+    FactoidRef:
+      description: 'References the local ID of a factoid in the current service. Please use the factoid/{id}-endpoint to request further information on the factoid'
+      properties:
+        '@id':
+          $ref: '#/components/schemas/id'
     Factoid:
       description: A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time.
       type: object
       required:
         - '@id'
-        - person
-        - source
-        - statement
+        - persons
+        - sources
+        - statements
         - createdBy
         - createdWhen
       properties:
         '@id':
           $ref: '#/components/schemas/id'
-        person:
-          $ref: '#/components/schemas/Person'
-        statement:
-          $ref: '#/components/schemas/Statement'
-        source:
-          $ref: '#/components/schemas/Source'
+        persons:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonRef'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceRef'
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatementRef'
         createdBy:
           $ref: '#/components/schemas/createdBy'
         createdWhen:
@@ -763,6 +774,11 @@ components:
               createdWhen: 2007-04-16T00:00:00.000Z
               modifiedBy: Thomas Wallnig
               modifiedWhen: 2007-07-01T00:00:00.000Z
+    PersonRef:
+      description: 'References the local ID of a person in the current service. Please use the person/{id}-endpoint to request further information on the person'
+      properties:
+        '@id':
+          $ref: '#/components/schemas/id'
     Person:
       type: object
       description: 'A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.'
@@ -781,6 +797,18 @@ components:
           $ref: '#/components/schemas/modifiedBy'
         modifiedWhen:
           $ref: '#/components/schemas/modifiedWhen'
+        factoids:
+          type: array
+          items:
+            $ref: '#/components/schemas/FactoidRef'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceRef'
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatementRef'
       example:
         - '@id': Andreas_Reuter
         - uris:
@@ -812,6 +840,11 @@ components:
               uris:
                 - 'http://d-nb.info/gnd/10102407X'
                 - 'https://viaf.org/viaf/5285530/'
+    StatementRef:
+      description: 'References the local ID of a statement he current service. Please use the statement/{id}-endpoint to request further information on the statement and its content'
+      properties:
+        '@id':
+          $ref: '#/components/schemas/id'
     Statement:
       type: object
       description: The statement object gives human and machine readable information on the person(s) listed in the factoid.
@@ -822,6 +855,18 @@ components:
           $ref: '#/components/schemas/id'
         uris:
           $ref: '#/components/schemas/uris'
+        factoids:
+          type: array
+          items:
+            $ref: '#/components/schemas/FactoidRef'
+        persons:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonRef'
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceRef'
         statementType:
           type: object
           description: 'in context of structured information (with places, relationships, etc.) this property gives the type of event, relationship etc. connecting the other properties'
@@ -938,6 +983,11 @@ components:
         totalHits:
           type: integer
           description: Total number of objects found by this request
+    SourceRef:
+      description: 'References the local ID of a source in the current service. Please use the source/{id}-endpoint to request further information on the source'
+      properties:
+        '@id':
+          $ref: '#/components/schemas/id'
     Source:
       type: object  
       required:
