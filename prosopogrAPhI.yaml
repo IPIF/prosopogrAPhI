@@ -34,7 +34,6 @@ paths:
         - $ref: '#/components/parameters/to'
         - $ref: '#/components/parameters/place'
         - $ref: '#/components/parameters/sortBy'
-        - $ref: '#/components/parameters/depth'
       responses:
         '200':
           description: A list of Factoids with some metadata
@@ -124,7 +123,7 @@ paths:
   /persons:
     get:
       summary: Get persons
-      description: Returns array of `Person` objects. The number of array members returned with each response is restricted by the **size** parameter. Persons can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further parameters for filtering have to be specified.
+      description: Returns an array of `Person` objects. The number of array members returned with each response is restricted by the **size** parameter. Persons can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further parameters for filtering have to be specified.
       operationId: getPersons
       parameters:
         - $ref: '#/components/parameters/size'
@@ -667,62 +666,17 @@ components:
           type: string
           format: uri
       example:
-        fulltext-statement:
-          '@id': TW_Pez1_809_1
-          person:
-            '@id': Andreas_Reuter
-          statement:
-            '@id': Pez1_809_1
-            statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
-          source: PezNachlassVol1
-          createdBy: Thomas Wallnig
-          createdWhen: 2010-05-05T00:00:00.000Z
-          modifiedBy: Thomas Wallnig
-          modifiedWhen: 2010-05-05T00:00:00.000Z
-        fulltext-citation:
-          '@id': TW_Pez1_123456
-          person:
-            '@id': Placidus_Seiz
-          statement:
-            '@id': 'Pez#474-7,'
-            statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
-          source: 'Pez#474'
-          createdBy: Thomas Wallnig
-          createdWhen: 2007-04-16T00:00:00.000Z
-          modifiedBy: Thomas Wallnig
-          modifiedWhen: 2007-04-16T00:00:00.000Z
-        structured-name:
-          '@id': TW_Pez1_123456
-          person:
-            '@id': Placidus_Seiz
-            uris: 'http://pez-digital.at/placidus_Seiz'
-          statement:
-            '@id': person1241
-            name: Placidus Seitz
-          source: Lindner-Album_Ettalense253f.
-          createdBy: Thomas Wallnig
-          createdWhen: 2007-04-16T00:00:00.000Z
-          modifiedBy: Thomas Wallnig
-          modifiedWhen: 2007-07-01T00:00:00.000Z
-        structured-event:
-          '@id': Fd2qwr
-          person:
-            '@id': Andreas_Reuter
-          statement:
-            '@id': Fd2qwr
-            date:
-              sortdate: 1648-06-15T00:00:00.000Z
-              label: ca. 1648
-            statementType: 
-              - label: "Geburt"
-              - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
-            places:
-              - label: Kremsmünster
-          source: PezNachlassVol1
-          createdBy: Thomas Wallnig
-          createdWhen: 2010-05-05T00:00:00.000Z
-          modifiedBy: Thomas Wallnig
-          modifiedWhen: 2010-05-05T00:00:00.000Z
+        '@id': TW_Pez1_809_1
+        persons:
+          - '@id': Andreas_Reuter
+        statements:
+          - '@id': Pez1_809_1
+        sources: 
+          - '@id': PezNachlassVol1
+        createdBy: Thomas Wallnig
+        createdWhen: 2010-05-05T00:00:00.000Z
+        modifiedBy: Thomas Wallnig
+        modifiedWhen: 2010-05-05T00:00:00.000Z
     FactoidsResponse:
       type: object
       description: Schema of the response of /factoids
@@ -740,36 +694,36 @@ components:
             - page: 2
         - factoids:
             - '@id': TW_Pez1_809_1
-              person:
-                '@id': Andreas_Reuter
-              statement:
-                '@id': Pez1_809_1
-                statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
-              source: PezNachlassVol1
+              persons:
+                - '@id': Andreas_Reuter
+              statements:
+                - '@id': Pez1_809_1
+              sources: 
+                - '@id': PezNachlassVol1
               createdBy: Thomas Wallnig
               createdWhen: 2010-05-05T00:00:00.000Z
               modifiedBy: Thomas Wallnig
               modifiedWhen: 2010-05-05T00:00:00.000Z
             - '@id': TW_Pez1_123456
-              person:
-                '@id': Placidus_Seiz
-              statement:
-                '@id': 'Pez#474-7,'
-                statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
-              source: 'Pez#474'
+              persons:
+                - '@id': Placidus_Seiz
+              statements:
+                - '@id': 'Pez#474-7'
+                - '@id': 'person1241'
+              sources:
+                - '@id': 'Pez#474'
+                - '@id': 'Lindner-Album_Ettalense253f.'
               createdBy: Thomas Wallnig
               createdWhen: 2007-04-16T00:00:00.000Z
               modifiedBy: Thomas Wallnig
               modifiedWhen: 2007-04-16T00:00:00.000Z
-            - '@id': TW_Pez1_123456
-              person:
-                '@id': Placidus_Seiz
-              statement:
-                '@id': person1241
-                name: Placidus Seitz
-                uris:
-                  - 'http://pez-digital.at/placidus_Seiz'
-              source: Lindner-Album_Ettalense253f.
+            - '@id': Fd2qwr
+              persons:
+                - '@id': Andreas_Reuter
+              statements:
+                - '@id': Fd2qwr
+              sources:
+                - '@id': PezNachlassVol1
               createdBy: Thomas Wallnig
               createdWhen: 2007-04-16T00:00:00.000Z
               modifiedBy: Thomas Wallnig
@@ -813,9 +767,6 @@ components:
           items:
             $ref: '#/components/schemas/StatementRef'
       example:
-        - '@id': Andreas_Reuter
-        - uris:
-            - 'http://pez-digital.at/persons#Mauro_Aspini'
         - '@id': Placidus_Seiz
           uris:
             - 'http://d-nb.info/gnd/10102407X'
@@ -837,12 +788,29 @@ components:
             - page: 2
         - persons:
             - '@id': Andreas_Reuter
-            - uris:
-                - http://pez-digital.at/persons#Mauro_Aspini
+              uris:
+                  - 'http://pez-digital.at/persons#Mauro_Aspini'
+              factoids:
+                - '@id': Fd2qwr
+                - '@id': TW_Pez1_809_1
+              sources:
+                - '@id': PezNachlassVol1
+              statements:
+                - '@id': Pez1_809_1
+                - '@id': Fd2qwr
             - '@id': Placidus_Seiz
               uris:
                 - 'http://d-nb.info/gnd/10102407X'
                 - 'https://viaf.org/viaf/5285530/'
+              factoids:
+                - '@id': TW_Pez1_123456
+                - '@id': TW_Pez1_123457
+              sources:
+                - '@id': 'Pez#474'
+                - '@id': 'Lindner-Album_Ettalense253f.'
+              statements:
+                - '@id': Pez#474-7
+                - '@id': person1241
     StatementRef:
       description: 'References the local ID of a statement he current service. Please use the statements/{id}-endpoint to request further information on the statement and its content'
       properties:
@@ -972,10 +940,45 @@ components:
             - totalHits: 1234
             - page: 2
         - statements:
-            - '@id': st1
-            - ...
-            - '@id': st2
-            - ...
+            - '@id': Pez1_809_1
+              persons:
+                - '@id': 'Andreas_Reuter'
+              sources:
+                - '@id': 'PezNachlassVol1'
+              factoids:
+                - '@id': 'TW_Pez1_809_1'
+              statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
+            - '@id': 'Pez#474-7,'
+              persons:
+                - '@id': 'Placidus_Seiz'
+              sources:
+                - '@id' : 'Pez#474'
+              factoids:
+                - '@id': ''
+              statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
+            - '@id': person1241
+              factoids:
+                - '@id': TW_Pez1_123456
+              persons:
+                - '@id': Placidus_Seiz
+              sources: 
+                - '@id': 'Lindner-Album_Ettalense253f.'
+              name: 'Placidus Seitz'
+            - '@id': 'Fd2qwr'
+              factoids:
+                - '@id': Fd2qwr
+              persons:
+                - '@id': Andreas_Reuter
+              sources: 
+                - '@id': PezNachlassVol1
+              date:
+                sortdate: 1648-06-15T00:00:00.000Z
+                label: ca. 1648
+              statementType:
+                - label: "Geburt"
+                - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
+              places:
+                - label: Kremsmünster
     Protocol:
       type: object
       description: Provides metadata about the current request
@@ -1018,14 +1021,18 @@ components:
         modifiedWhen:
           $ref: '#/components/schemas/modifiedWhen'
       example:
-        - '@id': PezNachlassVol1
-          uris:
-            - 'https://e-book.fwf.ac.at/o:370'
-          metadata: 'Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
-        - '@id': 'Pez#474'
-          metadata: 'Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v'
-        - '@id': Lindner-Album_Ettalense253f.
-          metadata: 'Lindner: Album Ettalense, S. 253f.'
+        '@id': PezNachlassVol1
+        uris:
+          - 'https://e-book.fwf.ac.at/o:370'
+        metadata: 'Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
+        persons:
+          - '@id': Andreas_Reuter
+        statements:
+          - '@id': Pez1_809_1
+          - '@id': Fd2qwr
+        factoids:
+          - '@id': TW_Pez1_809_1
+          - '@id': Fd2qwr
     SourcesResponse:
       type: object
       description: Schema of the response of /sources
@@ -1042,9 +1049,34 @@ components:
             - totalHits: 1234
             - page: 2
         - sources:
-            - '@id': source 1
-            - ...
-            - '@id': source 2
+          - '@id': PezNachlassVol1
+            uris:
+              - 'https://e-book.fwf.ac.at/o:370'
+            metadata: 'Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
+            persons:
+              - '@id': Andreas_Reuter
+            statements:
+              - '@id': Pez1_809_1
+              - '@id': Fd2qwr
+            factoids:
+              - '@id': TW_Pez1_809_1
+              - '@id': Fd2qwr
+          - '@id': 'Pez#474'
+            metadata: 'Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v'
+            persons:
+              - '@id': Placidus_Seiz
+            statements:
+              - '@id': 'Pez#474-7'
+            factoids:
+              - '@id': TW_Pez1_123457
+          - '@id': Lindner-Album_Ettalense253f.
+            metadata: 'Lindner: Album Ettalense, S. 253f.'
+            persons:
+              - '@id': Placidus_Seiz
+            statements:
+              - '@id': person1241
+            factoids:
+              - '@id': TW_Pez1_123456
     ServiceDescription:
       type: object
       description: describes the service providing the API
