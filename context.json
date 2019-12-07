@@ -1,52 +1,61 @@
 {
-	"Factoids": "http://prosopography.org/#factoids",
-	"Persons": "http://prosopography.org/#persons",
-	"Sources": "http://prosopography.org/#sources",
-	"statements": "http://prosopography.org/#statements",
-	"source": {
-		"@id": "http://prosopography.org/#source",
-		"@type": "@id"
+    "@base":"http://prosopography.org/example/#",
+    
+    "proso":"http://prosopography.org/#",
+    "owl":"http://w3c.org/owl/#####",
+    "skos":"http://www.w3.org/2004/02/skos/core#",
+	"factoids": "proso:factoids",
+	"persons": "proso:persons",
+	"sources": "proso:sources",
+	"statements": "proso:statements",
+	"source-refs": {
+	   "@id":"proso:source",
+	   "@type": "@id"
 	},
-	"person": {
-		"@id": "http://prosopography.org/#person",
-		"@type": "@id"
+	"person-refs": {
+	   "@id":"proso:person",
+	   "@type": "@id"
+	},
+	"factoid-refs": {
+	   "@id":"proso:inFactoid",
+	   "@type": "@id"
 	},
 
 	"label": "http://www.w3.org/2000/01/rdf-schema#label",
 	"uri": {
-		"@id":"http://www.w3.org/2004/02/skos/core#exactMatch",
+		"@id":"skos:exactMatch",
 		"@type": "@id"
 	},
 	"uris": {
-		"@id":"http://www.w3.org/2004/02/skos/core#exactMatch",
+		"@id":"skos:exactMatch",
 		"@type": "@id"
 	},
-	"createdBy": "http://prosopography.org/#createdBy",
+	"createdBy": "proso:createdBy",
 	"createdWhen": {
-		"@id": "http://prosopography.org/#createdWhen",
+		"@id": "proso:createdWhen",
 		"@type": "xsd:dateTime"
 	},
-	"modifiedBy": "http://prosopography.org/#modifiedBy",
+	"modifiedBy": "proso:modifiedBy",
 	"modifiedWhen": {
-		"@id": "http://prosopography.org/#modifiedWhen",
+		"@id": "proso:modifiedWhen",
 		"@type": "xsd:dateTime"
 	},
 	"statementContents": { 
-	   "@id": "http://prosopography.org/#statementContent",
+	   "@id": "proso:statementContent",
 	   "@type" : "xsd:string"
 	},
 	"name": {
-		"@id":"http://prosopography.org/#name",
+		"@id":"proso:name",
 		"@type":"xsd:string"
 	},
-	"date": "http://prosopography.org/#date",
+	"date": "proso:date",
 	"sortdate": {
-		"@id": "http://prosopography.org/#sortdate",
+		"@id": "proso:sortdate",
 		"@type": "xsd:date"
 	},
-	"places": "http://prosopography.org/#places",
-	"relatesToPersons": "http://prosopography.org/#relatesToPersons",
-	"role": "http://prosopography.org/#role",
-	"memberOf": "http://prosopography.org/#memberOf",
+	"places": "proso:places",
+	"relatesToPersons": "proso:relatesToPersons",
+	"role": "proso:role",
+	"memberOf": "proso:memberOf",
 	"derivedFrom": "http://www.w3.org/ns/prov#wasDerivedFrom"
 }
