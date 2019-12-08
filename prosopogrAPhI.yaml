@@ -697,9 +697,9 @@ components:
             $ref: '#/components/schemas/Factoid'
       example:
         - protocol:
-            - size: 30
-            - totalHits: 1234
-            - page: 2
+            size: 30
+            totalHits: 1234
+            page: 2
           factoids:
             - '@id': TW_Pez1_809_1
               createdBy: Thomas Wallnig
@@ -781,9 +781,9 @@ components:
             $ref: '#/components/schemas/Person'
       example:
         - protocol:
-            - size: 30
-            - totalHits: 12345
-            - page: 2
+            size: 30
+            totalHits: 12345
+            page: 2
           persons:
             - '@id': Andreas_Reuter
               uris:
@@ -929,9 +929,9 @@ components:
             $ref: '#/components/schemas/Statement'
       example:
         - protocol:
-            - size: 30
-            - totalHits: 1234
-            - page: 2
+            size: 30
+            totalHits: 1234
+            page: 2
           statements:
             - '@id': Pez1_809_1
               factoid-refs:
@@ -1039,9 +1039,9 @@ components:
             $ref: '#/components/schemas/Source'
       example:
         - protocol:
-            - size: 30
-            - totalHits: 1234
-            - page: 2
+            size: 30
+            totalHits: 1234
+            page: 2
           sources:
           - '@id': PezNachlassVol1
             uris:
