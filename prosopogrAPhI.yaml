@@ -720,10 +720,8 @@ components:
               person-refs:
                 - '@id': Placidus_Seiz
               statement-refs:
-                - '@id': 'Pez#474-7'
-                - '@id': 'person1241'
+                - '@id': person1241
               source-refs:
-                - '@id': 'Pez#474'
                 - '@id': 'Lindner-Album_Ettalense253f.'
             - '@id': Fd2qwr
               createdBy: Thomas Wallnig
