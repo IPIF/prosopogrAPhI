@@ -40,8 +40,8 @@
 		"@id": "proso:modifiedWhen",
 		"@type": "xsd:dateTime"
 	},
-	"statementContents": { 
-	   "@id": "proso:statementContent",
+	"statementText": { 
+	   "@id": "proso:statementText",
 	   "@type" : "xsd:string"
 	},
 	"name": {
