@@ -25,7 +25,7 @@ paths:
         - $ref: '#/components/parameters/sourceId'
         - $ref: '#/components/parameters/s'
         - $ref: '#/components/parameters/f'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -136,7 +136,7 @@ paths:
         - $ref: '#/components/parameters/st'
         - $ref: '#/components/parameters/sourceId'
         - $ref: '#/components/parameters/s'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -252,7 +252,7 @@ paths:
         - $ref: '#/components/parameters/factoidId'
         - $ref: '#/components/parameters/f'
         - $ref: '#/components/parameters/st'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -367,7 +367,7 @@ paths:
         - $ref: '#/components/parameters/sourceId'
         - $ref: '#/components/parameters/st'
         - $ref: '#/components/parameters/p'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -500,8 +500,8 @@ components:
       description: filter by factoid id
       schema:
         type: string
-    statementContent:
-      name: statementContent
+    statementText:
+      name: statementText
       in: query
       description: filter by any keyword occurring in the statement content
       schema:
@@ -873,7 +873,7 @@ components:
               type: string
               description: 'verbal version of the date, which should enable the human reader to get an idea of the chronological concept.'
         places:
-          description: 'describes the geographical information of the statement, e.g. the place where an event happened, the geographic coverage of a social role etc.'
+          description: 'describes the geographical information of the statement, e.g. the place where an event happened, the geographic coverage of a social role etc. The API does not commit to the existence of a georeference with coordinates of the location, but suggests to use supplementarily the geo-JSON `geometry` property.'
           type: array
           items:
             type: object
@@ -908,7 +908,7 @@ components:
             label:
               type: string
               description: a human readable description of the group/institution to which the statement relates the persons referenced in the factoid
-        statementContent:
+        statementText:
           type: string
           description: 'describes the statement in more detail, usually quotes from source or descriptive prose including the wording from the source or a short biogram.'
         createdBy:
@@ -942,7 +942,7 @@ components:
                     - '@id': 'Andreas_Reuter'
                   source-refs:
                     - '@id': 'PezNachlassVol1'
-              statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
+              statementText: 'Andreas Reuter (ca. 1648 Kremsm�nster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
             - '@id': 'Pez#474-7,'
               factoid-refs:
                 - '@id': ''
@@ -950,7 +950,7 @@ components:
                     - '@id': 'Placidus_Seiz'
                   source-refs:
                     - '@id' : 'Pez#474'
-              statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
+              statementText: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
             - '@id': person1241
               factoid-refs:
                 - '@id': TW_Pez1_123456
@@ -973,7 +973,7 @@ components:
                 - label: "Geburt"
                 - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
               places:
-                - label: Kremsmünster
+                - label: Kremsm�nster
     Protocol:
       type: object
       description: Provides metadata about the current request
@@ -1017,7 +1017,7 @@ components:
         '@id': PezNachlassVol1
         uris:
           - 'https://e-book.fwf.ac.at/o:370'
-        metadata: 'Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
+        metadata: 'Die gelehrte Korrespondenz der Br�der Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
         factoid-refs:
           - '@id': TW_Pez1_809_1
             person-refs:
@@ -1048,7 +1048,7 @@ components:
           - '@id': PezNachlassVol1
             uris:
               - 'https://e-book.fwf.ac.at/o:370'
-            metadata: 'Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
+            metadata: 'Die gelehrte Korrespondenz der Br�der Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
             factoid-refs:
               - '@id': TW_Pez1_809_1
                 person-refs:
