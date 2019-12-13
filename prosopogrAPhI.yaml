@@ -628,6 +628,10 @@ components:
       properties:
         '@id':
           $ref: '#/components/schemas/id'
+        person-refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonRef'
         source-refs:
           type: array
           items:
@@ -949,7 +953,7 @@ components:
                   - '@id': 'Andreas_Reuter'
                 source-refs:
                   - '@id': 'PezNachlassVol1'
-            statementText: 'Andreas Reuter (ca. 1648 Kremsm�nster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
+            statementText: 'Andreas Reuter (ca. 1648 Kremsm�nster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
           - '@id': 'Pez#474-7,'
             factoid-refs:
               - '@id': ''
@@ -980,7 +984,7 @@ components:
               - label: "Geburt"
               - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
             places:
-              - label: Kremsm�nster
+              - label: Kremsm�nster
     Protocol:
       type: object
       description: Provides metadata about the current request
@@ -1024,7 +1028,7 @@ components:
         '@id': PezNachlassVol1
         uris:
           - 'https://e-book.fwf.ac.at/o:370'
-        metadata: 'Die gelehrte Korrespondenz der Br�der Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
+        metadata: 'Die gelehrte Korrespondenz der Br�der Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
         factoid-refs:
           - '@id': TW_Pez1_809_1
             person-refs:
@@ -1042,7 +1046,7 @@ components:
       properties:
         protocol:
           $ref: '#/components/schemas/Protocol'
-        data:
+        sources:
           type: array
           items:
             $ref: '#/components/schemas/Source'
@@ -1055,7 +1059,7 @@ components:
         - '@id': PezNachlassVol1
           uris:
             - 'https://e-book.fwf.ac.at/o:370'
-          metadata: 'Die gelehrte Korrespondenz der Br�der Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
+          metadata: 'Die gelehrte Korrespondenz der Br�der Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
           factoid-refs:
             - '@id': TW_Pez1_809_1
               person-refs:
