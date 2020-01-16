@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  version: 0.3.1
+  version: 0.3.2
   title: prosopogrAPhI
   description: basic prosopographical data API
   license:
@@ -25,7 +25,7 @@ paths:
         - $ref: '#/components/parameters/sourceId'
         - $ref: '#/components/parameters/s'
         - $ref: '#/components/parameters/f'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -34,7 +34,6 @@ paths:
         - $ref: '#/components/parameters/to'
         - $ref: '#/components/parameters/place'
         - $ref: '#/components/parameters/sortBy'
-        - $ref: '#/components/parameters/depth'
       responses:
         '200':
           description: A list of Factoids with some metadata
@@ -124,7 +123,7 @@ paths:
   /persons:
     get:
       summary: Get persons
-      description: Returns array of `Person` objects. The number of array members returned with each response is restricted by the **size** parameter. Persons can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further parameters for filtering have to be specified.
+      description: Returns an array of `Person` objects. The number of array members returned with each response is restricted by the **size** parameter. Persons can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further parameters for filtering have to be specified.
       operationId: getPersons
       parameters:
         - $ref: '#/components/parameters/size'
@@ -137,7 +136,7 @@ paths:
         - $ref: '#/components/parameters/st'
         - $ref: '#/components/parameters/sourceId'
         - $ref: '#/components/parameters/s'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -253,7 +252,7 @@ paths:
         - $ref: '#/components/parameters/factoidId'
         - $ref: '#/components/parameters/f'
         - $ref: '#/components/parameters/st'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -368,7 +367,7 @@ paths:
         - $ref: '#/components/parameters/sourceId'
         - $ref: '#/components/parameters/st'
         - $ref: '#/components/parameters/p'
-        - $ref: '#/components/parameters/statementContent'
+        - $ref: '#/components/parameters/statementText'
         - $ref: '#/components/parameters/relatesToPerson'
         - $ref: '#/components/parameters/memberOf'
         - $ref: '#/components/parameters/role'
@@ -501,8 +500,8 @@ components:
       description: filter by factoid id
       schema:
         type: string
-    statementContent:
-      name: statementContent
+    statementText:
+      name: statementText
       in: query
       description: filter by any keyword occurring in the statement content
       schema:
@@ -624,25 +623,36 @@ components:
           schema:
             $ref: '#/components/schemas/Statement'
   schemas:
+    FactoidRef:
+      description: 'References the local ID of a factoid in the current service. Please use the factoids/{id}-endpoint to request further information on the factoid'
+      properties:
+        '@id':
+          $ref: '#/components/schemas/id'
+        person-refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonRef'
+        source-refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceRef'
+        statement-refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatementRef'
     Factoid:
       description: A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time.
       type: object
       required:
         - '@id'
-        - person
-        - source
-        - statement
+        - person-refs
+        - source-refs
+        - statement-refs
         - createdBy
         - createdWhen
       properties:
         '@id':
           $ref: '#/components/schemas/id'
-        person:
-          $ref: '#/components/schemas/Person'
-        statement:
-          $ref: '#/components/schemas/Statement'
-        source:
-          $ref: '#/components/schemas/Source'
         createdBy:
           $ref: '#/components/schemas/createdBy'
         createdWhen:
@@ -655,63 +665,30 @@ components:
           description: references the URI of a factoid on which this factoid is based.
           type: string
           format: uri
+        person-refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonRef'
+        source-refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceRef'
+        statement-refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatementRef'
       example:
-        fulltext-statement:
-          '@id': TW_Pez1_809_1
-          person:
-            '@id': Andreas_Reuter
-          statement:
-            '@id': Pez1_809_1
-            statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
-          source: PezNachlassVol1
-          createdBy: Thomas Wallnig
-          createdWhen: 2010-05-05T00:00:00.000Z
-          modifiedBy: Thomas Wallnig
-          modifiedWhen: 2010-05-05T00:00:00.000Z
-        fulltext-citation:
-          '@id': TW_Pez1_123456
-          person:
-            '@id': Placidus_Seiz
-          statement:
-            '@id': 'Pez#474-7,'
-            statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
-          source: 'Pez#474'
-          createdBy: Thomas Wallnig
-          createdWhen: 2007-04-16T00:00:00.000Z
-          modifiedBy: Thomas Wallnig
-          modifiedWhen: 2007-04-16T00:00:00.000Z
-        structured-name:
-          '@id': TW_Pez1_123456
-          person:
-            '@id': Placidus_Seiz
-            uris: 'http://pez-digital.at/placidus_Seiz'
-          statement:
-            '@id': person1241
-            name: Placidus Seitz
-          source: Lindner-Album_Ettalense253f.
-          createdBy: Thomas Wallnig
-          createdWhen: 2007-04-16T00:00:00.000Z
-          modifiedBy: Thomas Wallnig
-          modifiedWhen: 2007-07-01T00:00:00.000Z
-        structured-event:
-          '@id': Fd2qwr
-          person:
-            '@id': Andreas_Reuter
-          statement:
-            '@id': Fd2qwr
-            date:
-              sortdate: 1648-06-15T00:00:00.000Z
-              label: ca. 1648
-            statementType: 
-              - label: "Geburt"
-              - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
-            places:
-              - label: Kremsmünster
-          source: PezNachlassVol1
-          createdBy: Thomas Wallnig
-          createdWhen: 2010-05-05T00:00:00.000Z
-          modifiedBy: Thomas Wallnig
-          modifiedWhen: 2010-05-05T00:00:00.000Z
+        '@id': TW_Pez1_809_1
+        createdBy: Thomas Wallnig
+        createdWhen: 2010-05-05T00:00:00.000Z
+        modifiedBy: Thomas Wallnig
+        modifiedWhen: 2010-05-05T00:00:00.000Z
+        person-refs:
+          - '@id': Andreas_Reuter
+        statement-refs:
+          - '@id': Pez1_809_1
+        source-refs: 
+          - '@id': PezNachlassVol1
     FactoidsResponse:
       type: object
       description: Schema of the response of /factoids
@@ -723,51 +700,55 @@ components:
           items:
             $ref: '#/components/schemas/Factoid'
       example:
-        - protocol:
-            - size: 30
-            - totalHits: 1234
-            - page: 2
-        - factoids:
-            - '@id': TW_Pez1_809_1
-              person:
-                '@id': Andreas_Reuter
-              statement:
-                '@id': Pez1_809_1
-                statementContent: 'Andreas Reuter (ca. 1648 Kremsmünster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
-              source: PezNachlassVol1
-              createdBy: Thomas Wallnig
-              createdWhen: 2010-05-05T00:00:00.000Z
-              modifiedBy: Thomas Wallnig
-              modifiedWhen: 2010-05-05T00:00:00.000Z
-            - '@id': TW_Pez1_123456
-              person:
-                '@id': Placidus_Seiz
-              statement:
-                '@id': 'Pez#474-7,'
-                statementContent: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
-              source: 'Pez#474'
-              createdBy: Thomas Wallnig
-              createdWhen: 2007-04-16T00:00:00.000Z
-              modifiedBy: Thomas Wallnig
-              modifiedWhen: 2007-04-16T00:00:00.000Z
-            - '@id': TW_Pez1_123456
-              person:
-                '@id': Placidus_Seiz
-              statement:
-                '@id': person1241
-                name: Placidus Seitz
-                uris:
-                  - 'http://pez-digital.at/placidus_Seiz'
-              source: Lindner-Album_Ettalense253f.
-              createdBy: Thomas Wallnig
-              createdWhen: 2007-04-16T00:00:00.000Z
-              modifiedBy: Thomas Wallnig
-              modifiedWhen: 2007-07-01T00:00:00.000Z
+        protocol:
+          size: 30
+          totalHits: 1234
+          page: 2
+        factoids:
+          - '@id': TW_Pez1_809_1
+            createdBy: Thomas Wallnig
+            createdWhen: 2010-05-05T00:00:00.000Z
+            modifiedBy: Thomas Wallnig
+            modifiedWhen: 2010-05-05T00:00:00.000Z
+            person-refs:
+              - '@id': Andreas_Reuter
+            statement-refs:
+              - '@id': Pez1_809_1
+            source-refs: 
+              - '@id': PezNachlassVol1
+          - '@id': TW_Pez1_123456
+            createdBy: Thomas Wallnig
+            createdWhen: 2007-04-16T00:00:00.000Z
+            modifiedBy: Thomas Wallnig
+            modifiedWhen: 2007-04-16T00:00:00.000Z
+            person-refs:
+              - '@id': Placidus_Seiz
+            statement-refs:
+              - '@id': person1241
+            source-refs:
+              - '@id': 'Lindner-Album_Ettalense253f.'
+          - '@id': Fd2qwr
+            createdBy: Thomas Wallnig
+            createdWhen: 2007-04-16T00:00:00.000Z
+            modifiedBy: Thomas Wallnig
+            modifiedWhen: 2007-07-01T00:00:00.000Z
+            person-refs:
+              - '@id': Andreas_Reuter
+            statement-refs:
+              - '@id': Fd2qwr
+            source-refs:
+              - '@id': PezNachlassVol1
+    PersonRef:
+      description: 'References the local ID of a person in the current service. Please use the persons/{id}-endpoint to request further information on the person'
+      properties:
+        '@id':
+          $ref: '#/components/schemas/id'
     Person:
       type: object
       description: 'A Person is an abstract entity representing a human individual (fictional or historical) independet from their cultural desciption by name, status, social relationsships etc. It has therefore only formal identifiers as properties.'
       required:
         - '@id'
+        - factoid-refs
       properties:
         '@id':
           $ref: '#/components/schemas/id'
@@ -781,14 +762,26 @@ components:
           $ref: '#/components/schemas/modifiedBy'
         modifiedWhen:
           $ref: '#/components/schemas/modifiedWhen'
+        factoid-refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/FactoidRef'
       example:
-        - '@id': Andreas_Reuter
-        - uris:
-            - 'http://pez-digital.at/persons#Mauro_Aspini'
         - '@id': Placidus_Seiz
           uris:
             - 'http://d-nb.info/gnd/10102407X'
             - 'https://viaf.org/viaf/5285530/'
+          factoid-refs:
+            - '@id': TW_Pez1_123456
+              source-refs:
+                - '@id': 'Pez#474'
+              statement-refs:
+                - '@id': Pez#474-7
+            - '@id': TW_Pez1_123457
+              source-refs:
+                - '@id': 'Lindner-Album_Ettalense253f.'
+              statement-refs:
+                - '@id': person1241
     PersonsResponse:
       type: object
       description: Schema of the response of /persons
@@ -800,28 +793,60 @@ components:
           items:
             $ref: '#/components/schemas/Person'
       example:
-        - protocol:
-            - size: 30
-            - totalHits: 12345
-            - page: 2
-        - persons:
-            - '@id': Andreas_Reuter
-            - uris:
-                - http://pez-digital.at/persons#Mauro_Aspini
-            - '@id': Placidus_Seiz
-              uris:
-                - 'http://d-nb.info/gnd/10102407X'
-                - 'https://viaf.org/viaf/5285530/'
+        protocol:
+          size: 30
+          totalHits: 12345
+          page: 2
+        persons:
+          - '@id': Andreas_Reuter
+            uris:
+              - 'http://pez-digital.at/persons#Mauro_Aspini'
+            factoid-refs:
+              - '@id': Fd2qwr
+                source-refs:
+                  - '@id': PezNachlassVol1
+                statement-refs:
+                  - '@id': Fd2qwr
+              - '@id': TW_Pez1_809_1
+                source-refs:
+                  - '@id': PezNachlassVol1
+                statement-refs:
+                  - '@id': Pez1_809_1
+          - '@id': Placidus_Seiz
+            uris:
+              - 'http://d-nb.info/gnd/10102407X'
+              - 'https://viaf.org/viaf/5285530/'
+            factoid-refs:
+              - '@id': TW_Pez1_123456
+                source-refs:
+                  - '@id': 'Pez#474'
+                statement-refs:
+                  - '@id': Pez#474-7
+              - '@id': TW_Pez1_123457
+                source-refs:
+                  - '@id': 'Lindner-Album_Ettalense253f.'
+                statement-refs:
+                  - '@id': person1241
+    StatementRef:
+      description: 'References the local ID of a statement he current service. Please use the statements/{id}-endpoint to request further information on the statement and its content'
+      properties:
+        '@id':
+          $ref: '#/components/schemas/id'
     Statement:
       type: object
       description: The statement object gives human and machine readable information on the person(s) listed in the factoid.
       required:
         - '@id'
+        - factoid-refs
       properties:
         '@id':
           $ref: '#/components/schemas/id'
         uris:
           $ref: '#/components/schemas/uris'
+        factoid-refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/FactoidRef'
         statementType:
           type: object
           description: 'in context of structured information (with places, relationships, etc.) this property gives the type of event, relationship etc. connecting the other properties'
@@ -859,7 +884,7 @@ components:
               type: string
               description: 'verbal version of the date, which should enable the human reader to get an idea of the chronological concept.'
         places:
-          description: 'describes the geographical information of the statement, e.g. the place where an event happened, the geographic coverage of a social role etc.'
+          description: 'describes the geographical information of the statement, e.g. the place where an event happened, the geographic coverage of a social role etc. The API does not commit to the existence of a georeference with coordinates of the location, but suggests to use supplementarily the geo-JSON `geometry` property.'
           type: array
           items:
             type: object
@@ -894,7 +919,7 @@ components:
             label:
               type: string
               description: a human readable description of the group/institution to which the statement relates the persons referenced in the factoid
-        statementContent:
+        statementText:
           type: string
           description: 'describes the statement in more detail, usually quotes from source or descriptive prose including the wording from the source or a short biogram.'
         createdBy:
@@ -916,15 +941,50 @@ components:
           items:
             $ref: '#/components/schemas/Statement'
       example:
-        - protocol:
-            - size: 30
-            - totalHits: 1234
-            - page: 2
-        - statements:
-            - '@id': st1
-            - ...
-            - '@id': st2
-            - ...
+        protocol:
+          size: 30
+          totalHits: 1234
+          page: 2
+        statements:
+          - '@id': Pez1_809_1
+            factoid-refs:
+              - '@id': 'TW_Pez1_809_1'
+                person-refs:
+                  - '@id': 'Andreas_Reuter'
+                source-refs:
+                  - '@id': 'PezNachlassVol1'
+            statementText: 'Andreas Reuter (ca. 1648 Kremsm�nster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
+          - '@id': 'Pez#474-7,'
+            factoid-refs:
+              - '@id': ''
+                person-refs:
+                  - '@id': 'Placidus_Seiz'
+                source-refs:
+                  - '@id' : 'Pez#474'
+            statementText: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
+          - '@id': person1241
+            factoid-refs:
+              - '@id': TW_Pez1_123456
+                person-refs:
+                  - '@id': Placidus_Seiz
+                source-refs: 
+                  - '@id': 'Lindner-Album_Ettalense253f.'
+            name: 'Placidus Seitz'
+          - '@id': 'Fd2qwr'
+            factoid-refs:
+              - '@id': Fd2qwr
+                person-refs:
+                  - '@id': Andreas_Reuter
+                source-refs: 
+                  - '@id': PezNachlassVol1
+            date:
+              sortdate: 1648-06-15T00:00:00.000Z
+              label: ca. 1648
+            statementType:
+              - label: "Geburt"
+              - uri: "http://www.cidoc-crm.org/cidoc-crm/#E67_Birth"
+            places:
+              - label: Kremsm�nster
     Protocol:
       type: object
       description: Provides metadata about the current request
@@ -938,10 +998,16 @@ components:
         totalHits:
           type: integer
           description: Total number of objects found by this request
+    SourceRef:
+      description: 'References the local ID of a source in the current service. Please use the sources/{id}-endpoint to request further information on the source'
+      properties:
+        '@id':
+          $ref: '#/components/schemas/id'
     Source:
       type: object  
       required:
         - '@id'
+        - factoid-refs
       properties:
         '@id':
           $ref: '#/components/schemas/id'
@@ -959,33 +1025,68 @@ components:
         modifiedWhen:
           $ref: '#/components/schemas/modifiedWhen'
       example:
-        - '@id': PezNachlassVol1
-          uris:
-            - 'https://e-book.fwf.ac.at/o:370'
-          metadata: 'Die gelehrte Korrespondenz der Brüder Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
-        - '@id': 'Pez#474'
-          metadata: 'Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v'
-        - '@id': Lindner-Album_Ettalense253f.
-          metadata: 'Lindner: Album Ettalense, S. 253f.'
+        '@id': PezNachlassVol1
+        uris:
+          - 'https://e-book.fwf.ac.at/o:370'
+        metadata: 'Die gelehrte Korrespondenz der Br�der Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
+        factoid-refs:
+          - '@id': TW_Pez1_809_1
+            person-refs:
+              - '@id': Andreas_Reuter
+            statement-refs:
+              - '@id': Pez1_809_1
+          - '@id': Fd2qwr
+            person-refs:
+              - '@id': Andreas_Reuter
+            statement-refs:
+              - '@id': Fd2qwr
     SourcesResponse:
       type: object
       description: Schema of the response of /sources
       properties:
         protocol:
           $ref: '#/components/schemas/Protocol'
-        data:
+        sources:
           type: array
           items:
             $ref: '#/components/schemas/Source'
       example:
-        - protocol:
-            - size: 30
-            - totalHits: 1234
-            - page: 2
-        - sources:
-            - '@id': source 1
-            - ...
-            - '@id': source 2
+        protocol:
+          size: 30
+          totalHits: 1234
+          page: 2
+        sources:
+        - '@id': PezNachlassVol1
+          uris:
+            - 'https://e-book.fwf.ac.at/o:370'
+          metadata: 'Die gelehrte Korrespondenz der Br�der Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
+          factoid-refs:
+            - '@id': TW_Pez1_809_1
+              person-refs:
+                - '@id': Andreas_Reuter
+              statement-refs:
+                - '@id': Pez1_809_1
+            - '@id': Fd2qwr
+              person-refs:
+                - '@id': Andreas_Reuter
+              statement-refs:
+                - '@id': Fd2qwr
+        - '@id': 'Pez#474'
+          metadata: 'Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v'
+          factoid-refs:
+            - '@id': TW_Pez1_123457
+              person-refs:
+                - '@id': Placidus_Seiz
+              statement-refs:
+                - '@id': 'Pez#474-7'
+        - '@id': Lindner-Album_Ettalense253f.
+          metadata: 'Lindner: Album Ettalense, S. 253f.'
+          factoid-refs:
+            - '@id': TW_Pez1_123456
+              person-refs:
+                - '@id': Placidus_Seiz
+              statement-refs:
+                - '@id': person1241
     ServiceDescription:
       type: object
       description: describes the service providing the API
@@ -1033,12 +1134,12 @@ components:
           items:
             type: string
       example:
-        - description: Prosopographical data from the 1890 census
-        - provider: 'Centre for Information Modelling, University of Graz'
-        - contact: contact@example.com
-        - complianceLevel: 1
-        - formats:
-            - application/json
+        description: Prosopographical data from the 1890 census
+        provider: 'Centre for Information Modelling, University of Graz'
+        contact: contact@example.com
+        complianceLevel: 1
+        formats:
+          - application/json
     id:
       description: 'the local id of the object (factoid, person, source, statement)'
       type: string
