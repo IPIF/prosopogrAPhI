@@ -624,7 +624,7 @@ components:
             $ref: '#/components/schemas/Statement'
   schemas:
     FactoidRef:
-      description: 'References the local ID of a factoid in the current service. Please use the factoids/{id}-endpoint to request further information on the factoid'
+      description: 'References the local ID of a factoid in the current service and all IDs of person, sources, statements aggregated in the factoid. Please use the `factoids/{id}-endpoint` to request further information on the factoid. The factoid reference does not apply any filter used for requesting the current ressource.'
       properties:
         '@id':
           $ref: '#/components/schemas/id'
