@@ -105,7 +105,7 @@ paths:
           $ref: '#/components/responses/NotImplementedError'
 
     delete:
-      summary: delete the factoid with id {id}
+      summary: 'delete the factoid with id {id}'
       operationId: deleteFactoid
       parameters:
         - $ref: '#/components/parameters/id'
@@ -223,7 +223,7 @@ paths:
         '501':
           $ref: '#/components/responses/NotImplementedError'
     delete:
-      summary: delete the person with id {id}
+      summary: 'delete the person with id {id}'
       operationId: deletePerson
       parameters:
         - $ref: '#/components/parameters/id'
@@ -336,7 +336,7 @@ paths:
         '501':
           $ref: '#/components/responses/NotImplementedError'
     delete:
-      summary: delete the source with id {id}
+      summary: 'delete the source with id {id}'
       operationId: deleteSource
       parameters:
         - $ref: '#/components/parameters/id'
@@ -348,8 +348,7 @@ paths:
         '404':
           description: Source not found
         '409':
-          description: 'Conflict: Source cannot be deleted eg. because of
-             referential integrity. Reason should be given as error response detail'
+          description: 'Conflict: Source cannot be deleted eg. because of referential integrity. Reason should be given as error response detail'
         '501':
           $ref: '#/components/responses/NotImplementedError'
   /statements:
@@ -585,7 +584,7 @@ components:
     depth:
       name: depth
       in: query
-      description: "declares the depth of description to be returned by a list of factoids. With the keyword `reduced` the response should return only `@id` for the source, the person, and the statement aggregated by the factoid. If no value is given, the factoids return the full information."
+      description: 'declares the depth of description to be returned by a list of factoids. With the keyword `reduced` the response should return only `@id` for the source, the person, and the statement aggregated by the factoid. If no value is given, the factoids return the full information.'
       schema:
         type: string
         enum:
@@ -768,7 +767,7 @@ components:
               source-ref:
                 '@id': 'Pez#474'
               statement-refs:
-                - '@id': Pez#474-7
+                - '@id': 'Pez#474-7'
             - '@id': TW_Pez1_123457
               source-ref:
                 '@id': 'Lindner-Album_Ettalense253f.'
@@ -813,7 +812,7 @@ components:
                 source-ref:
                   '@id': 'Pez#474'
                 statement-refs:
-                  - '@id': Pez#474-7
+                  - '@id': 'Pez#474-7'
               - '@id': TW_Pez1_123457
                 source-ref:
                   '@id': 'Lindner-Album_Ettalense253f.'
@@ -1113,13 +1112,6 @@ components:
             We recommend to publish the compliance level additionally als link header  with each response to a GET request in this form:
 
             ``Link: <https://raw.githubusercontent.com/GVogeler/prosopogrAPhI/master/level1.json>;rel="profile"``
-            
-
-#              TODO: can we put the level.json files somewhere else (not github)?
-##           TODO 
-##          accessRestrictions:
-##            description: TODO
-##            type: string
         formats:
           type: array
           description: 'List of the supported response formats (content types). E.g.  ``application/json`` (default), ``application/xml``, ``application/rdf+xml``, ``application/x-turtle``, ...'
