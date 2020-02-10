@@ -628,20 +628,16 @@ components:
       properties:
         '@id':
           $ref: '#/components/schemas/id'
-        person-refs:
-          type: array
-          items:
-            $ref: '#/components/schemas/PersonRef'
-        source-refs:
-          type: array
-          items:
-            $ref: '#/components/schemas/SourceRef'
+        person-ref:
+          $ref: '#/components/schemas/PersonRef'
+        source-ref:
+          $ref: '#/components/schemas/SourceRef'
         statement-refs:
           type: array
           items:
             $ref: '#/components/schemas/StatementRef'
     Factoid:
-      description: A Factoid is a composite of one or more statements about a person extracted by somebody from a source at a specific time.
+      description: A Factoid is a composite of one or more statements about a single person extracted by somebody from a single source at a specific time.
       type: object
       required:
         - '@id'
@@ -665,14 +661,10 @@ components:
           description: references the URI of a factoid on which this factoid is based.
           type: string
           format: uri
-        person-refs:
-          type: array
-          items:
-            $ref: '#/components/schemas/PersonRef'
-        source-refs:
-          type: array
-          items:
-            $ref: '#/components/schemas/SourceRef'
+        person-ref:
+          $ref: '#/components/schemas/PersonRef'
+        source-ref:
+          $ref: '#/components/schemas/SourceRef'
         statement-refs:
           type: array
           items:
@@ -683,12 +675,12 @@ components:
         createdWhen: 2010-05-05T00:00:00.000Z
         modifiedBy: Thomas Wallnig
         modifiedWhen: 2010-05-05T00:00:00.000Z
-        person-refs:
-          - '@id': Andreas_Reuter
+        person-ref:
+          '@id': Andreas_Reuter
         statement-refs:
           - '@id': Pez1_809_1
-        source-refs: 
-          - '@id': PezNachlassVol1
+        source-ref: 
+          '@id': PezNachlassVol1
     FactoidsResponse:
       type: object
       description: Schema of the response of /factoids
@@ -710,34 +702,34 @@ components:
             createdWhen: 2010-05-05T00:00:00.000Z
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2010-05-05T00:00:00.000Z
-            person-refs:
-              - '@id': Andreas_Reuter
+            person-ref:
+              '@id': Andreas_Reuter
             statement-refs:
               - '@id': Pez1_809_1
-            source-refs: 
-              - '@id': PezNachlassVol1
+            source-ref: 
+              '@id': PezNachlassVol1
           - '@id': TW_Pez1_123456
             createdBy: Thomas Wallnig
             createdWhen: 2007-04-16T00:00:00.000Z
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2007-04-16T00:00:00.000Z
-            person-refs:
-              - '@id': Placidus_Seiz
+            person-ref:
+              '@id': Placidus_Seiz
             statement-refs:
               - '@id': person1241
-            source-refs:
-              - '@id': 'Lindner-Album_Ettalense253f.'
+            source-ref:
+              '@id': 'Lindner-Album_Ettalense253f.'
           - '@id': Fd2qwr
             createdBy: Thomas Wallnig
             createdWhen: 2007-04-16T00:00:00.000Z
             modifiedBy: Thomas Wallnig
             modifiedWhen: 2007-07-01T00:00:00.000Z
-            person-refs:
-              - '@id': Andreas_Reuter
+            person-ref:
+              '@id': Andreas_Reuter
             statement-refs:
               - '@id': Fd2qwr
-            source-refs:
-              - '@id': PezNachlassVol1
+            source-ref:
+              '@id': PezNachlassVol1
     PersonRef:
       description: 'References the local ID of a person in the current service. Please use the persons/{id}-endpoint to request further information on the person'
       properties:
@@ -773,13 +765,13 @@ components:
             - 'https://viaf.org/viaf/5285530/'
           factoid-refs:
             - '@id': TW_Pez1_123456
-              source-refs:
-                - '@id': 'Pez#474'
+              source-ref:
+                '@id': 'Pez#474'
               statement-refs:
                 - '@id': Pez#474-7
             - '@id': TW_Pez1_123457
-              source-refs:
-                - '@id': 'Lindner-Album_Ettalense253f.'
+              source-ref:
+                '@id': 'Lindner-Album_Ettalense253f.'
               statement-refs:
                 - '@id': person1241
     PersonsResponse:
@@ -803,13 +795,13 @@ components:
               - 'http://pez-digital.at/persons#Mauro_Aspini'
             factoid-refs:
               - '@id': Fd2qwr
-                source-refs:
-                  - '@id': PezNachlassVol1
+                source-ref:
+                  '@id': PezNachlassVol1
                 statement-refs:
                   - '@id': Fd2qwr
               - '@id': TW_Pez1_809_1
-                source-refs:
-                  - '@id': PezNachlassVol1
+                source-ref:
+                  '@id': PezNachlassVol1
                 statement-refs:
                   - '@id': Pez1_809_1
           - '@id': Placidus_Seiz
@@ -818,13 +810,13 @@ components:
               - 'https://viaf.org/viaf/5285530/'
             factoid-refs:
               - '@id': TW_Pez1_123456
-                source-refs:
-                  - '@id': 'Pez#474'
+                source-ref:
+                  '@id': 'Pez#474'
                 statement-refs:
                   - '@id': Pez#474-7
               - '@id': TW_Pez1_123457
-                source-refs:
-                  - '@id': 'Lindner-Album_Ettalense253f.'
+                source-ref:
+                  '@id': 'Lindner-Album_Ettalense253f.'
                 statement-refs:
                   - '@id': person1241
     StatementRef:
@@ -949,34 +941,34 @@ components:
           - '@id': Pez1_809_1
             factoid-refs:
               - '@id': 'TW_Pez1_809_1'
-                person-refs:
-                  - '@id': 'Andreas_Reuter'
-                source-refs:
-                  - '@id': 'PezNachlassVol1'
+                person-ref:
+                  '@id': 'Andreas_Reuter'
+                source-ref:
+                  '@id': 'PezNachlassVol1'
             statementText: 'Andreas Reuter (ca. 1648 Kremsm�nster – 1715 Gleink) war Konventuale von Gleink. Er war Doktor der Theologie, apostolischer Protonotar und wirkte in Gleink als Ökonom sowie insgesamt 22 Jahre lang als Prior. Als solcher begegnet er 1708 als Unterzeichner der Rotel auf Abt Rupert von Kimpflern und 1710 in seinem Brief an Bernhard Pez.'
           - '@id': 'Pez#474-7,'
             factoid-refs:
               - '@id': ''
-                person-refs:
-                  - '@id': 'Placidus_Seiz'
-                source-refs:
-                  - '@id' : 'Pez#474'
+                person-ref:
+                  '@id': 'Placidus_Seiz'
+                source-ref:
+                  '@id' : 'Pez#474'
             statementText: '... , quam accepturum me spero a reverendissimo domino abbate Ettalensi ...'
           - '@id': person1241
             factoid-refs:
               - '@id': TW_Pez1_123456
-                person-refs:
-                  - '@id': Placidus_Seiz
-                source-refs: 
-                  - '@id': 'Lindner-Album_Ettalense253f.'
+                person-ref:
+                  '@id': Placidus_Seiz
+                source-ref: 
+                  '@id': 'Lindner-Album_Ettalense253f.'
             name: 'Placidus Seitz'
           - '@id': 'Fd2qwr'
             factoid-refs:
               - '@id': Fd2qwr
-                person-refs:
-                  - '@id': Andreas_Reuter
-                source-refs: 
-                  - '@id': PezNachlassVol1
+                person-ref:
+                  '@id': Andreas_Reuter
+                source-ref: 
+                  '@id': PezNachlassVol1
             date:
               sortdate: 1648-06-15T00:00:00.000Z
               label: ca. 1648
@@ -1031,13 +1023,13 @@ components:
         metadata: 'Die gelehrte Korrespondenz der Br�der Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
         factoid-refs:
           - '@id': TW_Pez1_809_1
-            person-refs:
-              - '@id': Andreas_Reuter
+            person-ref:
+              '@id': Andreas_Reuter
             statement-refs:
               - '@id': Pez1_809_1
           - '@id': Fd2qwr
-            person-refs:
-              - '@id': Andreas_Reuter
+            person-ref:
+              '@id': Andreas_Reuter
             statement-refs:
               - '@id': Fd2qwr
     SourcesResponse:
@@ -1062,29 +1054,29 @@ components:
           metadata: 'Die gelehrte Korrespondenz der Br�der Pez, Text, Regesten, Kommentare; Band 1: 1709–1715, bearb. v. Thomas Wallnig u. Thomas Stockinger, Wien u. Köln: Böhlau, 2010'
           factoid-refs:
             - '@id': TW_Pez1_809_1
-              person-refs:
-                - '@id': Andreas_Reuter
+              person-ref:
+                '@id': Andreas_Reuter
               statement-refs:
                 - '@id': Pez1_809_1
             - '@id': Fd2qwr
-              person-refs:
-                - '@id': Andreas_Reuter
+              person-ref:
+                '@id': Andreas_Reuter
               statement-refs:
                 - '@id': Fd2qwr
         - '@id': 'Pez#474'
           metadata: 'Melk, Stiftsarchiv, Kt. 07 Patres 07, II, 673r-675v'
           factoid-refs:
             - '@id': TW_Pez1_123457
-              person-refs:
-                - '@id': Placidus_Seiz
+              person-ref:
+                '@id': Placidus_Seiz
               statement-refs:
                 - '@id': 'Pez#474-7'
         - '@id': Lindner-Album_Ettalense253f.
           metadata: 'Lindner: Album Ettalense, S. 253f.'
           factoid-refs:
             - '@id': TW_Pez1_123456
-              person-refs:
-                - '@id': Placidus_Seiz
+              person-ref:
+                '@id': Placidus_Seiz
               statement-refs:
                 - '@id': person1241
     ServiceDescription:
