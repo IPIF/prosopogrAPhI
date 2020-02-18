@@ -1024,6 +1024,10 @@ components:
           $ref: '#/components/schemas/modifiedBy'
         modifiedWhen:
           $ref: '#/components/schemas/modifiedWhen'
+        factoid-refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/FactoidRef'
       example:
         '@id': PezNachlassVol1
         uris:
