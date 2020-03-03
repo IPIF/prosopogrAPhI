@@ -640,8 +640,8 @@ components:
       type: object
       required:
         - '@id'
-        - person-refs
-        - source-refs
+        - person-ref
+        - source-ref
         - statement-refs
         - createdBy
         - createdWhen
