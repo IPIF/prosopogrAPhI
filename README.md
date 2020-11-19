@@ -40,5 +40,5 @@ The [wiki](https://github.com/GVogeler/prosopogrAPhI/wiki) contains some proof o
 See Vogeler, Georg; Vasold, Gunter; Schlögl, Matthias. "Von IIIF zu IPIF? Ein Vorschlag für den Datenaustausch über Personen".
 In: Sahle, Patrick (Hg.): *DHd 2019 Digital Humanities: multimedial & multimodal*. Konferenzabstracts. Frankfurt / Mainz. DHd. 2019 DOI: [10.5281/zenodo.2600812](http://doi.org/10.5281/zenodo.2600812). pp. 239-241. ([Slides of the presentation](https://online.uni-graz.at/kfu_online/wbFPCompsCallBacks.cbExecuteDownload?pDocStoreNr=5185962))
 
-Georg Vogeler, Gunter Vasold, Matthias Schlögl. "Data exchange in practice: Towards a prosopographical API". *BD2019*, ed. by Antske Fokkens, forthcoming  [preprint](https://hcommons.org/deposits/item/hc:29017/)
+Georg Vogeler, Gunter Vasold, Matthias Schlögl. "Data exchange in practice: Towards a prosopographical API". *BD2019*, ed. by Antske Fokkens, forthcoming  ([preprint](https://hcommons.org/deposits/item/hc:29017/))
 
