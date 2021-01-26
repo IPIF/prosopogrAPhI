@@ -743,6 +743,9 @@ components:
       properties:
         '@id':
           $ref: '#/components/schemas/id'
+        label:
+          type: string
+          description: 'A human readable identification of the person for easy processing in selection scenarios. This identification is considered to be unstable, does not have to be stored in the backend (i.e. it might be created algorithmically on the fly from a currente state of date stored), can be ommitted (then the @id can be used as default) and is not processed in POST or PUT requests. In practice this label would typically constructed from statements on names, basic biographical dates (birth, death) and maybe a claim of fame / occupation, but the decision how to construct this label would be completely under responsibility of the service provider.'
         uris:
           $ref: '#/components/schemas/uris'
         createdBy:
