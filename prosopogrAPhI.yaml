@@ -460,7 +460,7 @@ components:
     p:
       name: p
       in: query
-      description: filter by applying a pattern on persons (fulltext search)
+      description: filters the current resource by a search in direct properties of person object (id, uri)
       schema:
         type: string
     statementId:
