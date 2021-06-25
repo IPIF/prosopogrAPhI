@@ -1,6 +1,6 @@
 openapi: 3.0.2
 info:
-  version: 0.3.2
+  version: 0.3.3
   title: prosopogrAPhI
   description: basic prosopographical data API
   license:
@@ -241,7 +241,7 @@ paths:
   /sources:
     get:
       summary: Returns array of source objects.
-      description: Returns array of `source` objects. The number of array members returned with each response is restricted by the **size** parameter. Sources can be filtered by setting additional parameters like **factoidId** or **f**. Statement-specific parameters (e.g. **place**, **memberOf**) accept a asterisk (*) to require that parameter to have any non-null value. TODO Further parameters for filtering have to be specified. 
+      description: Returns array of `source` objects. The number of array members returned with each response is restricted by the **size** parameter. Sources can be filtered by setting additional parameters like **factoidId** or **f**. Statement-specific parameters (e.g. **place**, **memberOf**) accept a asterisk (*) to require that parameter to have any non-null value. TODO Further parameters for filtering have to be specified.
       operationId: getSources
       parameters:
         - $ref: '#/components/parameters/size'
@@ -460,7 +460,7 @@ components:
     p:
       name: p
       in: query
-      description: filter by applying a pattern on persons (fulltext search)
+      description: filters the current resource by a search in direct properties of person object (id, uri)
       schema:
         type: string
     statementId:
@@ -472,7 +472,7 @@ components:
     st:
       name: st
       in: query
-      description: filter by applying a pattern on statements (fulltext search)
+      description: filters by applying a pattern on statements (fulltext search). This filter will be combined by an AND operator with all other filters applicable to statements (statementText, role, from, to, place, name, relatesToPerson, memberOf).
       schema:
         type: string
     sourceId:
@@ -490,7 +490,7 @@ components:
     f:
       name: f
       in: query
-      description: filter by applying a pattern on factoid (fulltext search)
+      description: filter by applying a pattern on factoid metadata (fulltext search)
       schema:
         type: string
     factoidId:
@@ -502,49 +502,49 @@ components:
     statementText:
       name: statementText
       in: query
-      description: filter by any keyword occurring in the statement content
+      description: filters by any keyword occurring in the statement content. This filter will be combined by an AND operator with all other filters applicable to statements (st, role, from, to, place, name, relatesToPerson, memberOf).
       schema:
         type: string
     role:
       name: role
       in: query
-      description: could be URI or label
+      description: filters by a keyword occuring in the role property of a statement. The filter applies to the human readable label and the URI provided. This filter will be combined by an AND operator with all other filters applicable to statements (st, statementText, from, to, place, name, relatesToPerson, memberOf).
       schema:
         type: string
     from:
       name: from
       in: query
-      description: 'all dates after the event date (including the event date) will be included. If `from` and `to` are the same, only a single exact date is included. Fragments (yyyy, yyyy-mm) will be interpreted as exact time ranges if the second parameter is missing (`from=yyyy-mm` is interpreted as `from=start of month`, `to=end of month`. If conflicting data is present, for example ``from=yyyy&to=yyyy-mm-dd`, the most correct interpretation will be decided on by the backend. For instance, the example before will be interpreted as `from=yyyy-01-01&to=yyyy-mm-dd`.'
+      description: 'all dates after the event date (including the event date itself) will be included. If `from` and `to` are the same, only a single exact date is included. Fragments (yyyy, yyyy-mm) will be interpreted as exact time ranges if the second parameter is missing (`from=yyyy-mm` is interpreted as `from=start of month`, `to=end of month`. If conflicting data is present, for example ``from=yyyy&to=yyyy-mm-dd`, the most correct interpretation will be decided on by the backend. For instance, the example before will be interpreted as `from=yyyy-01-01&to=yyyy-mm-dd`. This filter will be combined by an AND operator with all other filters applicable to statements (st, statementText, role, to, place, name, relatesToPerson, memberOf).'
       schema:
         type: string
     to:
       name: to
       in: query
-      description: 'all dates before the event date (including the event date) will be included. If `from` and `to` are the same, only a single exact date is included. Fragments (yyyy, yyyy-mm) will be interpreted as exact time ranges if the second parameter is missing (`from=yyyy-mm` is interpreted as `from=start of month`, `to=end of month`. If conflicting data is present, for example ``from=yyyy&to=yyyy-mm-dd`, the most correct interpretation will be decided on by the backend. For instance, the example before will be interpreted as `from=yyyy-01-01&to=yyyy-mm-dd`.'
+      description: 'all dates before the event date (including the event date itself) will be included. If `from` and `to` are the same, only a single exact date is included. Fragments (yyyy, yyyy-mm) will be interpreted as exact time ranges if the second parameter is missing (`from=yyyy-mm` is interpreted as `from=start of month`, `to=end of month`. If conflicting data is present, for example ``from=yyyy&to=yyyy-mm-dd`, the most correct interpretation will be decided on by the backend. For instance, the example before will be interpreted as `from=yyyy-01-01&to=yyyy-mm-dd`. This filter will be combined by an AND operator with all other filters applicable to statements (st, statementText, role, from, place, name, relatesToPerson, memberOf).'
       schema:
         type: string
     place:
       name: place
       in: query
-      description: could be URI or label
+      description: filters by a keyword occuring in the place  property of a statement. The filter applies to the human readable label and the URI provided. This filter will be combined by an AND operator with all other filters applicable to statements (st, statementText, role, from, to, name, relatesToPerson, memberOf).
       schema:
         type: string
     relatesToPerson:
       name: relatesToPerson
       in: query
-      description: could be URI or label
+      description: filters by a keyword occuring in the relations to other persons property of a statement. The filter applies to the human readable label and the URI provided. This filter will be combined by an AND operator with all other filters applicable to statements (st, statementText, role, from, to, place, name, memberOf).
       schema:
         type: string
     memberOf:
       name: memberOf
       in: query
-      description: could be URI or label
+      description: filters by a keyword occuring in the membership in organisation property of a statement. The filter applies to the human readable label and the URI provided. This filter will be combined by an AND operator with all other filters applicable to statements (st, statementText, role, from, to, place, name, relatesToPerson).
       schema:
         type: string
     name:
       name: name
       in: query
-      description: names of a person
+      description: filters by a keyword occuring in the names of a person. This filter will be combined by an AND operator with all other filters applicable to statements (st, statementText, role, from, to, place, relatesToPerson, memberOf).
       schema:
         type: string
     createdBefore:
@@ -568,10 +568,12 @@ components:
     modifiedBefore:
       name: createdBefore
       in: query
+      description: sets terminus antequo for filtering the date of modification of the current resource.
       schema:
         type: string
     modifiedAfter:
       name: createdAfter
+      description: sets terminus postquem for filtering the date of modification of the current resource.
       in: query
       schema:
         type: string
@@ -743,6 +745,9 @@ components:
       properties:
         '@id':
           $ref: '#/components/schemas/id'
+        label:
+          type: string
+          description: 'A human readable identification of the person for easy processing in selection scenarios. This identification is considered to be unstable, does not have to be stored in the backend (i.e. it might be created algorithmically on the fly from a currente state of data stored), can be ommitted (then the @id can be used as default) and is not processed in POST or PUT requests. In practice, this label would typically be constructed from statements on names, basic biographical dates (birth, death) and maybe a claim of fame / occupation, but the decision how to construct this label would be completely under responsibility of the service provider.'
         uris:
           $ref: '#/components/schemas/uris'
         createdBy:
@@ -790,6 +795,7 @@ components:
           page: 2
         persons:
           - '@id': Andreas_Reuter
+            label: Andreas Reuter, Autor, um 1650
             uris:
               - 'http://pez-digital.at/persons#Mauro_Aspini'
             factoid-refs:
@@ -804,6 +810,7 @@ components:
                 statement-refs:
                   - '@id': Pez1_809_1
           - '@id': Placidus_Seiz
+            label: Seitz, Placidus, Theologe, Abt, Schriftsteller, Benediktiner, 1672-1736.
             uris:
               - 'http://d-nb.info/gnd/10102407X'
               - 'https://viaf.org/viaf/5285530/'
