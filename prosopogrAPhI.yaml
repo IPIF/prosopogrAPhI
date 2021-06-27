@@ -13,7 +13,7 @@ paths:
   /factoids:
     get:
       summary: Returns array of factoids
-      description: Returns an array of `Factoid` objects. The number of array members returned with each response is restricted by the **size** parameter. Factoids can be filtered by setting additional parameters like **personId** or **p**. Factoids are sorted by default by date of creation time.
+      description: Returns an array of `Factoid` objects. The number of array members returned with each response is restricted by the **size** parameter. Factoids can be filtered by setting additional parameters like **personId** or **p**. Factoids are sorted by default by date of creation time. Statement-specific parameters (e.g. **place**, **memberOf**) accept a asterisk (*) to require that parameter to have any non-null value.
       operationId: getFactoids
       parameters:
         - $ref: '#/components/parameters/size'
@@ -123,7 +123,7 @@ paths:
   /persons:
     get:
       summary: Get persons
-      description: Returns an array of `Person` objects. The number of array members returned with each response is restricted by the **size** parameter. Persons can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further parameters for filtering have to be specified.
+      description: Returns an array of `Person` objects. The number of array members returned with each response is restricted by the **size** parameter. Persons can be filtered by setting additional parameters like **factoidId** or **f**. Statement-specific parameters (e.g. **place**, **memberOf**) accept a asterisk (*) to require that parameter to have any non-null value. TODO Further parameters for filtering have to be specified.
       operationId: getPersons
       parameters:
         - $ref: '#/components/parameters/size'
@@ -241,7 +241,7 @@ paths:
   /sources:
     get:
       summary: Returns array of source objects.
-      description: Returns array of `source` objects. The number of array members returned with each response is restricted by the **size** parameter. Sources can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further parameters for filtering have to be specified.
+      description: Returns array of `source` objects. The number of array members returned with each response is restricted by the **size** parameter. Sources can be filtered by setting additional parameters like **factoidId** or **f**. Statement-specific parameters (e.g. **place**, **memberOf**) accept a asterisk (*) to require that parameter to have any non-null value. TODO Further parameters for filtering have to be specified.
       operationId: getSources
       parameters:
         - $ref: '#/components/parameters/size'
@@ -354,7 +354,7 @@ paths:
   /statements:
     get:
       summary: Returns array of statement objects
-      description: Returns array of `Statement` objects. The number of array members returned with each response is restricted by the **size** parameter. Statements can be filtered by setting additional parameters like **factoidId** or **f**. TODO Further parameters for filtering have to be specified.
+      description: Returns array of `Statement` objects. The number of array members returned with each response is restricted by the **size** parameter. Statements can be filtered by setting additional parameters like **factoidId** or **f**. Statement-specific parameters (e.g. **place**, **memberOf**) accept a asterisk (*) to require that parameter to have any non-null value. TODO Further parameters for filtering have to be specified.
       operationId: getStatements
       parameters:
         - $ref: '#/components/parameters/size'
