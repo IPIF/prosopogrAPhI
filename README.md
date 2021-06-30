@@ -1,3 +1,6 @@
+International Prosopographical Interchange Framework (IPIF)
+===========================================================
+
 This is a draft for an RESTful API for *prosopographical data*.
 
 It should allow you to search for factoid modeled data on persons extracted from historical sources, and to update resources based on the model.
@@ -42,3 +45,4 @@ In: Sahle, Patrick (Hg.): *DHd 2019 Digital Humanities: multimedial & multimodal
 
 Georg Vogeler, Gunter Vasold, Matthias Schlögl. "Data exchange in practice: Towards a prosopographical API". *BD2019*, ed. by Antske Fokkens, forthcoming  ([preprint](https://hcommons.org/deposits/item/hc:29017/))
 
+Matthias Schlögl, Georg Vogeler, Gunter Vasold, Richard Hadden. "IPIF - pragmatic modelling decisions", presentation at the *Data for History Conference*, Berlin, 9.6.2021, https://d4h2020.sciencesconf.org/data/pages/Schlo_gl_Vogeler_Vasold_IPIF_2.pdf
