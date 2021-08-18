@@ -36,7 +36,7 @@ Initiated by Georg Vogeler (Graz University, georg.vogler@uni-graz.at), but deve
 Started in 2016 in a workshop at Vienna University.
 Substantially enhanced during the prosopography hackathon 2019 February (Vienna).
 
-The major file in this is the swagger description of the proposed API ([prosopogrAPhI.yaml](https://github.com/GVogeler/prosopogrAPhI/blob/master/prosoprAPhI.yaml)). The [rationale.md](rationale.md) gives you some background to it.
+The major file in this is the swagger description of the proposed API ([prosopogrAPhI.yaml](https://github.com/GVogeler/prosopogrAPhI/blob/master/prosopogrAPhI.yaml)). The [rationale.md](rationale.md) gives you some background to it.
 
 The [wiki](https://github.com/GVogeler/prosopogrAPhI/wiki) contains some proof of concept implementations.
 
