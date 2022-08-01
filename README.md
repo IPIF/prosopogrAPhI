@@ -48,3 +48,6 @@ Georg Vogeler, Gunter Vasold, Matthias Schlögl. "Data exchange in practice: Tow
 Matthias Schlögl, Georg Vogeler, Gunter Vasold, Richard Hadden. "IPIF - pragmatic modelling decisions", presentation at the *Data for History Conference*, Berlin, 9.6.2021, https://d4h2020.sciencesconf.org/data/pages/Schlo_gl_Vogeler_Vasold_IPIF_2.pdf
 
 Vogeler, Georg, Hadden, Richard, Schlögl, Matthias, & Vasold, Gunter. (2022, March 7). Prosopographische Interoperabilität (IPIF) - Stand der Entwicklungen. DHd 2022 Kulturen des digitalen Gedächtnisses. 8. Tagung des Verbands "Digital Humanities im deutschsprachigen Raum" (DHd 2022), Potsdam. https://doi.org/10.5281/zenodo.6328211
+
+Hadden, Richard, Matthias Schlögl, Georg Vogeler. Towards a prosopographical ecosystem: modelling, design, and implementation issues.
+In: Yifan Wang et al. (Eds.): Digital Humanities 2022 : Conference AbstractsThe University of Tokyo, Japan, 25-29 July 2022. ADHO. 2022. 472-473
