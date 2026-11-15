@@ -41,7 +41,7 @@ The major file in this is the swagger description of the proposed API ([prosopog
 The [wiki](https://github.com/GVogeler/prosopogrAPhI/wiki) contains some proof of concept implementations.
 
 See Vogeler, Georg; Vasold, Gunter; Schlögl, Matthias. "Von IIIF zu IPIF? Ein Vorschlag für den Datenaustausch über Personen".
-In: Sahle, Patrick (Hg.): *DHd 2019 Digital Humanities: multimedial & multimodal*. Konferenzabstracts. Frankfurt / Mainz. DHd. 2019 DOI: [10.5281/zenodo.2600812](http://doi.org/10.5281/zenodo.2600812). pp. 239-241. ([Slides of the presentation](https://online.uni-graz.at/kfu_online/wbFPCompsCallBacks.cbExecuteDownload?pDocStoreNr=5185962))
+In: Sahle, Patrick (Hg.): *DHd 2019 Digital Humanities: multimedial & multimodal*. Konferenzabstracts. Frankfurt / Mainz. DHd. 2019 DOI: [10.5281/zenodo.2600812](http://doi.org/10.5281/zenodo.2600812). pp. 239-241. ([Slides of the presentation]([https://online.uni-graz.at/kfu_online/wbFPCompsCallBacks.cbExecuteDownload?pDocStoreNr=5185962](https://online.uni-graz.at/kfu_online/wbfppubcb.cbExecuteDownload?pDocStoreNr=2B4B6D5A637453346D512B32684F353566556C705A773D3D)))
 
 Georg Vogeler, Gunter Vasold, Matthias Schlögl. "Data exchange in practice: Towards a prosopographical API". *BD2019*, ed. by Angel Daza; Antske Fokkens; Petya Osenova; Kiril Simov; Alexander Popov; Paul Arthur; Thierry Declerck; Ronald Sluijter; Serge ter Braake; Eveline Wandl-Vogt. CEUR Workshop series 3152. 2022, [40-48](http://ceur-ws.org/Vol-3152/BD2019_paper_6.pdf)  ([preprint](https://hcommons.org/deposits/item/hc:29017/))
 
